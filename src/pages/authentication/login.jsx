@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
-import SignUp from "../otp-signs/SignUp";
+import SignUp from "../otp-signs/signup";
 
 
 

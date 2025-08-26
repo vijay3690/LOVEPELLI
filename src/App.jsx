@@ -46,7 +46,7 @@ function App() {
 					<Route path="/logout" element={<Logout />} />
 					<Route path="member-single" element={<MemberDetails />} />
 					<Route path="policy" element={<Policy />} />
-					<Route path="SignUp" element={<SignUp />} />
+					<Route path="signup" element={<SignUp />} />
 	    	        <Route path="register" element={<Register />} />
 				</Routes>
 			</BrowserRouter>
