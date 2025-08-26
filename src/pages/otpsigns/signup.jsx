@@ -1,7 +1,7 @@
 import React from "react";
 import { Mail, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./SignUpPage.css"; // Importing the CSS file
+import "./signuppage.css" // Importing the CSS file
 import Glogin from "./gmail"; // Importing the Glogin component
 
 const SignUp = () => {
