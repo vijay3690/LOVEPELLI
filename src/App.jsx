@@ -17,7 +17,7 @@ import Policy from "./pages/policy";
 import HomePageFour from "./pages/homepages/homefour";
 import HomePage from "./pages/homepages/home";
 import Logout from "./pages/authentication/logout";
-import SignUp from "./pages/otp-signs/signup";
+import SignUp from "./pages/otpsigns/signup";
 import Register from "./pages/registration/register";
 
 
