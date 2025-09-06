@@ -252,6 +252,27 @@ input[type="radio"] {
   font-size: 14px;
 }
 
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .radio-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal columns */
+    gap: 10px;
+    margin-left: 50px;
+    margin-bottom: 5px;
+  }
+
+  .gender-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gender-label {
+    margin-bottom: 8px; /* space between label and radios */
+    margin-right: 200px;
+  }
+}
+
 
 /* formStep 3 */
 /* .field-group {
@@ -317,4 +338,67 @@ input[type="radio"] {
   margin: 5px 0 15px 150px;
   color: #444;
   font-size: 14px;
+}
+
+/* Marital Status Group */
+.field-group {
+  margin: 15px 0;
+}
+
+.field-label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+.field-select {
+  width: 100%;
+  max-width: 350px; /* keeps dropdown neat in desktop */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/*  Mobile responsive */
+@media (max-width: 768px) {
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal columns */
+    gap: 10px;
+  }
+
+  .btn-option {
+    width: 100%;             /* full width on mobile */
+    text-align: center;
+  }
+}
+
+
+/* required field */
+.required {
+  color: red;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+/* Close button top-right */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #444;
+}
+
+.close-btn:hover {
+  color: red;
 }
