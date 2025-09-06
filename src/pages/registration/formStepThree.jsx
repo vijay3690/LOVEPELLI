@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./registration.css";
-import { BASE_URL } from "./registerconstants";
+import { BASE_API} from "./registerconstants";
 
 const familyStatusOptions = ["Middle class", "Upper middle class", "High class", "Rich/Affluent"];
 const familyTypeOptions = ["Joint", "Nuclear"];
 const disabilityOptions = ["None", "Physically challenged"];
 
-const maritalOptions = ["Never Married", "Widowed", "Divorced", "Awaiting divorce"];
-const childrenOptions = ["None", "1", "2", "3", "4 and above"];
-const livingOptions = ["Children living with me", "Children not living with me"];
+
+
 
 const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
+  const [errors, setErrors] = useState({});
+  const [maritalStatus, setMaritalStatus] = useState(UserData.maritalStatus || "");
+  const [childrenCount, setChildrenCount] = useState(UserData.childrenCount || "");
+  const [childrenLiving, setChildrenLiving] = useState(UserData.childrenLiving || "");
   const [heights, setHeights] = useState([]);
+   const navigate = useNavigate(); // hook for navigation
+const maritalOptions = ["single", "Widowed", "Divorced", "Awaiting divorce"];
+const childrenOptions = ["None", "1", "2", "3", "4 and above"];
+const livingOptions = ["Children living with me", "Children not living with me"];
+  
+ const showChildrenField = ["Widowed", "Divorced", "Awaiting divorce"].includes(maritalStatus);
+ const showLivingOptions = Boolean(childrenCount) && childrenCount !== "None";
+
+
 
   // Safe fetch wrapper
   const safeFetch = async (url, setter, label) => {
@@ -29,7 +42,7 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
 
   useEffect(() => {
     const fetchDropdownData = async () => {
-      safeFetch(`${BASE_URL}/GetHeights`, setHeights, "heights");
+      safeFetch(`${BASE_API}/api/PersonalDetails/GetHeights`, setHeights, "heights");
     };
     fetchDropdownData();
   }, []);
@@ -50,100 +63,133 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
     }));
   };
 
-  const showChildrenField = ["Widowed", "Divorced", "Awaiting divorce"].includes(
-    UserData.maritalStatus
-  );
-  const showLivingOptions = UserData.noOfChildren && UserData.noOfChildren !== "None";
+  // ✅ Validation
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!maritalStatus) newErrors.maritalStatus = "Marital status is required";
+    if (!UserData.heightId) newErrors.heightId = "Height is required";
+    if (!UserData.familyStatus) newErrors.familyStatus = "Family status is required";
+    if (!UserData.familyType) newErrors.familyType = "Family type is required";
+    if (!UserData.disability) newErrors.disability = "Disability selection is required";
+
+    if (showChildrenField && !childrenCount) {
+      newErrors.childrenCount = "Number of children is required";
+    }
+    if (showLivingOptions && !childrenLiving) {
+      newErrors.childrenLiving = "Children living status is required";
+    }
+ 
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+ 
+  const handleNext = () => {
+    if (validateForm()) {
+      // ✅ Save all local states into UserData
+      setUserData((prev) => ({
+        ...prev,
+        maritalStatus,
+        childrenCount,
+        childrenLiving,
+      }));
+      nextStep();
+    }
+  };
+ 
+  const closeModal = ()=>{
+    navigate("/")
+  }
+
+
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+       <button className="close-btn" onClick={closeModal}>X</button>
+
         <h2>Personal Details</h2>
 
-        {/* Marital Status */}
+              {/* Marital Status */}
         <div className="field-group">
-          <label className="field-label">Marital Status:</label>
+          <label className="field-label">
+            Marital Status:<span className="required">*</span>
+          </label>
           <div className="button-group">
             {maritalOptions.map((option) => (
               <button
                 key={option}
                 type="button"
-                className={`btn-option ${UserData.maritalStatus === option ? "active" : ""}`}
-                onClick={() =>
-                  setUserData({
-                    ...UserData,
-                    maritalStatus: option,
-                    noOfChildren: "", // reset children when status changes
-                    livingWithMe: "", // reset livingWithMe when status changes
-                  })
-                }
+                className={`btn-option ${maritalStatus === option ? "active" : ""}`}
+                onClick={() => {
+                  setMaritalStatus(option);
+                  setChildrenCount("");
+                  setChildrenLiving("");
+                }}
               >
                 {option}
               </button>
             ))}
           </div>
+          {errors.maritalStatus && <p className="error-text">{errors.maritalStatus}</p>}
         </div>
 
-        {/* Conditional message */}
-        {UserData.maritalStatus === "Widowed" && (
-          <p className="description">Choose to believe in second chances</p>
-        )}
-        {UserData.maritalStatus === "Never Married" && (
-          <p className="description">A change in marital status awaits you</p>
-        )}
-
-        {/* No. of Children */}
+     {/* Children */}
         {showChildrenField && (
           <div className="field-group">
-            <label className="field-label">No. of Children:</label>
+            <label className="field-label">
+              No. of Children:<span className="required">*</span>
+            </label>
             <div className="button-group">
               {childrenOptions.map((option) => (
                 <button
                   key={option}
                   type="button"
-                  className={`btn-option1 ${UserData.noOfChildren == option ? "active" : ""}`}
-                  onClick={() =>
-                    setUserData({
-                      ...UserData,
-                      noOfChildren: option,
-                      livingWithMe: 0, // reset when children count changes
-                    })
-                  }
+                  className={`btn-option1 ${childrenCount === option ? "active" : ""}`}
+                  onClick={() => {
+                    setChildrenCount(option);
+                    setChildrenLiving("");
+                  }}
                 >
                   {option}
                 </button>
               ))}
             </div>
+            {errors.childrenCount && <p className="error-text">{errors.childrenCount}</p>}
           </div>
         )}
 
         {/* Children Living Options */}
         {showLivingOptions && (
           <div className="field-group">
-            <label className="field-label">Children Living Status</label>
+            <label className="field-label">
+              Children Living Status:<span className="required">*</span>
+            </label>
             <div className="button-group">
               {livingOptions.map((option) => (
                 <button
                   key={option}
                   type="button"
-                  className={`btn-option ${UserData.livingWithMe === option ? "active" : ""}`}
-                  onClick={() =>
-                    setUserData({
-                      ...UserData,
-                      livingWithMe: option,
-                    })
-                  }
+                  className={`btn-option ${childrenLiving === option ? "active" : ""}`}
+                  onClick={() => setChildrenLiving(option)}
                 >
                   {option}
                 </button>
               ))}
             </div>
+            {errors.childrenLiving && <p className="error-text">{errors.childrenLiving}</p>}
           </div>
         )}
 
         {/* Height */}
-        <label>Height:</label>
-        <select name="heightId" value={UserData.heightId} onChange={handleChange}>
+             <label>
+          Height:<span className="required">*</span>
+        </label>
+        <select
+          name="heightId"
+          value={UserData.heightId}
+          onChange={handleChange}
+        >
           <option value="">Select</option>
           {heights.map((height) => (
             <option key={height.heightId} value={height.heightId}>
@@ -151,13 +197,17 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
             </option>
           ))}
         </select>
+        {errors.heightId && <p className="error-text">{errors.heightId}</p>}
 
         {/* Family Status */}
-        <label>Family Status:</label>
+           <label>
+          Family Status:<span className="required">*</span>
+        </label>
         <div className="option-group">
           {familyStatusOptions.map((status) => (
             <button
               key={status}
+              type="button"
               className={UserData.familyStatus === status ? "selected" : ""}
               onClick={() => handleSelect("familyStatus", status)}
             >
@@ -165,13 +215,17 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
             </button>
           ))}
         </div>
+        {errors.familyStatus && <p className="error-text">{errors.familyStatus}</p>}
 
         {/* Family Type */}
-        <label>Family Type:</label>
+              <label>
+          Family Type:<span className="required">*</span>
+        </label>
         <div className="option-group">
           {familyTypeOptions.map((type) => (
             <button
               key={type}
+              type="button"
               className={UserData.familyType === type ? "selected" : ""}
               onClick={() => handleSelect("familyType", type)}
             >
@@ -179,13 +233,17 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
             </button>
           ))}
         </div>
+        {errors.familyType && <p className="error-text">{errors.familyType}</p>}
 
         {/* Any Disability */}
-        <label>Any Disability:</label>
+        <label>
+          Any Disability:<span className="required">*</span>
+        </label>
         <div className="option-group">
           {disabilityOptions.map((option) => (
             <button
               key={option}
+              type="button"
               className={UserData.disability === option ? "selected" : ""}
               onClick={() => handleSelect("disability", option)}
             >
@@ -193,13 +251,14 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
             </button>
           ))}
         </div>
+        {errors.disability && <p className="error-text">{errors.disability}</p>}
 
         {/* Navigation Buttons */}
-        <div className="button-group">
-          <button className="prev-btn" onClick={prevStep}>
+         <div className="button-group">
+          <button type="button" className="prev-btn" onClick={prevStep}>
             Previous
           </button>
-          <button className="next-btn" onClick={nextStep}>
+          <button type="button" className="next-btn" onClick={handleNext}>
             Next
           </button>
         </div>
