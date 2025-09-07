@@ -50,34 +50,23 @@ class HeaderFour extends Component {
                             <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                                 <div className="navbar-nav mainmenu">
                                     <ul>
-                                        <li className="menu-item-has-children">
-                                            {/* <a href="#" role="button" data-bs-offset="0,0"></a> */}
-                                        </li>
-                                        <li><NavLink to="/">Home</NavLink></li>
-
+                                        <li className="menu-item-has-children"></li>
+                                        <li><NavLink to="/homefour">Home</NavLink></li>
                                         <li className="menu-item-has-children"></li>
                                         <li><NavLink to="/membership">Membership</NavLink></li>
-
-                                     <li className="menu-item-has-children">
-                                           
-                                            <li><NavLink to="/community">Community</NavLink></li>
-                                            <ul className="dropdown-menu">
-                                     
-                                                <li><NavLink to="/members">All Members</NavLink></li>
-                                                <li><NavLink to="/activity">Activity</NavLink></li>
-                                                </ul>
+                                         <li className="menu-item-has-children">
+                                        <li><NavLink to="/community">Community</NavLink></li>
+                                        <ul className="dropdown-menu">
+                                            <li><NavLink to="/members">All Members</NavLink></li>
+                                            <li><NavLink to="/activity">Activity</NavLink></li>
+                                        </ul>
                                         </li>
-                                     
                                         <li><NavLink to="/contact">contact</NavLink></li>
                                         <li><NavLink to="/about">About Us</NavLink></li>
-                                          
-                                       
-                                    
                                     </ul>
                                 </div>
                                 <ul className="button-group">
                                 <li><Link to="/logout" className="default-btn login"> {/* <i className="fa-solid fa-user"></i> */} <span>LOGOUT</span> </Link></li>
-                                    
                                 </ul>
                             </div>
                         </nav>
