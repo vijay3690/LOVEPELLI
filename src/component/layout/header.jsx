@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Link} from "react-router-dom";
+import { Link,NavLink} from "react-router-dom";
 import { HEADER_INFOLIST, HEADER_SOCIALLIST } from "./layoutconsts";
 
 const header = document.querySelector('.header');
@@ -54,14 +54,14 @@ if (header) {
                                 <span className="navbar-toggler--icon"></span>
                             </button>
                             <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                                <div className="navbar-nav mainmenu">
-                                   
+                                 <div className="navbar-nav mainmenu">
+                                    <ul>
+                                        <li className="menu-item-has-children"></li>
+                                        <li><NavLink to="/">HOME</NavLink></li>
+                                            <li><NavLink to="/login">LOGIN</NavLink></li>
+                                            <li><NavLink to="/register">REGISTER NOW !</NavLink></li>
+                                    </ul>
                                 </div>
-                                <ul className="button-group">
-                                    <li><Link to="/login" className="default-btn login"><i className="fa-solid fa-user"></i> <span>LOGIN</span> </Link></li>
-                                    
-                                    <li><Link to="/register" className="default-btn signup"><i className="fa-solid fa-users"></i> <span>REGISTER</span> </Link></li>
-                                </ul>
                             </div>
                         </nav>
                     </div>
