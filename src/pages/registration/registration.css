@@ -388,16 +388,23 @@ input[type="radio"] {
   margin-top: 4px;
 }
 /* Close button top-right */
+/* parent popup/container */
+.signup-container {
+  position: relative; /* 👈 important for .close-btn positioning */
+}
+
+/* close button */
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 10px;    /* distance from top */
+  right: 10px;  /* distance from right */
   background: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
   color: #444;
 }
+
 
 .close-btn:hover {
   color: red;
