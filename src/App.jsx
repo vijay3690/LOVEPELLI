@@ -19,7 +19,6 @@ import HomePage from "./pages/homepages/home";
 import Logout from "./pages/authentication/logout";
 import SignUp from "./pages/otp-signin/signup";
 import Register from "./pages/registration/register";
-
 import ProtectedRoute from "/src/protectedroute";
 
 function App() {
