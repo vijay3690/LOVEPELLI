@@ -17,7 +17,7 @@ import Policy from "./pages/policy";
 import HomePageFour from "./pages/homepages/homefour";
 import HomePage from "./pages/homepages/home";
 import Logout from "./pages/authentication/logout";
-import SignUp from "./pages/otp-signin/signup";
+import SignUp from "./pages/otp-signin/signin";
 import Register from "./pages/registration/register";
 import ProtectedRoute from "/src/protectedroute";
 
@@ -29,7 +29,7 @@ function App() {
 				<Routes>
 					{/* Public Routes */}
 					<Route path="/login" element={<LogIn />} />
-					<Route path="/signup" element={<SignUp />} />
+					<Route path="/signin" element={<SignUp />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/logout" element={<Logout />} />
 
