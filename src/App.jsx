@@ -7,7 +7,7 @@ import ActivityPage from "./pages/activity";
 import CommunityPage from "./pages/community";
 import ContactUs from "./pages/contact";
 import ErrorPage from "./pages/errorpage";
-import GroupPage from "./pages/grouppage";
+import GroupPage from "./pages/group";
 import GroupDetails from "./pages/groupsingle";
 import LogIn from "./pages/authentication/login";
 import MemberDetails from "./pages/member-single";
@@ -40,7 +40,7 @@ function App() {
 					<Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
 					<Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
 					<Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
-					<Route path="/grouppage" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
+					<Route path="/group" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
 					<Route path="/group-single" element={<ProtectedRoute><GroupDetails /></ProtectedRoute>} />
 					<Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
 					<Route path="/activity" element={<ProtectedRoute><ActivityPage /></ProtectedRoute>} />
