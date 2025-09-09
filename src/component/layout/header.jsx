@@ -57,9 +57,9 @@ if (header) {
                                  <div className="navbar-nav mainmenu">
                                     <ul>
                                         <li className="menu-item-has-children"></li>
-                                        <li><NavLink to="/">HOME</NavLink></li>
+                                        {/* <li><NavLink to="/">HOME</NavLink></li> */}
                                             <li><NavLink to="/login">LOGIN</NavLink></li>
-                                            <li><NavLink to="/register">REGISTER</NavLink></li>
+                                            <li><NavLink to="/register">REGISTRATION</NavLink></li>
                                     </ul>
                                 </div>
                             </div>

@@ -1,7 +1,5 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
-import SignUp from "../otpsigns/signup";
-
+import SignUp from "../otp-signin/signup";
 
 
 class LogIn extends Component {
@@ -19,34 +17,23 @@ class LogIn extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 col-7">
-                            
                             </div>
                             <div className="col-lg-4 col-5">
-                                <Link to="/" className="backto-home" ><i className="fas fa-chevron-left"></i> Back to Home</Link>
+                                {/* <Link to="/" className="backto-home" ><i className="fas fa-chevron-left"></i> Back to Home</Link> */}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="container">
                     <div className="row">
-                     
                         <div className="col-lg-7">
                             <div>
                                 <div className="section-header inloginp">
-                                    
                                 </div>
                                 <div className="main-content inloginp">
                                     <form action="#">
-                                           
-                                    
-                                        
                                         <div className = "or-content">
-                                          
-                                            
-                                          
                                            <SignUp/>
-                                          
-
                                         </div>
                                     </form>
                                 </div>

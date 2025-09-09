@@ -5,7 +5,7 @@ function ProtectedRoute({ children }) {
   const isAuthenticated = localStorage.getItem("token") !== null;
 
   if (!isAuthenticated) {
-    //  Must be inside return
+    // Must be inside return
     return <Navigate to="/login" replace />;
   }
 

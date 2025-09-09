@@ -2,8 +2,10 @@ import { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
 import PageHeader from "../component/layout/pageheader";
-import Header from "../component/layout/header";
+import HeaderFour from "../component/layout/headerfour";
 import {TITLE,SUBTITLE,MEMBERSHIPLIST} from "./pagesconsts"; // Adjusted import to match the new const name
+
+
 
 
 
@@ -11,7 +13,7 @@ class MembershipPage extends Component {
     render() { 
         return (
             <Fragment>
-              <Header />
+              <HeaderFour />
                 <PageHeader title={'Membership Levels'} curPage={'Membership'} />
                 <div className="membership padding-top padding-bottom">
                     <div className="container">

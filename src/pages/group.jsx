@@ -7,6 +7,7 @@ import SelectState from "../component/select/selectstate";
 import SelectGender from "../component/select/selectgender";
 import { Link } from "react-router-dom";
 import { GROUPPAGECONTENTLIST, GROUPPAGECOUNT } from "./pagesconsts";
+import HeaderFour from "../component/layout/headerfour";
 
 
 
@@ -18,7 +19,8 @@ class GroupPage extends Component {
     render() { 
         return (
             <Fragment>
-                <PageHeader title={'Ollya All Groups'} curPage={'Groups'} />
+                <HeaderFour/>
+                <PageHeader title={'LovePelli All Groups'} curPage={'Groups'} />
                 <div className="member story story--style2 padding-top padding-bottom overflow-hidden">
                     <div className="container">
                         <div className="section__wrapper">

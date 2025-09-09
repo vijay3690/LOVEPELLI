@@ -16,7 +16,7 @@ class BannerThree extends Component {
                                 <div className="banner__title">
                                     <h3>{BANNERTHREETITLE}</h3>
                                     <p>{BANNERTHREEDESC}</p>
-                                    <Link to="/createprofil" className="default-btn style-2"><span>{BANNERTHREEBTNTEXT}</span></Link>
+                                    <Link to="/register" className="default-btn style-2"><span>{BANNERTHREEBTNTEXT}</span></Link>
                                 </div>
                             </div>
                         </div>
