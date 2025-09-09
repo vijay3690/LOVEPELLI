@@ -159,9 +159,9 @@ class Footer extends Component {
                 
                 <div className="footer__bottom wow fadeInUp" data-wow-duration="1.5s">
                     <div className="container">
-                          <div className="footer__content text-center">
+                        <div className="footer__content text-center">
                             <p className="mb-0">All Rights Reserved &copy; <Link to="/"> LovePelli </Link> || Design By:<a href="https://www.weddysoft.com" target="_blank" rel="noopener noreferrer">
-                            <img src="/assets/images/footer/clg.jpg" alt="Company Logo" /></a></p>
+                             <img src="/assets/images/footer/clg.jpg" alt="Company Logo" /></a></p>
                         </div>
                     </div>
                 </div>

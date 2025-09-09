@@ -97,7 +97,7 @@ export const AUTHORSOCIALLIST = [
 
 // BannerThree constants moved from sectionConstants.js
 
-export const BANNERTHREETITLE = 'We Have a More Than 10,000 Join Members';
+export const BANNERTHREETITLE = 'We Have a More Than Join Members';
 export const BANNERTHREEDESC = "Still looking for your significant other? LovePelli is the place for you! Join now to meet single men and women worldwide.";
 export const BANNERTHREEBTNTEXT = "Registration Now";
 
