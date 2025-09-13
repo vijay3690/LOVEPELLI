@@ -45,6 +45,7 @@ const SignUp = () => {
         <div className="login-link">
           Don’t have an account?
           <button
+          type="button"
             className="login-button"
             onClick={() => navigate("/register")}
           >
