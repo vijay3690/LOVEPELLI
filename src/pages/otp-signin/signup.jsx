@@ -44,13 +44,11 @@ const SignUp = () => {
         {/* Register Link */}
         <div className="login-link">
           Don’t have an account?
-          <button
-          type="button"
-            className="login-button"
-            onClick={() => navigate("/register")}
-          >
+        <Link to="/register">
+          <button type="button" className="login-button">
             Register Now
           </button>
+        </Link>
         </div>
       </div>
     </>
