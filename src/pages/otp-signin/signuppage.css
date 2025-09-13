@@ -91,6 +91,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-bottom: 50px;
 }
 
 .login-button:hover {
