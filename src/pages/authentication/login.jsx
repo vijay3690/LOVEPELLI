@@ -19,7 +19,6 @@ class LogIn extends Component {
                             <div className="col-lg-8 col-7">
                             </div>
                             <div className="col-lg-4 col-5">
-                                {/* <Link to="/" className="backto-home" ><i className="fas fa-chevron-left"></i> Back to Home</Link> */}
                             </div>
                         </div>
                     </div>
