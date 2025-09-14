@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 
 
 
-const CLIENT_ID = "568205557405-j4j911ckb6qo1ckgspto0e3idlb9ffia.apps.googleusercontent.com"; // Replace with your actual client ID
+const CLIENT_ID = "447299056493-b2ormt215f6hqvbjmrla1jv4ft0d0ue4.apps.googleusercontent.com"; // Replace with your actual client ID
 
 const Glogin = () => {
   
