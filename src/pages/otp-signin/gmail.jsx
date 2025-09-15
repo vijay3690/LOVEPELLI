@@ -3,8 +3,8 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { Navigate } from 'react-router-dom';
 
 
+const CLIENT_ID = "447299056493-i42gsblfv36pf23plqrpakoihih3egkj.apps.googleusercontent.com"; // Replace with your actual client ID
 
-const CLIENT_ID = "447299056493-b2ormt215f6hqvbjmrla1jv4ft0d0ue4.apps.googleusercontent.com"; // Replace with your actual client ID
 
 const Glogin = () => {
   
@@ -51,3 +51,4 @@ const Glogin = () => {
 
 
 export default Glogin;
+
