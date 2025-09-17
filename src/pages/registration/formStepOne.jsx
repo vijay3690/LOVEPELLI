@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
-const COUNTRY_API = "http://localhost:5103/api/BasicDetails/countryCodes";
-const VALIDATE_API = "http://localhost:5103/api/Users/ValidateUser";
+const COUNTRY_API = "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/BasicDetails/countryCodes";
+const VALIDATE_API = "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/Users/ValidateUser";
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [errors, setErrors] = useState({});
