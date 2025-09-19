@@ -11,6 +11,8 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [countryCodes, setCountryCodes] = useState([]);
   const navigate = useNavigate();
 
+  
+
   // ✅ Utility to clear an error
   const clearError = (field) => {
     setErrors((prev) => {
@@ -142,18 +144,20 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
           Phone Number <span className="required">*</span>
         </label>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <select
-            name="countryCode"
-            value={UserData.countryCode || ""}
-            onChange={handleChange}
-          >
-            <option value="">Select Code</option>
-            {countryCodes.map((c) => (
-              <option key={c.countryId} value={c.countryCode}>
-                {c.countryName} {c.countryCode}
-              </option>
-            ))}
-          </select>
+           <select
+  name="countryCode"
+  value={UserData.countryCode || "+91"}   // default India (+91)
+  onChange={handleChange}
+>
+  <option value="">Select Code</option>  {/* optional placeholder */}
+  {countryCodes.map((c) => (
+    <option key={c.countryId} value={c.countryCode}>
+      {c.countryName} {c.countryCode}
+    </option>
+  ))}
+</select>
+
+
           <input
             type="number"
             name="contactNumber"
@@ -217,7 +221,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
                 } else if (!regex.test(value)) {
                   setErrors((prev) => ({
                     ...prev,
-                    password: "Password must meet complexity rules",
+                    password: "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
                   }));
                 } else {
                   clearError("password");
