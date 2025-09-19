@@ -172,7 +172,8 @@ input[type="radio"] {
 
 .gender-group {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  align-items:flex-start;
   margin-bottom: 10px;
 }
 
@@ -182,8 +183,10 @@ input[type="radio"] {
 
 .radio-options {
   display: flex;
-  gap: 20px; /* space between options */
-  
+  flex-direction: row; /* force row */
+  gap: 20px;
+  align-items: center;
+  flex-wrap: nowrap;   /* prevent wrapping */
 }
 
 .radio-label {
@@ -253,14 +256,13 @@ input[type="radio"] {
 }
 
 /* Mobile view adjustments */
-@media (max-width: 768px) {
-  .radio-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* two equal columns */
+@media (max-width: 600px) {
+   .radio-options {
+    flex-direction: column;  /* stack vertically */
+    align-items: flex-start; /* align nicely on the left */
     gap: 10px;
-    margin-left: 50px;
-    margin-bottom: 5px;
   }
+
 
   .gender-group {
     display: flex;

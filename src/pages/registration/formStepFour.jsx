@@ -8,11 +8,11 @@ import api from '../interceptor/axiosInterceptor';
 const employmentOptions = [
   "Government",
   "Public/Private Sector",
-  "defense",
+  "Defense",
   "Self Employed",
   "Un-Employed",
   "Business",
-  "Former"
+  "Farmer"
 ];
 // const currencyOptions =[
 //   ("AFA"),("ALL"),("DZD"),("AON"),("ARS"),("AMD"),("AWG"),("AZM"),("BSD"),("BHD"),("BDT"),("BBD"),("BYB"),("BZD"),
