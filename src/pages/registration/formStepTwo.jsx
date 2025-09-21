@@ -182,67 +182,105 @@ useEffect(() => {
         <h2>Basic Details</h2>
 
              {/* DOB */}
-        <div className="dob-group">
-          <label>
-            Date of Birth:<span className="required">*</span>
-          </label>
- 
-          {(() => {
-            const { minDate, maxDate } = getDobLimits(UserData.gender || "Female");
-            return (
-              <input
-                type="date"
-                name="dob"
-                className="dob-input"
-                min={minDate}
-                max={maxDate}
-                value={UserData.dob || ""}
-                onChange={handleChange}
-                required
-              />
-            );
-          })()}
- 
-          {errors.dob && <span className="error-text">{errors.dob}</span>}
-        </div>
+<div className="dob-group">
+  <label>
+    Date of Birth:<span className="required">*</span>
+  </label>
+
+  {(() => {
+    const { minDate, maxDate } = getDobLimits(UserData.gender || "Female");
+    return (
+      <input
+        type="date"
+        name="dob"
+        className="dob-input"
+        min={minDate}
+        max={maxDate}
+        value={UserData.dob || ""}
+        onChange={(e) => {
+          const value = e.target.value;
+
+          // Update UserData state for dob
+          setUserData({ ...UserData, dob: value });
+
+          // Clear the dob error immediately when a date is selected
+          clearError("dob");
+        }}
+        required
+      />
+    );
+  })()}
+
+  {/* Show validation error only if no dob selected */}
+  {errors.dob && !UserData.dob && (
+    <span className="error-text">{errors.dob}</span>
+  )}
+</div>
+
+
+
 
             {/* Religion */}
-        <label>
-          Religion:<span className="required">*</span>
-        </label>
-        <select
-          name="religionId"
-          value={UserData.religionId || ""}
-          onChange={handleChange}
-        >
-          <option value="">Select</option>
-          {religions.map((r) => (
-            <option key={r.religionId} value={r.religionId}>
-              {r.religionName}
-            </option>
-          ))}
-        </select>
-        {errors.religionId && <p className="error-text">{errors.religionId}</p>}
+<label>
+  Religion:<span className="required">*</span>
+</label>
+<select
+  name="religionId"
+  value={UserData.religionId || ""}
+  onChange={(e) => {
+    handleChange(e); // updates UserData state
+
+    // Clear error immediately when a value is selected
+    if (e.target.value) {
+      clearError("religionId");
+    }
+  }}
+>
+  <option value="">Select</option>
+  {religions.map((r) => (
+    <option key={r.religionId} value={r.religionId}>
+      {r.religionName}
+    </option>
+  ))}
+</select>
+
+{/* Show validation error only if no religion selected */}
+{errors.religionId && !UserData.religionId && (
+  <p className="error-text">{errors.religionId}</p>
+)}
+
               
      
 
            {/* Caste */}
         <label>
-          Caste:<span className="required">*</span>
-        </label>
-        <select
-          name="casteId"
-          value={UserData.casteId || ""}
-          onChange={handleChange}
-        >
-          <option value="">Select</option>
-          {castes.map((c) => (
-            <option key={c.casteId} value={c.casteId}>
-              {c.casteName}
-            </option>
-          ))}
-        </select>
-        {errors.casteId && <p className="error-text">{errors.casteId}</p>}
+  Caste:<span className="required">*</span>
+</label>
+<select
+  name="casteId"
+  value={UserData.casteId || ""}
+  onChange={(e) => {
+    handleChange(e); // update UserData state
+
+    // Clear error immediately when a value is selected
+    if (e.target.value) {
+      clearError("casteId");
+    }
+  }}
+>
+  <option value="">Select</option>
+  {castes.map((c) => (
+    <option key={c.casteId} value={c.casteId}>
+      {c.casteName}
+    </option>
+  ))}
+</select>
+
+{/* Show validation error only if no caste selected */}
+{errors.casteId && !UserData.casteId && (
+  <p className="error-text">{errors.casteId}</p>
+)}
+
 
   {/* Hindu → SubCaste */}
 {religionName === "Hindu" && isSelectedCasteIdHaveSubCastes && (
@@ -346,8 +384,11 @@ useEffect(() => {
             </option>
           ))}
         </select>
-        {errors.motherTongueId && <p className="error-text">{errors.motherTongueId}</p>}
- 
+      {/* Show validation error only if no caste selected */}
+        {errors.motherTongueId && !UserData.motherTongueId && (
+          <p className="error-text">{errors.motherTongueId}</p>
+        )}
+        
         {/* Buttons */}
         <div className="button-group">
           <button type="button" className="prev-btn" onClick={prevStep}>

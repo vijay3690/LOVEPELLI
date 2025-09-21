@@ -11,7 +11,12 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [countryCodes, setCountryCodes] = useState([]);
   const navigate = useNavigate();
 
-  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prev => ({ ...prev, [name]: value }));
+    clearError(name);
+  };
 
   // ✅ Utility to clear an error
   const clearError = (field) => {
@@ -29,7 +34,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     if (!UserData.email?.trim()) newErrors.email = "Email is required";
     if (!UserData.password?.trim()) newErrors.password = "Password is required";
     if (!UserData.confirmPassword?.trim()) newErrors.confirmPassword = "Confirm Password is required";
-    if (!UserData.gender) newErrors.gender = "Please select your gender";
+    if (!UserData.gender?.trim()) newErrors.gender = "Please select your gender";
     if (!UserData.profileForDataId) newErrors.profileForDataId = "Please select profile for";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -52,11 +57,11 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     safeFetch(COUNTRY_API, setCountryCodes, "country codes");
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prev) => ({ ...prev, [name]: value }));
-    clearError(name);
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserData((prev) => ({ ...prev, [name]: value }));
+  //   clearError(name);
+  // };
 
   const handleNext = async () => {
     
@@ -140,34 +145,33 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         </div>
 
         {/* Phone Number */}
-        <label>
-          Phone Number <span className="required">*</span>
-        </label>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-           <select
-  name="countryCode"
-  value={UserData.countryCode || "+91"}   // default India (+91)
-  onChange={handleChange}
->
-  <option value="">Select Code</option>  {/* optional placeholder */}
-  {countryCodes.map((c) => (
-    <option key={c.countryId} value={c.countryCode}>
-      {c.countryName} {c.countryCode}
-    </option>
-  ))}
-</select>
+             <label>
+        Phone Number <span className="required">*</span>
+      </label>
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <select
+          name="countryCode"
+          value={UserData.countryCode}   // 👈 now always controlled
+          onChange={handleChange}
+        >
+          <option value="">Select Code</option>
+          {countryCodes.map((c) => (
+            <option key={c.countryId} value={c.countryCode}>
+              {c.countryName} {c.countryCode}
+            </option>
+          ))}
+        </select>
 
-
-          <input
-            type="number"
-            name="contactNumber"
-            placeholder="Contact Number"
-            value={UserData.contactNumber || ""}
-            onChange={handleChange}
-          />
-        </div>
-        {errors.countryCode && <div className="error">{errors.countryCode}</div>}
-        {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+        <input
+          type="number"
+          name="contactNumber"
+          placeholder="Contact Number"
+          value={UserData.contactNumber || ""}
+          onChange={handleChange}
+        />
+      </div>
+      {errors.countryCode && <div className="error">{errors.countryCode}</div>}
+      {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
 
         {/* Email */}
         <label>
@@ -314,51 +318,53 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         {checking && <div className="info">Validating...</div>}
 
         {/* Gender */}
-        <div className="gender-group">
-          <label className="gender-label">
-            Gender <span className="required">*</span>
-          </label>
-          <div className="radio-options">
-            {["Male", "Female", "Others"].map((g) => {
-              // disable logic
-              let disabled = false;
+    <div className="gender-group">
+  <label className="gender-label">
+    Gender <span className="required">*</span>
+  </label>
 
-              if ((UserData.profileForDataId === "2" || UserData.profileForDataId === "4") && g !== "Male") {
-                disabled = true; // Son/Brother → only Male
-              }
-              if ((UserData.profileForDataId === "3" || UserData.profileForDataId === "5") && g !== "Female") {
-                disabled = true; // Daughter/Sister → only Female
-              }
+  <div className="radio-options">
+    {["Male", "Female", "Others"].map((g) => {
+      let disabled = false;
 
-              return (
-                <label key={g} className="radio-label">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value={g}
-                    checked={UserData.gender === g}
-                    disabled={disabled}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setUserData({ ...UserData, gender: value });
+      // Son (2) or Brother (4) → only Male
+      if ((UserData.profileForDataId === "2" || UserData.profileForDataId === "4") && g !== "Male") {
+        disabled = true;
+      }
 
-                      if (!value) {
-                        setErrors((prev) => ({
-                          ...prev,
-                          gender: "Please select your gender",
-                        }));
-                      } else {
-                        clearError("gender");
-                      }
-                    }}
-                  />
-                  {g}
-                </label>
-              );
-            })}
-          </div>
-          {errors.gender && <p className="error-text">{errors.gender}</p>}
-        </div>
+      // Daughter (3) or Sister (5) → only Female
+      if ((UserData.profileForDataId === "3" || UserData.profileForDataId === "5") && g !== "Female") {
+        disabled = true;
+      }
+
+      return (
+        <label key={g} className="radio-label">
+          <input
+            type="radio"
+            name="gender"
+            value={g}
+            checked={UserData.gender === g}
+            disabled={disabled}
+            onChange={(e) => {
+              const value = e.target.value;
+              setUserData({ ...UserData, gender: value });
+
+              // Clear error when user selects a valid gender
+              clearError("gender");
+            }}
+          />
+          {g}
+        </label>
+      );
+    })} 
+  </div>
+
+  {/* Show validation error only if no gender selected */}
+  {!UserData.gender && errors.gender && (
+    <p className="error-text">{errors.gender}</p>
+  )}
+</div>
+
 
 
         {/* Next Button */}

@@ -288,9 +288,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.educationId && (
-            <span className="error-text">{errors.educationId}</span>
-          )}
+          {/* Show validation error only if no Highest Education selected */}
+            {errors.educationId && !UserData.educationId && (
+              <p className="error-text">{errors.educationId}</p>
+            )}
         </div>
     { !isOtherOrUnderGraduate && (
       <>
@@ -313,9 +314,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.educationSubStreamId && (
-            <span className="error-text">{errors.educationSubStreamId}</span>
-          )}
+              {/* Show validation error only if no Highest Education selected */}
+            {errors.educationSubStreamId && !UserData.educationSubStreamId && (
+              <p className="error-text">{errors.educationSubStreamId}</p>
+            )}
         </div>
         </>
         )
@@ -345,9 +347,10 @@ useEffect(() => {
               </button>
             ))}
           </div>
-          {errors.employedIn && (
-            <span className="error-text">{errors.employedIn}</span>
-          )}
+                {/* Show validation error only if no  Employee Status selected */}
+            {errors.employedIn && !UserData.employedIn && (
+              <p className="error-text">{errors.employedIn}</p>
+            )}
         </div>
 
        {/* Occupation */}
@@ -367,9 +370,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.occupationId && (
-            <span className="error-text">{errors.occupationId}</span>
-          )}
+          {/* Show validation error only if no  Employee Status selected */}
+            {errors.occupationId && !UserData.occupationId && (
+              <p className="error-text">{errors.occupationId}</p>
+            )}
         </div>
 
         {/* Currency
@@ -431,9 +435,10 @@ useEffect(() => {
             <option value="16">40-50 lakh</option>
             <option value="17">1 Crore & Above</option>
           </select>
-          {errors.incomeID && (
-            <span className="error-text">{errors.incomeID}</span>
-          )}
+           {/* Show validation error only if no  Annual Income selected */}
+            {errors.incomeID && !UserData.incomeID && (
+              <p className="error-text">{errors.incomeID}</p>
+            )}
         </div>
 
     
@@ -475,9 +480,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.countryId && (
-            <span className="error-text">{errors.countryId}</span>
-          )}
+      {/* Show validation error only if no  country selected */}
+            {errors.countryId && !UserData.countryId && (
+              <p className="error-text">{errors.countryId}</p>
+            )}
         </div>
         {isIndiaSelected && (
          <>
@@ -497,9 +503,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.stateId && (
-            <span className="error-text">{errors.stateId}</span>
-          )}
+          {/* Show validation error only if no  city selected */}
+            {errors.stateId && !UserData.stateId && (
+              <p className="error-text">{errors.stateId}</p>
+            )}
         </div>
 
            <div className="form-group">
@@ -518,7 +525,10 @@ useEffect(() => {
               </option>
             ))}
           </select>
-          {errors.cityId && <span className="error-text">{errors.cityId}</span>}
+         {/* Show validation error only if no  city selected */}
+            {errors.cityId && !UserData.cityId && (
+              <p className="error-text">{errors.cityId}</p>
+            )}
         </div>
         </>
         )
