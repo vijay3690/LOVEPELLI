@@ -17,7 +17,7 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
   const [childrenLiving, setChildrenLiving] = useState(UserData.childrenLiving || "");
   const [heights, setHeights] = useState([]);
    const navigate = useNavigate(); // hook for navigation
-const maritalOptions = ["single", "Widowed", "Divorced", "Awaiting divorce"];
+const maritalOptions = ["Single", "Widowed", "Divorced", "Awaiting divorce"];
 const childrenOptions = ["None", "1", "2", "3", "4 and above"];
 const livingOptions = ["Children living with me", "Children not living with me"];
   
@@ -111,28 +111,35 @@ const livingOptions = ["Children living with me", "Children not living with me"]
         <h2>Personal Details</h2>
 
               {/* Marital Status */}
-        <div className="field-group">
-          <label className="field-label">
-            Marital Status:<span className="required">*</span>
-          </label>
-          <div className="button-group">
-            {maritalOptions.map((option) => (
-              <button
-                key={option}
-                type="button"
-                className={`btn-option ${maritalStatus === option ? "active" : ""}`}
-                onClick={() => {
-                  setMaritalStatus(option);
-                  setChildrenCount("");
-                  setChildrenLiving("");
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          {errors.maritalStatus && <p className="error-text">{errors.maritalStatus}</p>}
-        </div>
+   <div className="field-group">
+  <label className="field-label">
+    Marital Status:<span className="required">*</span>
+  </label>
+
+  <div className="button-group">
+    {maritalOptions.map((option) => (
+      <button
+        key={option}
+        type="button"
+        className={`btn-option ${maritalStatus === option ? "active" : ""}`}
+        onClick={() => {
+          setMaritalStatus(option);
+          setChildrenCount("");
+          setChildrenLiving("");
+          clearError("maritalStatus"); // ✅ clear error when user selects
+        }}
+      >
+        {option}
+      </button>
+    ))}
+  </div>
+
+  {/* ✅ Show validation error only if no marital status selected */}
+  {errors.maritalStatus && !maritalStatus && (
+    <p className="error-text">{errors.maritalStatus}</p>
+  )}
+</div>
+
 
      {/* Children */}
         {showChildrenField && (
@@ -155,7 +162,9 @@ const livingOptions = ["Children living with me", "Children not living with me"]
                 </button>
               ))}
             </div>
-            {errors.childrenCount && <p className="error-text">{errors.childrenCount}</p>}
+      {errors.childrenCount && !childrenCount && (
+    <p className="error-text">{errors.childrenCount}</p>
+  )}
           </div>
         )}
 
@@ -177,7 +186,9 @@ const livingOptions = ["Children living with me", "Children not living with me"]
                 </button>
               ))}
             </div>
-            {errors.childrenLiving && <p className="error-text">{errors.childrenLiving}</p>}
+          {errors.childrenLiving && !childrenLiving && (
+    <p className="error-text">{errors.childrenLiving}</p>
+  )}
           </div>
         )}
 
@@ -197,7 +208,10 @@ const livingOptions = ["Children living with me", "Children not living with me"]
             </option>
           ))}
         </select>
-        {errors.heightId && <p className="error-text">{errors.heightId}</p>}
+        {/* Show validation error only if no height selected */}
+{errors.heightId && !UserData.heightId && (
+  <p className="error-text">{errors.heightId}</p>
+)}
 
         {/* Family Status */}
            <label>
@@ -215,7 +229,10 @@ const livingOptions = ["Children living with me", "Children not living with me"]
             </button>
           ))}
         </div>
-        {errors.familyStatus && <p className="error-text">{errors.familyStatus}</p>}
+            {/* Show validation error only if no family status selected */}
+{errors.familyStatus && !UserData.familyStatus && (
+  <p className="error-text">{errors.familyStatus}</p>
+)}
 
         {/* Family Type */}
               <label>
@@ -233,7 +250,10 @@ const livingOptions = ["Children living with me", "Children not living with me"]
             </button>
           ))}
         </div>
-        {errors.familyType && <p className="error-text">{errors.familyType}</p>}
+              {/* Show validation error only if no family status selected */}
+            {errors.familyType && !UserData.familyType && (
+              <p className="error-text">{errors.familyType}</p>
+            )}
 
         {/* Any Disability */}
         <label>
@@ -251,7 +271,10 @@ const livingOptions = ["Children living with me", "Children not living with me"]
             </button>
           ))}
         </div>
-        {errors.disability && <p className="error-text">{errors.disability}</p>}
+        {/* Show validation error only if no family status selected */}
+            {errors.disability && !UserData.disability && (
+              <p className="error-text">{errors.disability}</p>
+            )}
 
         {/* Navigation Buttons */}
          <div className="button-group">
