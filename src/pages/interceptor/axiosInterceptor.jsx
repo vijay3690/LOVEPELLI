@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5103", // your backend URL
+  baseURL: "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net", // your backend URL
   headers: {
     "Content-Type": "application/json",
   },
