@@ -19,8 +19,12 @@ import HomePage from "./pages/homepages/home";
 import Logout from "./pages/authentication/logout";
 import SignUp from "./pages/otp-signin/signup";
 import Register from "./pages/registration/register";
-
 import ProtectedRoute from "/src/protectedroute";
+import LogInEmail from "./pages/email-signin/loginEmail";
+import ForgotPassword from "./pages/email-signin/forgotpassword";
+import ResetPassword from "./pages/email-signin/resetpassword";
+
+
 
 function App() {
 	return (
@@ -33,6 +37,9 @@ function App() {
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/logout" element={<Logout />} />
+					<Route path="/loginEmail" element={<LogInEmail />} />
+					<Route path="/forgotpassword" element={<ForgotPassword/>}/>
+					<Route path="/resetpassword/:token" element={<ResetPassword/>}/>
 
 					{/* Protected Routes */}
 					<Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />

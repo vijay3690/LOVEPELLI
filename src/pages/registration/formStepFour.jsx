@@ -14,20 +14,6 @@ const employmentOptions = [
   "Business",
   "Farmer"
 ];
-// const currencyOptions =[
-//   ("AFA"),("ALL"),("DZD"),("AON"),("ARS"),("AMD"),("AWG"),("AZM"),("BSD"),("BHD"),("BDT"),("BBD"),("BYB"),("BZD"),
-//   ("BMD"),("BTN"),("BOB"),("BAM"),("BRL"),("BND"),("BGL"),("BIF"),("KHR"),("XAF"),("CAD"),("CVE"),("KYD"),("CLP"),
-//   ("CNY"),("COP"),("KMF"),("NZD"),("CRC"),("HRK"),("CUP"),("CYP"),("CZK"),("DJF"),("DOP"),("TPE"),("ECS"),("EGP"),
-//   ("SVC"),("ERN"),("EEK"),("ETB"),("FKP"),("FJD"),("GMD"),("GEL"),("GHC"),("GIP"),("DKK"),("USD"),("QTQ"),("GNF"),
-//   ("GYD"),("HTG"),("HNL"),("HKD"),("HUF"),("ISK"),("RS"),("IDR"),("IRR"),("IQD"),("XOF"),("JMD"),("JPY"),("JOD"),
-//   ("KZT"),("KES"),("KPW"),("KRW"),("KWD"),("KGS"),("LAK"),("LBP"),("LSL"),("LRD"),("LYD"),("LTL"),("MOP"),("MKD"),
-//   ("MGF"),("MWK"),("MYR"),("MVR"),("MTL"),("MRO"),("MUR"),("EUR"),("MXN"),("MDL"),("MNT"),("MAD"),("MZM"),("MMK"),
-//   ("NAD"),("NPR"),("ANG"),("XPF"),("NIC"),("NGN"),("AUD"),("OMR"),("PKR"),("PAB"),("PGK"),("PYG"),("PEN"),("PHP"),
-//   ("PLZ"),("QAR"),("ROL"),("RUR"),("RWF"),("XCD"),("WST"),("ITL"),("STD"),("SAR"),("SCR"),("SLL"),("SGD"),("SKK"),
-//   ("SIT"),("SOD"),("ZAR"),("LKP"),("SHP"),("SDD"),("SRG"),("NOK"),("SZL"),("CHF"),("SYP"),("TWD"),("TJR"),("TZS"),
-//   ("THB"),("TOP"),("TTD"),("TND"),("TRL"),("TMM"),("UGS"),("UAG"),("AED"),("GBP"),("UYP"),("UZS"),("VUV"),("VUB"),
-//   ("VND"),("YER"),("YUN"),("CDF"),("ZMK"),("ZWD")
-// ]
 
 const FormStepFour = ({UserData, setUserData, prevStep}) => {  
    const [educations, setEducations] = useState([]);
@@ -234,7 +220,6 @@ useEffect(() => {
     if (!UserData.educationSubStreamId) newErrors.educationSubStreamId = "Education Substream is required";
     if (!UserData.employedIn) newErrors.employedIn = "Employment Status is required";
     if (!UserData.occupationId) newErrors.occupationId = "Occupation is required";
-    // if (!UserData.currency) newErrors.currency ="Currency is required";
     if (!UserData.incomeID) newErrors.incomeID = "Annual Income is required";
     if (!UserData.countryId) newErrors.countryId = "Country is required";
     if (!UserData.stateId && isIndiaSelected) newErrors.stateId = "State is required";

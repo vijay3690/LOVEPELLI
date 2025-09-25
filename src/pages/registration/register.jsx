@@ -3,6 +3,7 @@ import FormStepOne from "./formStepOne";
 import FormStepTwo from "./formStepTwo";
 import FormStepThree from "./formStepThree";
 import FormStepFour from "./formStepFour";
+import { BASE_API } from './registerconstants';
 
 
 
@@ -49,7 +50,7 @@ function Register() {
     e.preventDefault();
     try {
 
-      const response = await fetch('http://localhost:5103/api/UserProfile', {
+      const response = await fetch(`${BASE_API}/api/UserProfile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(UserData),

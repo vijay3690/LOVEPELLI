@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
+import { BASE_API } from "./registerconstants";
 
-const COUNTRY_API = "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/BasicDetails/countryCodes";
-const VALIDATE_API = "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/Users/ValidateUser";
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [errors, setErrors] = useState({});
@@ -54,14 +53,9 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
   // Load country codes
   useEffect(() => {
-    safeFetch(COUNTRY_API, setCountryCodes, "country codes");
+    safeFetch(`${BASE_API}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
   }, []);
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setUserData((prev) => ({ ...prev, [name]: value }));
-  //   clearError(name);
-  // };
 
   const handleNext = async () => {
     
@@ -76,7 +70,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         contactNumber: fullcontactNumber,
       });
 
-      const res = await fetch(`${VALIDATE_API}?${params.toString()}`);
+      const res = await fetch(`${BASE_API}/api/Users/ValidateUser?${params.toString()}`);
       if (!res.ok) {
         const msg = await res.text();
         setErrors((prev) => ({ ...prev, api: msg || "Validation failed" }));
