@@ -29,7 +29,7 @@ function ForgotPassword() {
       setLoading(true);
 
       const res = await fetch(
-        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/auth/forgot-password",
+        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/request-password-reset",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -46,7 +46,7 @@ function ForgotPassword() {
         setEmail("");
 
         setTimeout(() => {
-          navigate("/reset-password/dummy-token");
+          navigate("/forgotpassword");
         }, 1500);
       }
     } catch (err) {

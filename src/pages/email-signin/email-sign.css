@@ -165,3 +165,140 @@
     padding: 10px;
   }
 }
+
+
+
+/* loginEmail */
+
+.is-invalid {
+  border: 1px solid red !important;
+}
+.error-text {
+  color: red;
+  font-size: 13px;
+}
+
+
+/* popup modal */
+
+/* Full-screen modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* dim page behind */
+  backdrop-filter: blur(5px);      /* blur page content */
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  background: rgba(255, 255, 255, 0.2); /* semi-transparent glass */
+  -webkit-backdrop-filter: blur(10px);  /* Safari support */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* soft shadow */
+}
+
+
+
+
+.modal-content {
+  background: white ; /* semi-transparent */
+  backdrop-filter: blur(1px);          /* blur background behind modal */
+  -webkit-backdrop-filter: blur(10px);  /* for Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* light border for glass effect */
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 95%;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
+
+
+/* close button */
+.close-btn {
+  position: absolute;
+  top: 10px;    /* distance from top */
+  right: 10px;  /* distance from right */
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #444;
+}
+
+
+.close-btn:hover {
+  color: red;
+}
+
+
+/* Mobilelogin */
+
+/* Container for the form */
+.otp-container {
+  max-width: 350px;
+  margin: 40px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.2); /* frosted glass */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Input fields */
+.otp-container input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  /* border: 1px solid rgba(255, 255, 255, 0.3); */
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color:black;
+  font-size: 16px;
+  /* outline: none; */
+  /* transition: all 0.3s ease; */
+  border: 1px solid black;
+}
+
+.otp-container input:focus {
+  border-color: #fff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Buttons */
+.otp-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.otp-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.otp-container button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Error message */
+.otp-container p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff6b6b;
+}

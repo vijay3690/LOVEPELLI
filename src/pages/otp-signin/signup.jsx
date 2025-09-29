@@ -29,6 +29,7 @@ const SignUp = () => {
               <Mail size={18} style={{ marginRight: "8px" }} />
                             Login with Email
               </Link> 
+              
              <Link to="/mobilelogin" className="signup-button">
                 <Smartphone size={18} style={{ marginRight: "8px" }} />
                   Login with Mobile
