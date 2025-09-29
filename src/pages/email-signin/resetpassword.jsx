@@ -44,33 +44,43 @@ function ResetPassword() {
       return;
     }
 
-    try {
-      setLoading(true);
+try {
+  setLoading(true);
 
-      const res = await fetch(
-        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/auth/reset-password/${token}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ newPassword: password }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Something went wrong");
-      } else {
-        setMsg(data.message || "Password updated successfully!");
-        setPassword("");
-        setConfirmPassword("");
-      }
-    } catch (err) {
-      setError("Server error, please try again later.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const res = await fetch(
+    `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/auth/reset-password/${token}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newPassword: password }),
     }
+  );
+
+  // Try parsing JSON, but fallback to text if empty
+  let data;
+  try {
+    const raw = await res.text(); // get raw response
+    data = raw ? JSON.parse(raw) : {}; // parse only if not empty
+  } catch {
+    data = {};
+  }
+
+  if (!res.ok) {
+    setError(data.message || "Something went wrong");
+  } else {
+    setMsg(data.message || "Password updated successfully!");
+    setPassword("");
+    setConfirmPassword("");
+  }
+} catch (err) {
+  setError("Server error, please try again later.");
+  console.error("Reset password error:", err);
+} finally {
+  setLoading(false);
+}
+
   };
 
   return (
