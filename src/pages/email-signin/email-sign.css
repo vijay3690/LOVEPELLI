@@ -82,7 +82,7 @@
 }
 
 
-/* resetpassword.jsx */
+
 /* ResetPassword.css */
 
 /* Container */
@@ -164,6 +164,87 @@
     font-size: 14px;
     padding: 10px;
   }
+}
+
+.reset-password-form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.reset-password-form h2 {
+  text-align: center;
+  color: #333;
+}
+
+.reset-password-form p {
+  text-align: center;
+  font-size: 14px;
+}
+
+.reset-password-form .error {
+  color: red;
+}
+
+.reset-password-form .success {
+  color: rgb(232, 31, 71);
+}
+
+.reset-password-form form {
+  margin-top: 20px;
+}
+
+.reset-password-form input[type="password"],
+.reset-password-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.reset-password-form label {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+  white-space: nowrap;   /* prevents text from breaking into two lines */
+  cursor: pointer;
+  margin-right: 250px;
+}
+
+.reset-password-form .checkbox {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.reset-password-form .reset-button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.reset-password-form .reset-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.reset-password-form .reset-button:hover:not(:disabled) {
+  background: #45a049;
 }
 
 
@@ -302,3 +383,5 @@
   font-size: 14px;
   color: #ff6b6b;
 }
+
+
