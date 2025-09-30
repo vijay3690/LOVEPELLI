@@ -9,16 +9,47 @@ function ResetPassword() {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+   const [tokenValid, setTokenValid] = useState(null); // 👈 track token status
 
-  const token = searchParams.get("token");
+   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
   const navigate = useNavigate();
 
+  // 🔹 Validate token when component loads
   useEffect(() => {
-    if (!token || !email) {
-      setError("Invalid or missing reset link.");
-    }
+    const validateToken = async () => {
+      if (!token || !email) {
+        setError("Invalid or missing reset link.");
+        setTokenValid(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(
+          "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestResetPassword/validate-token",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, token }),
+          }
+        );
+
+        const data = await res.json();
+        if (!res.ok || !data.valid) {
+          setError(data.message || "Invalid or expired token.");
+          setTokenValid(false);
+        } else {
+          setTokenValid(true);
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Unable to validate reset link. Please try again.");
+        setTokenValid(false);
+      }
+    };
+
+    validateToken();
   }, [token, email]);
 
   const handleSubmit = async (e) => {
@@ -34,28 +65,24 @@ function ResetPassword() {
       setError("");
       setMsg("");
 
-      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token, newPassword: password }),
-      });
+      const res = await fetch(
+        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestResetPassword/reset-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, token, newPassword: password }),
+        }
+      );
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: await res.text() };
-      }
+      const data = await res.json();
 
       if (!res.ok) {
         setError(data.message || "Reset failed. Please try again.");
       } else {
         setMsg(data.message || "Password updated successfully!");
-
-        // Redirect after 60 seconds
         setTimeout(() => {
           navigate("/login");
-        }, 60000);
+        }, 5000);
       }
     } catch (err) {
       console.error(err);
@@ -68,49 +95,49 @@ function ResetPassword() {
   return (
     <div className="reset-password-form">
       <h2>Reset Your Password</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {msg && <p style={{ color: "green" }}>{msg}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type={showPassword ? "text" : "password"} // 👈 toggle type
-            placeholder="New password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type={showPassword ? "text" : "password"} // 👈 toggle type
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
+      {error && <p className="error">{error}</p>}
+      {msg && <p className="success">{msg}</p>}
 
-        {/* 👇 Show/Hide toggle */}
-        <div>
-          <label>
+      {/* 🔹 Only show form if token is valid */}
+      {tokenValid ? (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="New password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="checkbox">
             <input
               type="checkbox"
+              id="showPassword"
               checked={showPassword}
               onChange={() => setShowPassword(!showPassword)}
             />
-            Show Password
-          </label>
-        </div>
+            <label htmlFor="showPassword">Show Password</label>
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="reset-button"
-        >
-          {loading ? "Updating..." : "Update Password"}
-        </button>
-      </form>
+          <button type="submit" disabled={loading} className="reset-button">
+            {loading ? "Updating..." : "Update Password"}
+          </button>
+        </form>
+      ) : (
+        !msg && <p className="error">Your reset link is invalid or expired.</p>
+      )}
     </div>
   );
 }
