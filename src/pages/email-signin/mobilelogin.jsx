@@ -12,7 +12,7 @@ function MobileLogin() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/auth/send-otp", {
+      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/LoginWithMobile/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile }),
@@ -33,7 +33,7 @@ function MobileLogin() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/auth/verify-otp", {
+      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/LoginWithMobile/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile, otp }),
