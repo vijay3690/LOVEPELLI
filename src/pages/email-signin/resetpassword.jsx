@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
-  const [password, setPassword] = useState("");
+  const [
+    password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👈 toggle state
+  const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,12 +15,6 @@ function ResetPassword() {
   const email = searchParams.get("email");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!token || !email) {
-      setError("Invalid or missing reset link.");
-    }
-  }, [token, email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,28 +29,24 @@ function ResetPassword() {
       setError("");
       setMsg("");
 
-      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token, newPassword: password }),
-      });
+      const res = await fetch(
+        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestResetPassword/reset-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, token, newPassword : password }),
+        }
+      );
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: await res.text() };
-      }
+      const data = await res.json();
 
       if (!res.ok) {
         setError(data.message || "Reset failed. Please try again.");
       } else {
         setMsg(data.message || "Password updated successfully!");
-
-        // Redirect after 60 seconds
         setTimeout(() => {
           navigate("/login");
-        }, 60000);
+        }, 5000);
       }
     } catch (err) {
       console.error(err);
@@ -68,13 +59,15 @@ function ResetPassword() {
   return (
     <div className="reset-password-form">
       <h2>Reset Your Password</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {msg && <p style={{ color: "green" }}>{msg}</p>}
 
+      {error && <p className="error">{error}</p>}
+      {msg && <p className="success">{msg}</p>}
+
+      {/* No token validation step — always show form */}
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            type={showPassword ? "text" : "password"} // 👈 toggle type
+            type={showPassword ? "text" : "password"}
             placeholder="New password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -83,7 +76,7 @@ function ResetPassword() {
         </div>
         <div>
           <input
-            type={showPassword ? "text" : "password"} // 👈 toggle type
+            type={showPassword ? "text" : "password"}
             placeholder="Confirm new password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -91,23 +84,17 @@ function ResetPassword() {
           />
         </div>
 
-        {/* 👇 Show/Hide toggle */}
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-            />
-            Show Password
-          </label>
+        <div className="checkbox">
+          <input
+            type="checkbox"
+            id="showPassword"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          <label htmlFor="showPassword">Show Password</label>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="reset-button"
-        >
+        <button type="submit" disabled={loading} className="reset-button">
           {loading ? "Updating..." : "Update Password"}
         </button>
       </form>
