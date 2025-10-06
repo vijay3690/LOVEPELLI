@@ -3,14 +3,14 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
-  const [
-    password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Get token and email from URL search params
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
@@ -24,32 +24,78 @@ function ResetPassword() {
       return;
     }
 
+    if (!token || !email) {
+      setError("Invalid password reset link");
+      return;
+    }
+
     try {
       setLoading(true);
       setError("");
       setMsg("");
 
-      const res = await fetch(
-        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestResetPassword/reset-password",
+      // Prepare payloads for both attempts
+      const payload1 = {
+        email,
+        token: encodeURIComponent(token),
+        password,
+      };
+      const payload2 = {
+        email,
+        token: encodeURIComponent(token),
+        newPassword: password,
+      };
+
+      // First attempt with "password"
+      let res = await fetch(
+        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, token, newPassword : password }),
+          body: JSON.stringify(payload1),
         }
       );
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: await res.text() };
+      }
+
+      console.log("First attempt status:", res.status, "body:", data);
+
+      // If first attempt not successful, try again with "newPassword"
+      if (!res.ok) {
+        res = await fetch(
+          `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload2),
+          }
+        );
+
+        try {
+          data = await res.json();
+        } catch {
+          data = { message: await res.text() };
+        }
+
+        console.log("Second attempt status:", res.status, "body:", data);
+      }
 
       if (!res.ok) {
         setError(data.message || "Reset failed. Please try again.");
       } else {
         setMsg(data.message || "Password updated successfully!");
+        // Navigate after 5 seconds
         setTimeout(() => {
           navigate("/login");
         }, 5000);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Network/Fetch error:", err);
       setError("Server error, please try again later.");
     } finally {
       setLoading(false);
@@ -63,7 +109,6 @@ function ResetPassword() {
       {error && <p className="error">{error}</p>}
       {msg && <p className="success">{msg}</p>}
 
-      {/* No token validation step — always show form */}
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -72,6 +117,7 @@ function ResetPassword() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            minLength={6} // optionally add password rules
           />
         </div>
         <div>
@@ -81,6 +127,7 @@ function ResetPassword() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            minLength={6}
           />
         </div>
 
