@@ -35,24 +35,20 @@ function ResetPassword() {
       setMsg("");
 
       // Prepare payloads for both attempts
-      const payload1 = {
+ 
+      const payload = {
         email,
-        token: encodeURIComponent(token),
-        password,
-      };
-      const payload2 = {
-        email,
-        token: encodeURIComponent(token),
+        token,
         newPassword: password,
       };
 
       // First attempt with "password"
       let res = await fetch(
-        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
+        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload1),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -64,26 +60,6 @@ function ResetPassword() {
       }
 
       console.log("First attempt status:", res.status, "body:", data);
-
-      // If first attempt not successful, try again with "newPassword"
-      if (!res.ok) {
-        res = await fetch(
-          `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload2),
-          }
-        );
-
-        try {
-          data = await res.json();
-        } catch {
-          data = { message: await res.text() };
-        }
-
-        console.log("Second attempt status:", res.status, "body:", data);
-      }
 
       if (!res.ok) {
         setError(data.message || "Reset failed. Please try again.");
