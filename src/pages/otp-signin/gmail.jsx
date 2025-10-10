@@ -1,44 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React,{useState} from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const CLIENT_ID = "565556449054-3docc8pdalpcanpm1ua0gfndt5b7n78g.apps.googleusercontent.com";
-                   
+
+
+const CLIENT_ID = "116674436581-u7228uk99lgttf51r2km6iu2vsn0ump2.apps.googleusercontent.com"; // Replace with your actual client ID
 
 const Glogin = () => {
+  
   const [auth, setAuth] = useState(false);
-  const navigate = useNavigate();
+  
+  if (auth) {
+    return <Navigate to="/homefour" replace />;
+  }
+  
+    const handleSuccess = (response) => {
+        console.log("Login Success:", response);
+        setAuth(true); // Set auth to true on successful login
+      };
+    
+      const handleFailure = (error) => {
+        console.error("Login Failed:", error);
+      };
 
-  // Redirect when auth becomes true
-  useEffect(() => {
-    if (auth) {
-      navigate("/homefour", { replace: true });
-    }
-  }, [auth, navigate]);
-
-  const handleSuccess = (response) => {
-    console.log("Login Success:", response);
-    setAuth(true);
-  };
-
-  const handleFailure = (error) => {
-    console.error("Login Failed:", error);
-  };
-
-  return (
+ return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ">
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}>
-          <div style={{
-            width: '223px',
-            borderRadius: '32px',
-            overflow: 'hidden',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
-          }}>
+      
+          <div style={{ width: '223px', borderRadius: '32px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
             <GoogleLogin
               onSuccess={handleSuccess}
               onError={handleFailure}
@@ -53,5 +47,6 @@ const Glogin = () => {
     </GoogleOAuthProvider>
   );
 };
+
 
 export default Glogin;
