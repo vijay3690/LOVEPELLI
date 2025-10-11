@@ -15,9 +15,9 @@
 }
 
 /* 📱 Mobile view */
-@media (max-width: 768px) {
+@media (max-width: 550px) {
   .signup-container {
-    width: 90%;              /* Take almost full width */
+    width: 75%;              /* Take almost full width */
     margin-left: auto;       /* Center horizontally */
     margin-right: auto;
     height: auto;            /* Adjust height automatically */
@@ -74,6 +74,29 @@
 .signup-button:hover {
   background-color: #f0f0f0;
 }
+
+@media (max-width: 540px) {
+  .signup-button {
+    width: 60%;
+    margin-left: 70px;
+    padding: 0.70rem 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 990px;
+    background-color: white;
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: background-color 0.3s ease;
+  }
+}
+
 
 .login-link {
   color: rgb(254, 254, 254);
