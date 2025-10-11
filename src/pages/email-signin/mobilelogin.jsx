@@ -1,4 +1,6 @@
 import { useState } from "react";
+import"./email-sign.css";
+
 
 function MobileLogin() {
   const [mobile, setMobile] = useState("");
@@ -11,21 +13,26 @@ function MobileLogin() {
   const sendOtp = async () => {
     setLoading(true);
     setError("");
-    try {
-      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/LoginWithMobile/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile }),
-      });
-
-      if (!res.ok) throw new Error("Failed to send OTP");
-
-      setStep("otp");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+try {
+  const res = await fetch(
+    "http://localhost:5103/api/LoginWithMobile/send-otp",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile }), // 👈 must include body
     }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to send OTP");
+  }
+
+  const data = await res.json();
+  console.log("OTP Sent:", data);
+} catch (err) {
+  console.error("Error:", err);
+}
+
   };
 
   // ✅ Verify OTP
@@ -33,7 +40,7 @@ function MobileLogin() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/LoginWithMobile/verify-otp", {
+      const res = await fetch("http://localhost:5103/api/LoginWithMobile/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile, otp }),
@@ -52,38 +59,40 @@ function MobileLogin() {
   };
 
   return (
+ <div className="otp-container">
+  {step === "mobile" && (
     <div>
-      {step === "mobile" && (
-        <div>
-          <input
-            type="text"
-            placeholder="Enter mobile"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-          />
-          <button onClick={sendOtp} disabled={loading}>
-            {loading ? "Sending..." : "Send OTP"}
-          </button>
-        </div>
-      )}
-
-      {step === "otp" && (
-        <div>
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-          />
-          <button onClick={verifyOtp} disabled={loading}>
-            {loading ? "Verifying..." : "Verify OTP"}
-          </button>
-        </div>
-      )}
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <h4>Login With Mobile</h4>
+      <input
+        type="text"
+        placeholder="Enter mobile"
+        value={mobile}
+        onChange={(e) => setMobile(e.target.value)}
+      />
+      <button onClick={sendOtp} disabled={loading}>
+        {loading ? "Sending..." : "Send OTP"}
+      </button>
     </div>
-  );
-}
+  )}
 
+  {step === "otp" && (
+    <div>
+      <input
+        type="text"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+      />
+      <button onClick={verifyOtp} disabled={loading}>
+        {loading ? "Verifying..." : "Verify OTP"}
+      </button>
+    </div>
+  )}
+
+  {error && <p>{error}</p>}
+</div>
+
+  )
+
+}
 export default MobileLogin;

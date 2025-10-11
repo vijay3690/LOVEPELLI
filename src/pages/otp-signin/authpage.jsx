@@ -5,7 +5,7 @@ import "./signuppage.css";
 import Glogin from "./gmail"; 
 
 
-const SignUp = () => {
+const AuthPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -55,4 +55,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AuthPage;

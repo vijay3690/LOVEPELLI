@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
 import { BASE_API } from "./registerconstants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
@@ -9,6 +11,8 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [checking, setChecking] = useState(false);
   const [countryCodes, setCountryCodes] = useState([]);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
   const handleChange = (e) => {
@@ -140,7 +144,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
         {/* Phone Number */}
              <label>
-        Phone Number <span className="required">*</span>
+        Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <select
@@ -199,66 +203,87 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         {/* Password */}
         <div className="password-row">
           <div className="password-box">
-            <label>
-              Password <span className="required">*</span>
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={UserData.password || ""}
-              onChange={(e) => {
-                const value = e.target.value;
-                setUserData({ ...UserData, password: value });
 
-                const regex =
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+              <div className="password-container">
+                  <label>
+                    Password <span className="required">*</span>
+                  </label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter Password"
+                    value={UserData.password || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setUserData({ ...UserData, password: value });
 
-                if (!value) {
-                  setErrors((prev) => ({ ...prev, password: "Password is required" }));
-                } else if (!regex.test(value)) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    password: "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
-                  }));
-                } else {
-                  clearError("password");
-                }
-              }}
-            />
+                      const regex =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+
+                      if (!value) {
+                        setErrors((prev) => ({ ...prev, password: "Password is required" }));
+                      } else if (!regex.test(value)) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          password:
+                            "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
+                        }));
+                      } else {
+                        clearError("password");
+                      }
+                    }}
+                    className="password-input"
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="password-toggle-icon"
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </span>
+                </div>
             {errors.password && <p className="error-text">{errors.password}</p>}
           </div>
         </div>
 
         {/* Confirm Password */}
         <div className="password-box">
-          <label>
-            Confirm Password <span className="required">*</span>
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={UserData.confirmPassword || ""}
-            onChange={(e) => {
-              const value = e.target.value;
-              setUserData({ ...UserData, confirmPassword: value });
+          <div className="password-container" style={{ position: "relative" }}>
+      <label>
+        Confirm Password <span className="required">*</span>
+      </label>
+      <input
+        type={showConfirmPassword ? "text" : "password"}  // toggle type here
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={UserData.confirmPassword || ""}
+        onChange={(e) => {
+          const value = e.target.value;
+          setUserData({ ...UserData, confirmPassword: value });
 
-              if (!value) {
-                setErrors((prev) => ({
-                  ...prev,
-                  confirmPassword: "Confirm Password is required",
-                }));
-              } else if (value !== UserData.password) {
-                setErrors((prev) => ({
-                  ...prev,
-                  confirmPassword: "Passwords do not match",
-                }));
-              } else {
-                clearError("confirmPassword");
-              }
-            }}
-          />
+          if (!value) {
+            setErrors((prev) => ({
+              ...prev,
+              confirmPassword: "Confirm Password is required",
+            }));
+          } else if (value !== UserData.password) {
+            setErrors((prev) => ({
+              ...prev,
+              confirmPassword: "Passwords do not match",
+            }));
+          } else {
+            clearError("confirmPassword");
+          }
+        }}
+        className="password-input"
+        style={{ paddingRight: "40px" }} // ensure space for icon
+      />
+      <span
+        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+        className="password-toggle-icon"
+      >
+        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+      </span>
+    </div>
           {errors.confirmPassword && (
             <p className="error-text">{errors.confirmPassword}</p>
           )}

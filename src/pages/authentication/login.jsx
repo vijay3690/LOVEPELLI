@@ -1,5 +1,5 @@
 import { Component } from "react";
-import SignUp from "../otp-signin/signup";
+import SignUp from "../otp-signin/authpage";
 
 
 class LogIn extends Component {

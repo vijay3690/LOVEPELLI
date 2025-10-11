@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
@@ -9,96 +9,105 @@ function ResetPassword() {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [strength, setStrength] = useState("");
+
+  const navigate = useNavigate();
 
   // Get token and email from URL search params
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token || !email) {
+      setError("Invalid or expired password reset link.");
+    }
+  }, [token, email]);
+
+  // ✅ Password strength checker
+  const checkPasswordStrength = (value) => {
+    if (value.length < 6) return "Weak";
+    if (/[A-Z]/.test(value) && /\d/.test(value) && /[@$!%*?&]/.test(value))
+      return "Strong";
+    if (/[A-Z]/.test(value) || /\d/.test(value) || /[@$!%*?&]/.test(value))
+      return "Medium";
+    return "Weak";
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    setStrength(checkPasswordStrength(value));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setMsg("");
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
+    if (!token || !email) {
+      setError("Invalid or expired password reset link.");
       return;
     }
 
-    if (!token || !email) {
-      setError("Invalid password reset link");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
     try {
       setLoading(true);
-      setError("");
-      setMsg("");
 
-      // Prepare payloads for both attempts
-      const payload1 = {
+      const payload = {
         email,
-        token: encodeURIComponent(token),
-        password,
-      };
-      const payload2 = {
-        email,
-        token: encodeURIComponent(token),
+        token,
         newPassword: password,
       };
 
-      // First attempt with "password"
-      let res = await fetch(
-        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
+      const res = await fetch(
+        "http://localhost:5103/api/RequestRestPassword/reset-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload1),
+          body: JSON.stringify(payload),
         }
       );
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: await res.text() };
-      }
+      const data = await res.json().catch(() => ({
+        message: "Unexpected server response",
+      }));
 
-      console.log("First attempt status:", res.status, "body:", data);
-
-      // If first attempt not successful, try again with "newPassword"
-      if (!res.ok) {
-        res = await fetch(
-          `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password/${encodeURIComponent(token)}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload2),
-          }
-        );
-
-        try {
-          data = await res.json();
-        } catch {
-          data = { message: await res.text() };
-        }
-
-        console.log("Second attempt status:", res.status, "body:", data);
-      }
+      console.log("Response:", res.status, data);
 
       if (!res.ok) {
         setError(data.message || "Reset failed. Please try again.");
       } else {
         setMsg(data.message || "Password updated successfully!");
-        // Navigate after 5 seconds
-        setTimeout(() => {
-          navigate("/login");
-        }, 5000);
+        setTimeout(() => navigate("/login"), 3000);
       }
     } catch (err) {
       console.error("Network/Fetch error:", err);
       setError("Server error, please try again later.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ Password strength color
+  const getStrengthColor = () => {
+    switch (strength) {
+      case "Weak":
+        return "#d93025";
+      case "Medium":
+        return "#f9a825";
+      case "Strong":
+        return "#2e7d32";
+      default:
+        return "#999";
     }
   };
 
@@ -115,11 +124,20 @@ function ResetPassword() {
             type={showPassword ? "text" : "password"}
             placeholder="New password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             required
-            minLength={6} // optionally add password rules
+            minLength={6}
           />
+          {password && (
+            <p
+              className="strength"
+              style={{ color: getStrengthColor(), marginTop: "4px" }}
+            >
+              Strength: {strength}
+            </p>
+          )}
         </div>
+
         <div>
           <input
             type={showPassword ? "text" : "password"}
