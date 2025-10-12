@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
-const BASE_API =
-  "http://localhost:5103";
+import { BASE_API } from "./email-sign.js";
 
 function LoginEmail({ onClose }) {
   const [userEmail, setUserEmail] = useState("");

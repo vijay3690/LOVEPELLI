@@ -24,7 +24,7 @@ const AuthPage = () => {
       <div className="signup-container">
         {/* Login Section */}
         <div className="signup-box">
-          <h2 className="signup-title">Welcome to LovePelli 💖</h2>
+          <h2 className="signup-title">Welcome to LovePelli</h2>
               <Link to="/loginEmail" className="signup-button">
               <Mail size={18} style={{ marginRight: "8px" }} />
                             Login with Email
