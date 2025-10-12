@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { BASE_API } from "./email-sign.js";
 import"./email-sign.css";
 
 
@@ -15,8 +14,9 @@ function MobileLogin() {
     setLoading(true);
     setError("");
 try {
+    const BASE_API = "lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
   const res = await fetch(
-     `https://${BASE_API}api/LoginWithMobile/send-otp`,
+     `https://${BASE_API}/api/LoginWithMobile/send-otp`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,6 +41,8 @@ try {
     setLoading(true);
     setError("");
     try {
+
+       const BASE_API = "lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
       const res = await fetch( `https://${BASE_API}/api/LoginWithMobile/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

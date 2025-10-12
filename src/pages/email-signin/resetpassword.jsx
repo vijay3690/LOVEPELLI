@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { BASE_API } from "./email-sign.js";
+
 
 
 function ResetPassword() {
@@ -69,7 +69,7 @@ function ResetPassword() {
         token,
         newPassword: password,
       };
-
+ const BASE_API = "lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
       const res = await fetch(
         `https://${BASE_API}/api/RequestRestPassword/reset-password`,
         {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { BASE_API } from "./email-sign.js";
+
 
 function LoginEmail({ onClose }) {
   const [userEmail, setUserEmail] = useState("");
@@ -16,6 +16,9 @@ function LoginEmail({ onClose }) {
     e.preventDefault();
 
     try {
+
+       const BASE_API = "lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
+       
       const res = await fetch(`${BASE_API}/api/Login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
