@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { BASE_API } from "./email-sign.js";
+
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -69,7 +71,7 @@ function ResetPassword() {
       };
 
       const res = await fetch(
-        "http://localhost:5103/api/RequestRestPassword/reset-password",
+        `https://${BASE_API}/api/RequestRestPassword/reset-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

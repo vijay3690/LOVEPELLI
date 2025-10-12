@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BASE_API } from "./email-sign.js";
 import"./email-sign.css";
 
 
@@ -15,7 +16,7 @@ function MobileLogin() {
     setError("");
 try {
   const res = await fetch(
-    "http://localhost:5103/api/LoginWithMobile/send-otp",
+     `https://${BASE_API}api/LoginWithMobile/send-otp`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -40,7 +41,7 @@ try {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5103/api/LoginWithMobile/verify-otp", {
+      const res = await fetch( `https://${BASE_API}/api/LoginWithMobile/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobile, otp }),
