@@ -68,7 +68,7 @@
 }
 
 /* Responsive */
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .forgot-container {
     padding: 15px;
     margin: 30px 15px;
@@ -209,7 +209,7 @@
 }
 
 /* Responsive */
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .reset-container {
     padding: 15px;
     margin: 30px 15px;
