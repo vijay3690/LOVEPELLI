@@ -18,7 +18,7 @@
 }
 
 /* 📱 Mobile view */
-@media (max-width: 550px) {
+@media (max-width: 576px) {
   .signup-container {
     width: 96vw;
     min-width: unset;
@@ -52,13 +52,13 @@
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .signup-logo-img {
     max-width: 120px;
     margin: 0 auto;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .signup-logo-img {
     max-width: 80px;
   }
@@ -91,7 +91,7 @@
   background: #f0f0f0;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 576px) {
   .signup-button,
   .google-signin-btn {
     width: 87vw;
