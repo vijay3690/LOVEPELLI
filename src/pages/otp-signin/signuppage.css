@@ -51,28 +51,51 @@
   margin-bottom: 1rem;
 }
 
+/* 🔘 Main Button Style */
 .signup-button {
-  width: 60%;
-  margin-left:70px;
-  padding: 0.70rem 1rem;
-  margin-bottom: 1rem;
-  border: none;
-  border-radius: 990px;
-  background-color: white;
-  color: #333;
-  font-size: 0.95rem;
-  font-weight: 500;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  cursor: pointer;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50px;
+  padding: 9px 21px;
+  font-size: 1rem;
+  font-weight: 400;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  /* transition: all 0.3s ease; */
+  width: 215px;
+  margin-left: 80px;
+  margin-bottom: 10px;
 }
 
+/* 💫 Hover Effect */
 .signup-button:hover {
-  background-color: #f0f0f0;
+  background-color: white;
+  transform: translateY(-3px);
+}
+
+/* 🖱️ Active Click Effect */
+.signup-button:active {
+  transform: translateY(0);
+}
+
+/* 📱 Mobile Responsive Design */
+@media (max-width: 576px) {
+  .signup-container {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .signup-button {
+    width: 75%;          /* Full width on mobile */
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    margin-left: 40px;
+  }
 }
 
 .login-link {
