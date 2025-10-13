@@ -1,162 +1,159 @@
-
-
-/* 1. Signup Container and Box Styles */
 .signup-container {
-  height: 60vh;
+  height: 70vh;
+  margin-top: 0px;
+  overflow: hidden;
   width: 60%;
-  min-width: 320px;
-  margin-left: 400px;
   background: linear-gradient(to right, #8925e6, #d497f7);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding: 2rem 1rem;
-  font-family: 'Poppins', Arial, sans-serif;
+  font-family: sans-serif;
   border-radius: 20px;
-  overflow: hidden;
+  margin-left: 400px;
 }
 
 /* 📱 Mobile view */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .signup-container {
-    width: 96vw;
-    min-width: unset;
-    height: auto;
-    padding: 1.5rem 0.5rem;
+    width: 90%;              /* Take almost full width */
+    margin-left: auto;       /* Center horizontally */
+    margin-right: auto;
+    height: auto;            /* Adjust height automatically */
+    padding: 1.5rem 1rem;    /* Slightly smaller padding */
   }
 }
 
-/* 2. Signup Box / Card */
+
+
+.logo-text {
+  letter-spacing: 5px;
+}
+
+.logo-dot {
+  font-size: 0.8rem;
+  vertical-align: super;
+}
+
 .signup-box {
-  width: 90%;
-  max-width: 380px;
-  margin: 40px 0 40px 0;
-  text-align: center;
-}
-
-/* 3. Logo Styles */
-.signup-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  margin-left: 250px;
+  max-width: 380px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-.signup-logo-img {
-  display: block;
-  max-width: 180px;
-  height: auto;
-  font-size: 1.4rem;
-  font-weight: bold;
+.signup-title {
+  color: rgb(255, 255, 255);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 576px) {
-  .signup-logo-img {
-    max-width: 120px;
-    margin: 0 auto;
-  }
-}
-@media (max-width: 576px) {
-  .signup-logo-img {
-    max-width: 80px;
-  }
-}
-
-/* 4. Button Styles (Dynamic/Responsive) */
-.signup-button,
-.google-signin-btn {
+.signup-button {
   width: 60%;
-  max-width: 330px;
-  margin: 0 auto 18px auto;
-  padding: 0.58rem 0.6rem;
+  margin-left:70px;
+  padding: 0.70rem 1rem;
+  margin-bottom: 1rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 990px;
   background-color: white;
   color: #333;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   gap: 0.75rem;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.signup-button:hover,
-.google-signin-btn:hover {
-  background: #f0f0f0;
-}
-
-@media (max-width: 576px) {
-  .signup-button,
-  .google-signin-btn {
-    width: 87vw;
-    padding: 0.88rem 0.7rem;
-    font-size: 0.99rem;
-    min-width: 175px;
-    margin-left: 0;
-  }
-}
-
-/* 5. Google Sign-In Button Container */
-.google-signin-btn-container {
-  width: 100%;
-  max-width: 330px;
-  margin: 0 auto 18px auto;
-  border-radius: 999px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.95rem 0;
-}
-
-/* Remove double border if Google button inside already has border */
-.google-signin-btn-container button,
-.google-signin-btn-container div[role="button"] {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* 6. Text, Link, and Minor Elements css */
-.signup-title {
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+.signup-button:hover {
+  background-color: #f0f0f0;
 }
 
 .login-link {
-  color: #fff;
-  font-size: 0.93rem;
-  margin: 36px 0 12px 0;
+  color: rgb(254, 254, 254);
+  font-size: 0.9rem;
+  margin-bottom: 5rem;
 }
 
 .login-button {
   margin-left: 0.5rem;
-  padding: 0.36rem 1.1rem;
+  padding: 0.4rem 1rem;
   border-radius: 999px;
   border: 1px solid white;
   background: transparent;
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .login-button:hover {
-  background: white;
+  background-color: white;
   color: #9b5de5;
 }
 
-/* 7. Form Input Styles */
+.signup-logo {
+  display: flex;
+  justify-content:flex-end;
+  align-items: end;
+  width: 100%;
+  margin-top: 20px;
+  font-weight: bolder;
+}
+
+.signup-logo-img {
+  display: block;
+  max-width: 200px;
+  height: 50px;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+/* 📱 Mobile view */
+@media (max-width: 768px) {
+  .signup-logo-img {
+    max-width: 150px;   /* shrink a bit for smaller screens */
+    margin-right: 160px;     /* center horizontally */
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-logo-img {
+    max-width: 80px;    /* even smaller for very small screens */
+  }
+}
+
+
+/* email styles */
+/* Container */
+.login-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 25px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form */
+.login-form .form-group {
+  margin-bottom: 15px;
+}
+
 .form-group label {
   display: block;
   font-weight: 600;
@@ -164,13 +161,14 @@
   color: #444;
 }
 
+/* Input styles */
 .form-input {
   width: 100%;
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .form-input:focus {
@@ -179,6 +177,7 @@
   box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
 }
 
+/* Error Input */
 .input-error {
   border-color: #e74c3c;
 }
@@ -189,8 +188,7 @@
   margin: 0 0 10px 0;
 }
 
-/* 8. Button for Login in Auth Form */
-
+/* Button */
 .login-btn {
   width: 100%;
   padding: 12px;
@@ -201,8 +199,10 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
+
+
 .login-btn:hover {
   background: #357ab7;
 }
