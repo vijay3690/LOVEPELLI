@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { BASE_API } from "./emailsign";
+import { BASE_API } from "./email-sign";
 
 function LoginEmail({ onClose }) {
   const [userEmail, setUserEmail] = useState("");
@@ -17,10 +17,10 @@ function LoginEmail({ onClose }) {
 
     try {
       const res = await fetch(`${BASE_API}/api/Login`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email: "", password: "" }),
-});
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: "", password: "" }),
+        });
 
 
       const data = await res.json();
