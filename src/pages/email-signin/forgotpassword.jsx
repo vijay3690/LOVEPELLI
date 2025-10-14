@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_API } from "./emailsign";
 import "./email-sign.css";
 
 function ForgotPassword() {
@@ -29,10 +30,8 @@ function ForgotPassword() {
     try {
       setLoading(true);
 
-       const BASE_API = "lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
-
       const response = await fetch(
-        `https://${BASE_API}/api/RequestRestPassword/request-password-reset`,
+       `${BASE_API}/api/RequestRestPassword/request-password-reset`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
