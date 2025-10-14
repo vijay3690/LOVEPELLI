@@ -176,10 +176,6 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 
-.gender-label {
-  margin-right: 10px;
-}
-
 .radio-options {
   display: flex;
   gap: 20px; /* space between options */
@@ -270,7 +266,7 @@ input[type="radio"] {
 
 .gender-row label {
   display: flex;
-  align-items: center;
+  align-items:flex-start;
   gap: 5px; /* space between radio and text */
   font-size: 14px;
 }
@@ -280,19 +276,20 @@ input[type="radio"] {
   .radio-options {
     display: flex;
     flex-direction: column; /* stack items vertically */
-    gap: 10px;
-    margin-right:260px ; /* remove left margin for vertical alignment */
+    /* gap: 5px; */
+    margin-right:200px ; /* remove left margin for vertical alignment */
     margin-bottom: 5px;
   }
 
   .gender-group {
     display: flex;
     flex-direction: column;
+    
   }
 
   .gender-label {
     margin-bottom: 8px; /* space between label and radios */
-    margin-right:260px    /* reset right margin */
+    margin-left: 100px;       /*reset right margin */
   }
 }
 
@@ -402,7 +399,7 @@ input[type="radio"] {
 /* required field */
 .required {
   color: red;
-  margin-left: 4px;
+   margin-left: 4px; 
   font-weight: bold;
 }
 
