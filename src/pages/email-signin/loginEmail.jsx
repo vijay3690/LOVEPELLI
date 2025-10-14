@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { BASE_API } from "./email-sign";
+import { BASE_API } from "./emailsign";
 
 function LoginEmail({ onClose }) {
   const [userEmail, setUserEmail] = useState("");
@@ -17,10 +17,10 @@ function LoginEmail({ onClose }) {
 
     try {
       const res = await fetch(`${BASE_API}/api/Login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: "", password: "" }),
-        });
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email: "", password: "" }),
+});
 
 
       const data = await res.json();
@@ -70,28 +70,28 @@ function LoginEmail({ onClose }) {
 
     <div className="form-group" style={{ position: "relative", maxWidth: 500 }}>
       <label>Password</label>
- <input
-  type={showPassword ? "text" : "password"}
-  value={userPass}
-  onChange={(e) => setUserPass(e.target.value)}
-  placeholder="Enter Your Password *"
-  required
-  style={{ paddingRight: "40px" }} // add more right padding for icon space
-/>
+   <input
+        type={showPassword ? "text" : "password"}
+        value={userPass}
+        onChange={(e) => setUserPass(e.target.value)}
+        placeholder="Enter Your Password *"
+        required
+        style={{ paddingRight: "40px" }} // add more right padding for icon space
+   />
 
-<span
-  onClick={() => setShowPassword(!showPassword)}
-  style={{
-    position: "absolute",
-    right: "12px",
-    top: "70%",  // moved a bit downward from 50%
-    transform: "translateY(-50%)",
-    cursor: "pointer",
-    color: "#666",
-    userSelect: "none",
-    fontSize: "18px"
-  }}
->
+  <span
+        onClick={() => setShowPassword(!showPassword)}
+        style={{
+          position: "absolute",
+          right: "12px",
+          top: "70%",  // moved a bit downward from 50%
+          transform: "translateY(-50%)",
+          cursor: "pointer",
+          color: "#666",
+          userSelect: "none",
+          fontSize: "18px"
+    }}
+  >
   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
 </span>
 </div>
