@@ -12,36 +12,55 @@ function MobileLogin() {
   
   // 🔹 Send OTP
   const sendOtp = async () => {
-    setError("");
-    setMessage("");
+  setError("");
+  setMessage("");
 
-    if (!mobile.trim()) {
-      setError("Please enter your mobile number.");
-      return;
-    }
+  // Validate mobile number
+  if (!mobile.trim()) {
+    setError("Please enter your mobile number.");
+    return;
+  }
 
+  try {
+    const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contactNumber: mobile.trim() }),
+    });
+
+    // Parse response safely
+    let data;
     try {
-      const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // ✅ Send without +91
-        body: JSON.stringify({ contactNumber: mobile.trim() }),
-      });
-
-      const data = await res.json();
-      console.log("Send OTP Response:", data);
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to send OTP");
-      }
-
-      setMessage("OTP sent successfully!");
-      setStep("otp"); // ✅ move to OTP step
-    } catch (error) {
-      console.error("Send OTP Error:", error);
-      setError(error.message);
+      data = await res.json();
+    } catch {
+      data = { message: "Invalid server response" };
     }
-  };
+
+    console.log("Send OTP Response:", data, "Status:", res.status);
+
+    // Handle different types of errors
+    if (!res.ok) {
+      let errorMsg = data?.message || `Failed to send OTP (status ${res.status})`;
+      throw new Error(errorMsg);
+    }
+
+    //  Success
+    setMessage("OTP sent successfully!");
+    setStep("otp");
+  } catch (error) {
+    // Log full error for debugging
+    console.error("Send OTP Error:", error);
+
+    // Show user-friendly error
+    if (error.message.includes("network")) {
+      setError("Network error: Please check your internet connection.");
+    } else if (error.message.includes("Invalid server response")) {
+      setError("Server error: Unable to process OTP request.");
+    } else {
+      setError(error.message); // Show exact backend message if available
+    }
+  }
+};
 
 const verifyOtp = async () => {
   setError("");
