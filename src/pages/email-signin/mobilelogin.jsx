@@ -4,7 +4,7 @@ import "./email-sign.css";
 
 function MobileLogin() {
   const [mobile, setMobile] = useState("");
-  const [code, setCode] = useState("");
+  const [otp, setOtp] = useState("");
   const [step, setStep] = useState("mobile");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -46,7 +46,7 @@ const verifyOtp = async () => {
   setError("");
   setMessage("");
 
-  if (!code.trim()) {
+  if (!otp.trim()) {
     setError("Please enter the OTP.");
     return;
   }
@@ -57,7 +57,7 @@ const verifyOtp = async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ContactNumber: mobile.trim(),
-        Otp: code.trim()
+        Code: otp.trim()
       }),
     });
 
@@ -97,8 +97,8 @@ const verifyOtp = async () => {
           <input
             type="text"
             placeholder="Enter OTP"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
           />
           <button onClick={verifyOtp}>Verify OTP</button>
 
