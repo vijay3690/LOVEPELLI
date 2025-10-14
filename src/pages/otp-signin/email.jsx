@@ -15,7 +15,7 @@ function LoginEmail() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5103/api/Login", {
+      const response = await fetch("https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/Login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(UserData),
