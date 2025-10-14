@@ -84,11 +84,11 @@
 
 
 /* 📱 Mobile Responsive Design */
-@media (max-width: 576px) {
-  .signup-container {
+@media (max-width: 586px) {
+  /* .signup-container {
     width: 100%;
     padding: 0 20px;
-  }
+  } */
 
   .signup-button {
     width: 75%;          /* Full width on mobile */
