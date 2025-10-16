@@ -338,7 +338,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
         {/* Gender */}
     <div className="gender-group">
-  <label className="gender-label">
+  <label>
     Gender <span className="required">*</span>
   </label>
 

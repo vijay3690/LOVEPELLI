@@ -2,7 +2,7 @@ import React from "react";
 import { Mail, Smartphone } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "./signuppage.css"; 
-import Glogin from "./gmail"; 
+import Gmail from "./gmail"; 
 
 
 const AuthPage = () => {
@@ -36,7 +36,7 @@ const AuthPage = () => {
             </Link>
 
           {/* Google Login */}
-          <Glogin />
+          <Gmail />
         </div>
 
         {/* Register Link */}
