@@ -26,12 +26,12 @@ const AuthPage = () => {
         <div className="signup-box">
           <h2 className="signup-title">Welcome to LovePelli</h2>
               <Link to="/loginEmail" className="signup-button">
-              <Mail size={18} style={{ marginRight: "8px" }} />
+              <Mail size={18}   className="aicon" />
                             Login with Email
               </Link> 
               
-             <Link to="/mobilelogin" className="signup-button">
-                <Smartphone size={18} style={{ marginRight: "8px" }} />
+             <Link to="/mobilelogin" className="signup-button" >
+                <Smartphone size={18} className="aicon"/>
                   Login with Mobile
             </Link>
 
