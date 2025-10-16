@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { BASE_API } from "./emailsign";
 
+
 function ResetPassword() {
   const [searchParams] = useSearchParams();
   const [password, setPassword] = useState("");
