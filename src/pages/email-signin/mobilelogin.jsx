@@ -9,51 +9,53 @@ function MobileLogin() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  
+  // 🔹 Validate and set mobile input
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) {
+      setMobile(value);
+
+      if (/^[6-9]\d{9}$/.test(value)) {
+        setError("");
+      } else if (value.length > 0) {
+        setError("Invalid mobile number. Must be 10 digits starting with 6–9.");
+      } else {
+        setError("");
+      }
+    } else {
+      setError("Only digits are allowed.");
+    }
+  };
+
   // 🔹 Send OTP
   const sendOtp = async () => {
     setError("");
     setMessage("");
 
-    if (!mobile.trim()) {
-      setError("Please enter your mobile number.");
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      setError("Please enter a valid 10-digit mobile number before requesting OTP.");
       return;
     }
 
     try {
-      // Using Vite proxy: no need for full URL
       const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contactNumber: mobile.trim() }),
       });
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: "Invalid server response" };
-      }
-
+      const data = await res.json().catch(() => ({ message: "Invalid server response" }));
       console.log("Send OTP Response:", data, "Status:", res.status);
 
-      if (!res.ok) {
-        throw new Error(data?.message || `Failed to send OTP (status ${res.status})`);
-      }
+      if (!res.ok) throw new Error(data?.message || "Failed to send OTP");
 
       setMessage("OTP sent successfully!");
       setStep("otp");
     } catch (err) {
       console.error("Send OTP Error:", err);
-
       if (err.message === "Failed to fetch") {
-        setError(
-          "Cannot reach server. Check your internet connection or backend CORS configuration."
-        );
-      } else if (err.message.includes("network")) {
-        setError("Network error: Please check your internet connection.");
-      } else if (err.message.includes("Invalid server response")) {
-        setError("Server error: Unable to process OTP request.");
+        setError("Cannot reach server. Check internet or backend CORS configuration.");
       } else {
         setError(err.message);
       }
@@ -80,13 +82,7 @@ function MobileLogin() {
         }),
       });
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = { message: "Invalid server response" };
-      }
-
+      const data = await res.json().catch(() => ({ message: "Invalid server response" }));
       console.log("Verify OTP Response:", data);
 
       if (!res.ok) throw new Error(data.message || "OTP verification failed");
@@ -96,11 +92,8 @@ function MobileLogin() {
       window.location.href = "/";
     } catch (err) {
       console.error("Verify OTP Error:", err);
-
       if (err.message === "Failed to fetch") {
-        setError(
-          "Cannot reach server. Check your internet connection or backend CORS configuration."
-        );
+        setError("Cannot reach server. Check your internet connection or backend CORS setup.");
       } else {
         setError(err.message);
       }
@@ -116,9 +109,15 @@ function MobileLogin() {
             type="text"
             placeholder="Enter mobile number"
             value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={handleChange}
+            maxLength="10"
           />
-          <button onClick={sendOtp}>Send OTP</button>
+          <button
+            onClick={sendOtp}
+            disabled={!/^[6-9]\d{9}$/.test(mobile)}
+          >
+            Send OTP
+          </button>
         </div>
       )}
 
@@ -130,6 +129,7 @@ function MobileLogin() {
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
+            maxLength="6"
           />
           <button onClick={verifyOtp}>Verify OTP</button>
 
