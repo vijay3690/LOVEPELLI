@@ -21,7 +21,7 @@ function LoginEmail({ onClose }) {
       const res = await fetch(`${BASE_API}/api/Login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email: "", password: "" }),
+                  body: JSON.stringify({ email: userEmail, password: userPass }),
 });
 
 
