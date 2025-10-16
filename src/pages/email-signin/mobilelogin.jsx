@@ -9,92 +9,102 @@ function MobileLogin() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  
   // 🔹 Send OTP
   const sendOtp = async () => {
-  setError("");
-  setMessage("");
+    setError("");
+    setMessage("");
 
-  // Validate mobile number
-  if (!mobile.trim()) {
-    setError("Please enter your mobile number.");
-    return;
-  }
+    if (!mobile.trim()) {
+      setError("Please enter your mobile number.");
+      return;
+    }
 
-  try {
-    const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contactNumber: mobile.trim() }),
-    });
-
-    // Parse response safely
-    let data;
     try {
-      data = await res.json();
-    } catch {
-      data = { message: "Invalid server response" };
+      // Using Vite proxy: no need for full URL
+      const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contactNumber: mobile.trim() }),
+      });
+
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: "Invalid server response" };
+      }
+
+      console.log("Send OTP Response:", data, "Status:", res.status);
+
+      if (!res.ok) {
+        throw new Error(data?.message || `Failed to send OTP (status ${res.status})`);
+      }
+
+      setMessage("OTP sent successfully!");
+      setStep("otp");
+    } catch (err) {
+      console.error("Send OTP Error:", err);
+
+      if (err.message === "Failed to fetch") {
+        setError(
+          "Cannot reach server. Check your internet connection or backend CORS configuration."
+        );
+      } else if (err.message.includes("network")) {
+        setError("Network error: Please check your internet connection.");
+      } else if (err.message.includes("Invalid server response")) {
+        setError("Server error: Unable to process OTP request.");
+      } else {
+        setError(err.message);
+      }
+    }
+  };
+
+  // 🔹 Verify OTP
+  const verifyOtp = async () => {
+    setError("");
+    setMessage("");
+
+    if (!otp.trim()) {
+      setError("Please enter the OTP.");
+      return;
     }
 
-    console.log("Send OTP Response:", data, "Status:", res.status);
+    try {
+      const res = await fetch(`${BASE_API}/api/LoginWithMobile/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ContactNumber: mobile.trim(),
+          Code: otp.trim(),
+        }),
+      });
 
-    // Handle different types of errors
-    if (!res.ok) {
-      let errorMsg = data?.message || `Failed to send OTP (status ${res.status})`;
-      throw new Error(errorMsg);
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = { message: "Invalid server response" };
+      }
+
+      console.log("Verify OTP Response:", data);
+
+      if (!res.ok) throw new Error(data.message || "OTP verification failed");
+
+      localStorage.setItem("token", data.token);
+      setMessage("Login Successful!");
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Verify OTP Error:", err);
+
+      if (err.message === "Failed to fetch") {
+        setError(
+          "Cannot reach server. Check your internet connection or backend CORS configuration."
+        );
+      } else {
+        setError(err.message);
+      }
     }
-
-    //  Success
-    setMessage("OTP sent successfully!");
-    setStep("otp");
-  } catch (error) {
-    // Log full error for debugging
-    console.error("Send OTP Error:", error);
-
-    // Show user-friendly error
-    if (error.message.includes("network")) {
-      setError("Network error: Please check your internet connection.");
-    } else if (error.message.includes("Invalid server response")) {
-      setError("Server error: Unable to process OTP request.");
-    } else {
-      setError(error.message); // Show exact backend message if available
-    }
-  }
-};
-
-const verifyOtp = async () => {
-  setError("");
-  setMessage("");
-
-  if (!otp.trim()) {
-    setError("Please enter the OTP.");
-    return;
-  }
-
-  try {
-    const res = await fetch(`${BASE_API}/api/LoginWithMobile/verify-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ContactNumber: mobile.trim(),
-        Code: otp.trim()
-      }),
-    });
-
-    const data = await res.json();
-    console.log("Verify OTP Response:", data);
-
-    if (!res.ok) throw new Error(data.message || "OTP verification failed");
-
-    localStorage.setItem("token", data.token);
-    setMessage("Login Successful!");
-    window.location.href = "/";
-  } catch (err) {
-    console.error("Verify OTP Error:", err);
-    setError(err.message);
-  }
-};
-
+  };
 
   return (
     <div className="otp-container">
@@ -123,11 +133,7 @@ const verifyOtp = async () => {
           <button onClick={verifyOtp}>Verify OTP</button>
 
           <p
-            style={{
-              marginTop: "10px",
-              cursor: "pointer",
-              color: "#007bff",
-            }}
+            style={{ marginTop: "10px", cursor: "pointer", color: "#007bff" }}
             onClick={() => setStep("mobile")}
           >
             ← Change Number
