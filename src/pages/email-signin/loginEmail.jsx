@@ -17,6 +17,7 @@ function LoginEmail({ onClose }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    
     try {
       const res = await fetch(`${BASE_API}/api/Login`, {
                     method: "POST",
