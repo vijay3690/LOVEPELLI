@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper";
 import "swiper/css";
@@ -126,7 +127,11 @@ class AboutSectionTwo extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" className="default-btn reverse d-block"><span>{ABOUTTWOBTNTEXT}</span></button>
+                                               <Link to="/members">
+                                                    <button type="button" className="default-btn reverse d-block">
+                                                        <span>{ABOUTTWOBTNTEXT}</span>
+                                                   </button>
+                                              </Link>
                                     </form>
                                 </div>
                             </div>
