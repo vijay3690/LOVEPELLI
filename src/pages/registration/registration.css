@@ -179,7 +179,7 @@ input[type="radio"] {
 .radio-options {
   display: flex;
   gap: 20px; /* space between options */
-  
+
 }
 
 .radio-label {
@@ -277,9 +277,9 @@ input[type="radio"] {
   .radio-options {
     display: flex;
     flex-direction: column; /* stack items vertically */
-    /* gap: 5px; */
-    margin-right:200px ; /* remove left margin for vertical alignment */
+    margin-right:330px ; /* remove left margin for vertical alignment */
     margin-bottom: 5px;
+    margin-top: 30px;
   }
 
   .gender-group {
@@ -288,13 +288,11 @@ input[type="radio"] {
     
   }
 
-  .gender-label {
-    margin-bottom: 8px; /* space between label and radios */
-    margin-left: 100px;       /*reset right margin */
+  .gender-lable {
+    margin-bottom: 0px; /* space between label and radios */
+    margin-right: 340px;       /*reset right margin */
   }
 }
-
-
 
 /* formStep 3 */
 /* .field-group {
@@ -324,7 +322,6 @@ input[type="radio"] {
   font-size: 14px;
   transition: all 0.2s ease;
 }
-
 
 .btn-option:hover {
   background: #f5f5f5;
