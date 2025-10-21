@@ -101,7 +101,7 @@ export default function Glogin() {
       style={{ minWidth: "260px" }}
     >
       <img src="assets/images/logo/google.png" alt="Google" className="w-5 h-5" />
-      Continue with Google
+      Sign Up with Google
     </button>
   );
 }
