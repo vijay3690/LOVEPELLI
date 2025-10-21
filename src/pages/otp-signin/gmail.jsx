@@ -80,7 +80,7 @@
 
 import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-// import google from "../pages/otp-signin/google.png"; //  Correct image import path
+
 
 export default function Glogin() {
   const login = useGoogleLogin({
