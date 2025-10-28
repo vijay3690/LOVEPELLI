@@ -31,13 +31,13 @@
 //           alignItems: 'center',
 //         }}>
       
-//           <div>
+//           <div style={className="signup-button"}>
 //             <GoogleLogin
 //               onSuccess={handleSuccess}
 //               onError={handleFailure}
 //               theme="filled_white"
-//               shape="rectangular"
 //               size="large"
+//               shape="pill"
 //               logo_alignment="left"
 //             />
 //           </div>
@@ -52,44 +52,21 @@
 
 
 
-// Login.js
-// import React from 'react';
-// import { GoogleLogin } from '@react-oauth/google';
-
-// function Glogin() {
-//   const handleSuccess = (credentialResponse) => {
-//     console.log('Login Success:', credentialResponse);
-//     // Typically, send credentialResponse.credential (JWT token) to your backend for verification
-//   };
-
-//   const handleError = () => {
-//     console.log('Login Failed');
-//   };
-
-//   return (
-//     <div>
-//       {/* <h2>Log in using Google</h2> */}
-//       <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-//     </div>
-//   );
-// }
-
-// export default Glogin;
-
-
-
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
-
-export default function Glogin() {
+function Glogin() {
+  const navigate = useNavigate(); // Move this BEFORE login
+  
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      console.log(" Google Login Success:", tokenResponse);
+      console.log("Google Login Success:", tokenResponse);
       alert("Google login successful!");
+      navigate("/homefour");
     },
     onError: () => {
-      console.error(" Google Login Failed");
+      console.error("Google Login Failed");
       alert("Google login failed!");
     },
   });
@@ -100,8 +77,14 @@ export default function Glogin() {
       className="flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
       style={{ minWidth: "260px" }}
     >
-      <img src="assets/images/logo/google.png" alt="Google" className="w-5 h-5" />
+      <img 
+        src="assets/images/logo/google.png" 
+        alt="Google" 
+        className="w-5 h-5" 
+      />
       Sign Up with Google
     </button>
   );
 }
+
+export default Glogin;
