@@ -20,10 +20,15 @@ import Logout from "./pages/authentication/logout";
 import AuthPage from "./pages/otp-signin/authpage";
 import Register from "./pages/registration/register";
 import ProtectedRoute from "/src/protectedroute";
-import LoginEmail from "./pages/email-signin/loginEmail";
+import LogInEmail from "./pages/email-signin/loginEmail";
 import ForgotPassword from "./pages/email-signin/forgotpassword";
 import ResetPassword from "./pages/email-signin/resetpassword";
 import MobileLogin from "./pages/email-signin/mobilelogin";
+import Interests from "./pages/userprofile/interests";
+import Notification from "./pages/userprofile/notifications";
+
+
+
 
 function App() {
   return (
@@ -38,7 +43,7 @@ function App() {
           <Route path="/authpage" element={<AuthPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/loginEmail" element={<LoginEmail />} />
+          <Route path="/loginEmail" element={<LogInEmail />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/mobilelogin" element={<MobileLogin />} />
@@ -56,6 +61,9 @@ function App() {
           <Route path="/member-single" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
           <Route path="/policy" element={<ProtectedRoute><Policy /></ProtectedRoute>} />
           <Route path="/errorpage" element={<ErrorPage />} />
+          <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
+
 
           {/* ---------- Catch-All Route ---------- */}
           <Route path="*" element={<Navigate to="/" replace />} /> {/* 👈 redirect unknown routes to homepage */}
