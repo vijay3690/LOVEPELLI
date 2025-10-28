@@ -48,22 +48,20 @@ const livingOptions = ["Children living with me", "Children not living with me"]
   }, []);
 
   // Generic change handler for <select>
-  const handleChange = (e) => {
-    setUserData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setUserData((prev) => ({ ...prev, [name]: value }));
+  clearError(name);
+};
+
 
   // Generic handler for button fields
-  const handleSelect = (name, value) => {
-    setUserData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+const handleSelect = (name, value) => {
+  setUserData((prev) => ({ ...prev, [name]: value }));
+  clearError(name);
+};
 
-  // ✅ Validation
+  //  Validation
   const validateForm = () => {
     let newErrors = {};
 
@@ -101,6 +99,13 @@ const livingOptions = ["Children living with me", "Children not living with me"]
     navigate("/")
   }
 
+const clearError = (fieldName) => {
+  setErrors((prev) => {
+    const updated = { ...prev };
+    delete updated[fieldName];
+    return updated;
+  });
+};
 
 
   return (
