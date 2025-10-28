@@ -1,22 +1,52 @@
-import { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from "../component/layout/footer";
-
 import PageHeader from "../component/layout/pageheader";
-import SelectAge from "../component/select/selectage";
-import SelectState from "../component/select/selectstate";
-import SelectGender from "../component/select/selectgender";
-import ActiveGroup from "../component/sidebar/group";
-import ActiveMember from "../component/sidebar/member";
-import ModalSearch from "../component/sidebar/modalsearch";
-import { MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
+import axios from "axios";
+import "../pages/userprofile/userprofile.css";
+import { BASE_API } from "../pages/email-signin/emailsign";
+import {NAME, MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
+import HeaderOne from "../component/layout/headerone";
 
 
-class MemberDetails extends Component {
-    render() { 
+
+const MemberDetails = () => {
+
+      const navigate = useNavigate();
+
+      const [profile, setProfile] = useState({
+    address: "",
+    age: "",
+    dateOfBirth: "",
+    maritalStatus: "",
+    // Add other fields as needed
+ }); //  to store API data
+  const [loading, setLoading] = useState(false);
+ 
+  const handleProfileClick = async () => {
+    try {
+        setLoading(true);
+      // Example API call
+      const response = await axios.get(`${BASE_API}/api/UserProfile/30137`);
+      console.log("Profile Data:", response.data);
+      setProfile([response.data]); //  Store the fetched profile data
+      alert("Profile data fetched successfully!");
+      alert(JSON.stringify(response.data));
+      console.log("Fetched Profile Data:", response.data);
+      console.log("Profile State:", profile);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+      alert("Failed to fetch profile data!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+     { 
         return (
             <Fragment>
-        
+              <HeaderOne />
                 <PageHeader title={'Member Single Page'} curPage={'Member Single'} />
                 <div className="group group--single padding-bottom">
                     <div className="group__top">
@@ -29,17 +59,9 @@ class MemberDetails extends Component {
                                             <button className="nav-link active" id="gt1-tab" data-bs-toggle="tab" data-bs-target="#gt1" type="button" role="tab" aria-controls="gt1" aria-selected="true"><i className="fa-solid fa-house"></i> Activity</button>
                                         </li>
                                         <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="gt2-tab" data-bs-toggle="tab" data-bs-target="#gt2" type="button" role="tab" aria-controls="gt2" aria-selected="false"><i className="fa-solid fa-users"></i> Profile <span>30</span></button>
+                                            <button className="nav-link" id="gt2-tab" data-bs-toggle="tab" data-bs-target="#gt2" onClick={handleProfileClick} type="button" role="tab" aria-controls="gt2" aria-selected="false"><i className="fa-solid fa-users"></i> Profile <span>30</span></button>
                                         </li>
-                                        <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="gt3-tab" data-bs-toggle="tab" data-bs-target="#gt3" type="button" role="tab" aria-controls="gt3" aria-selected="false"><i className="fa-solid fa-video"></i> Sites <span>06</span></button>
-                                        </li>
-                                        <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="gt4-tab" data-bs-toggle="tab" data-bs-target="#gt4" type="button" role="tab" aria-controls="gt4" aria-selected="false"><i className="fa-solid fa-users"></i> Friends <span>16</span></button>
-                                        </li>
-                                        <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="gt5-tab" data-bs-toggle="tab" data-bs-target="#gt5" type="button" role="tab" aria-controls="gt5" aria-selected="false"><i className="fa-solid fa-layer-group"></i> Groups <span>08</span></button>
-                                        </li>
+                                    
                                         <li className="nav-item" role="presentation">
                                             <button className="nav-link" id="gt6-tab" data-bs-toggle="tab" data-bs-target="#gt6" type="button" role="tab" aria-controls="gt6" aria-selected="false"><i className="fa-solid fa-photo-film"></i> Media <span>06</span></button>
                                         </li>
@@ -329,43 +351,131 @@ class MemberDetails extends Component {
                                                 <div className="info">
                                                     <div className="info-card mb-4">
                                                         <div className="info-card-title">
-                                                            <h6>Base Info</h6>
+                                                            <h6>Personal Information</h6>
                                                         </div>
                                                         <div className="info-card-content">
                                                             <ul className="info-list">
                                                                 <li>
                                                                     <p className="info-name">Name</p>
-                                                                    <p className="info-details">William Smith</p>
+                                                                    <p className="info-details">{profile.name}</p>
                                                                 </li>
-                                                                <li>
-                                                                    <p className="info-name">I'm a</p>
-                                                                    <p className="info-details">Woman</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Loking for a</p>
-                                                                    <p className="info-details">Men</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Marital Status</p>
-                                                                    <p className="info-details">Single</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Age</p>
-                                                                    <p className="info-details">36</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Date of Birth</p>
-                                                                    <p className="info-details">27-02-1996</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Address</p>
-                                                                    <p className="info-details">Streop Rd, Peosur, Inphodux,
-                                                                        USA.</p>
+                                                               <li>
+  <p className="info-name">Age</p>
+  <p className="info-details">{profile.age}</p>
+</li>
+<li>
+  <p className="info-name">Height</p>
+  <p className="info-details">{profile.height}</p>
+</li>
+<li>
+  <p className="info-name">Weight</p>
+  <p className="info-details">{profile.weight}</p>
+</li>
+<li>
+  <p className="info-name">Body Type</p>
+  <p className="info-details">{profile.bodyType}</p>
+</li>
+<li>
+  <p className="info-name">Spoken Languages</p>
+  <p className="info-details">{profile.spokenLanguages}</p>
+</li>
+<li>
+  <p className="info-name">Profile Created By</p>
+  <p className="info-details">{profile.profileCreatedBy}</p>
+</li>
+<li>
+  <p className="info-name">Marital Status</p>
+  <p className="info-details">{profile.maritalStatus}</p>
+</li>
+<li>
+  <p className="info-name">Lives In</p>
+  <p className="info-details">{profile.livesIn}</p>
+</li>
+<li>
+  <p className="info-name">Eating Habits</p>
+  <p className="info-details">{profile.eatingHabits}</p>
+</li>
+<li>
+  <p className="info-name">Religion</p>
+  <p className="info-details">{profile.religion}</p>
+</li>
+<li>
+  <p className="info-name">Caste</p>
+  <p className="info-details">{profile.caste}</p>
+</li>
+<li>
+  <p className="info-name">Subcaste</p>
+  <p className="info-details">{profile.subcaste}</p>
+</li>
+<li>
+  <p className="info-name">Date Of Birth</p>
+  <p className="info-details">{profile.dateOfBirth}</p>
+</li>
+<li>
+  <p className="info-name">Time Of Birth</p>
+  <p className="info-details">{profile.timeOfBirth}</p>
+</li>
+<li>
+  <p className="info-name">Star</p>
+  <p className="info-details">{profile.star}</p>
+</li>
+<li>
+  <p className="info-name">Raasi</p>
+  <p className="info-details">{profile.raasi}</p>
+</li>
+<li>
+  <p className="info-name">Place Of Birth</p>
+  <p className="info-details">{profile.placeOfBirth}</p>
+</li>
+<li>
+  <p className="info-name">Employment</p>
+  <p className="info-details">{profile.employment}</p>
+</li>
+<li>
+  <p className="info-name">Income</p>
+  <p className="info-details">{profile.income}</p>
+</li>
+<li>
+  <p className="info-name">Education</p>
+  <p className="info-details">{profile.education}</p>
+</li>
+<li>
+  <p className="info-name">Occupation</p>
+  <p className="info-details">{profile.occupation}</p>
+</li>
+</ul>
+ </div>
+</div>
+                                                     <div className="info-card mb-4">
+                                                        <div className="info-card-title">
+                                                            <h6>Family Info</h6>
+                                                        </div>
+                                                        <div className="info-card-content">
+                                                            <ul className="info-list">
+                                                               <li>
+                                                                    <p className="info-name">Father</p>
+                                                                    <p className="info-details">{profile.father}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Mother</p>
+                                                                    <p className="info-details">{profile.mother}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Brothers</p>
+                                                                    <p className="info-details">{profile.brothers}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Sisters</p>
+                                                                    <p className="info-details">{profile.sisters}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Family Location</p>
+                                                                    <p className="info-details">{profile.familyLocation}</p>
                                                                 </li>
                                                             </ul>
-
                                                         </div>
                                                     </div>
+
                                                     <div className="info-card mb-4">
                                                         <div className="info-card-title">
                                                             <h6>Myself Summary</h6>
@@ -374,26 +484,6 @@ class MemberDetails extends Component {
                                                             <p>Collaboratively innovate compelling mindshare after prospective partnership Competently sereiz long-term high-impact internal or "organic" sources vias user friendly strategic themesr areas creat Dramatically coordinate premium partnerships rather than standards compliant technologies ernd Dramaticaly matrix ethical collaboration and idea-sharing through opensour methodolog and Intrinsicly grow collaborative platforms vis-a-vis effective scenarios. The energistically strategize cost effective ideas before the worke unde.</p>
                                                         </div>
                                                     </div>
-
-                                                    <div className="info-card mb-4">
-                                                        <div className="info-card-title">
-                                                            <h6>Looking For</h6>
-                                                        </div>
-                                                        <div className="info-card-content">
-                                                            <ul className="info-list">
-                                                                <li>
-                                                                    <p className="info-name">I'm looking for</p>
-                                                                    <p className="info-details">I want a funny person</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Whatever I like</p>
-                                                                    <p className="info-details">I like to travel a lot</p>
-                                                                </li>
-                                                            </ul>
-
-                                                        </div>
-                                                    </div>
-
                                                     <div className="info-card mb-4">
                                                         <div className="info-card-title">
                                                             <h6>Lifestyle</h6>
@@ -424,37 +514,123 @@ class MemberDetails extends Component {
 
                                                         </div>
                                                     </div>
-
-                                                    <div className="info-card">
+                                                        <div className="info-card mb-4">
                                                         <div className="info-card-title">
-                                                            <h6>Physical info</h6>
+                                                            <h3>Life-Partner Preferences</h3>
                                                         </div>
                                                         <div className="info-card-content">
                                                             <ul className="info-list">
+                                                                 <h6>Basic Preferences</h6>
                                                                 <li>
-                                                                    <p className="info-name">Height</p>
-                                                                    <p className="info-details">5'8 ft</p>
+  <p className="info-name">Preferred Bride's Age</p>
+  <p className="info-details">{profile.preferredBrideAge}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Height</p>
+  <p className="info-details">{profile.preferredHeight}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Marital Status</p>
+  <p className="info-details">{profile.preferredMaritalStatus}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Mother Tongue</p>
+  <p className="info-details">{profile.preferredMotherTongue}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Physical Status</p>
+  <p className="info-details">{profile.preferredPhysicalStatus}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Eating Habits</p>
+  <p className="info-details">{profile.preferredEatingHabits}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Smoking Habits</p>
+  <p className="info-details">{profile.preferredSmokingHabits}</p>
+</li>
+<li>
+  <p className="info-name">Preferred Drinking Habits</p>
+  <p className="info-details">{profile.preferredDrinkingHabits}</p>
+</li>
+
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="info-card">
+                                                        <div className="info-card-title">
+                                                            <h6>Religious Preferences</h6>
+                                                        </div>
+                                                        <div className="info-card-content">
+                                                            <ul className="info-list">
+                                                                   <li>
+                                                                        <p className="info-name">Preferred Religion</p>
+                                                                        <p className="info-details">{profile.preferredReligion}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Caste</p>
+                                                                        <p className="info-details">{profile.preferredCaste}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Star</p>
+                                                                        <p className="info-details">{profile.preferredStar}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Dosham</p>
+                                                                        <p className="info-details">{profile.preferredDosham}</p>
+                                                                    </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="info-card">
+                                                        <div className="info-card-title">
+                                                            <h6>Professional Preferences</h6>
+                                                        </div>
+                                                        <div className="info-card-content">
+                                                            <ul className="info-list">
+                                                              <li>
+                                                                        <p className="info-name">Preferred Education</p>
+                                                                        <p className="info-details">{profile.preferredEducation}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Employment Type</p>
+                                                                        <p className="info-details">{profile.preferredEmploymentType}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Occupation</p>
+                                                                        <p className="info-details">{profile.preferredOccupation}</p>
+                                                                        </li>
+                                                                        <li>
+                                                                        <p className="info-name">Preferred Annual Income</p>
+                                                                        <p className="info-details">{profile.preferredAnnualIncome}</p>
                                                                 </li>
-                                                                <li>
-                                                                    <p className="info-name">Weight</p>
-                                                                    <p className="info-details">72 kg</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Hair Color</p>
-                                                                    <p className="info-details">Black</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Eye Color</p>
-                                                                    <p className="info-details">Brown</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Body Type</p>
-                                                                    <p className="info-details">Tall</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p className="info-name">Ethnicity</p>
-                                                                    <p className="info-details">Middle Eastern</p>
-                                                                </li>
+                                                           </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="info-card">
+                                                        <div className="info-card-title">
+                                                            <h6>Location Preferences</h6>
+                                                        </div>
+                                                        <div className="info-card-content">
+                                                            <ul className="info-list">
+                                                              <li>
+                                                                    <p className="info-name">Preferred Country</p>
+                                                                    <p className="info-details">{profile.preferredCountry}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Preferred Residing State</p>
+                                                                    <p className="info-details">{profile.preferredResidingState}</p>
+                                                                    </li>
+                                                                    <li>
+                                                                    <p className="info-name">Preferred Residing City</p>
+                                                                    <p className="info-details">{profile.preferredResidingCity}</p>
+                                                                    </li>
                                                             </ul>
 
                                                         </div>
@@ -610,18 +786,14 @@ class MemberDetails extends Component {
                                                                 <li className="nav-item" role="presentation">
                                                                     <button className="nav-link active" id="all-media-tab" data-bs-toggle="tab" data-bs-target="#all-media" type="button" role="tab" aria-controls="all-media" aria-selected="true"><i className="fa-solid fa-table-cells-large"></i> All <span>12</span></button>
                                                                 </li>
-                                                                <li className="nav-item" role="presentation">
-                                                                    <button className="nav-link" id="album-tab" data-bs-toggle="tab" data-bs-target="#album" type="button" role="tab" aria-controls="album" aria-selected="false"><i className="fa-solid fa-camera"></i> Albums <span>4</span></button>
-                                                                </li>
+                
                                                                 <li className="nav-item" role="presentation">
                                                                     <button className="nav-link" id="photos-media-tab" data-bs-toggle="tab" data-bs-target="#photos-media" type="button" role="tab" aria-controls="photos-media" aria-selected="false"><i className="fa-solid fa-image"></i> Photos <span>4</span></button>
                                                                 </li>
                                                                 <li className="nav-item" role="presentation">
                                                                     <button className="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video" type="button" role="tab" aria-controls="video" aria-selected="false"><i className="fa-solid fa-video"></i> Videos <span>4</span></button>
                                                                 </li>
-                                                                <li className="nav-item" role="presentation">
-                                                                    <button className="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music" type="button" role="tab" aria-controls="music" aria-selected="false"><i className="fa-solid fa-music"></i> Music <span>0</span></button>
-                                                                </li>
+                                                           
                                                             </ul>
                                                             <div className="tab-content" id="myTabContent3">
                                                                 <div className="tab-pane fade show active" id="all-media"
@@ -949,9 +1121,9 @@ class MemberDetails extends Component {
                                 </div>
                                 <div className="col-xl-3 order-xl-2">
                                     <div className="group__bottom--right">
-                                        <ModalSearch />
-                                        <ActiveMember />
-                                        <ActiveGroup />
+                                        {/* <ModalSearch /> */}
+                                        {/* <ActiveMember /> */}
+                                        {/* <ActiveGroup /> */}
                                     </div>
                                 </div>
                             </div>
@@ -962,6 +1134,7 @@ class MemberDetails extends Component {
             </Fragment>
         );
     }
+
 }
- 
+
 export default MemberDetails;
