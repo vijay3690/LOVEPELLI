@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { HEADER_INFOLIST, HEADER_SOCIALLIST } from "./layoutconsts";
 import Notifications from "../../pages/userprofile/notifications";
 import "../../pages/userprofile/userprofile.css";
+import { Bold } from "lucide-react";
 
 function HeaderOne() {
   const [close, setClose] = useState(false);
@@ -146,7 +147,7 @@ function HeaderOne() {
                       onClick={() => setClose(v => !v)}
                       aria-label="Notifications"
                     >
-                      <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
+                      <span role="img" aria-label="bell" style={{ fontSize: 16, color: "#21254f" }}>
                         Notifications 🔔
                       </span>
                     </button>
