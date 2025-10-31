@@ -5,7 +5,7 @@ import PageHeader from "../component/layout/pageheader";
 import axios from "axios";
 import "../pages/userprofile/userprofile.css";
 import { BASE_API } from "../pages/email-signin/emailsign";
-import {NAME, MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
+import {MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
 import HeaderOne from "../component/layout/headerone";
 
 
