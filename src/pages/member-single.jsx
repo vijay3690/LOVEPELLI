@@ -112,7 +112,7 @@ const MemberDetails = () => {
                                                                                             <img src="assets/images/member/profile/profile.jpg" alt="datting thumb" />
                                                                                         </div>
                                                                                         <div className="thumb-content">
-                                                                                            <h6><a href="#"> William Smith</a></h6>
+                                                                                            <h6><a href="#">{NAME}</a></h6>
                                                                                             <div className="custom-select">
                                                                                                 <select>
                                                                                                     <option value="1"> Public</option>
