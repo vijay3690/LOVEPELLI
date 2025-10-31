@@ -78,7 +78,7 @@ function MobileLogin({ onClose }) {
 
       localStorage.setItem("token", data.token);
       setMessage("Login Successful!");
-      window.location.href = "/homefour";
+      navigate= "/members";
     } catch (err) {
       console.error("Verify OTP Error:", err);
       setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
