@@ -18,7 +18,7 @@ const[allMembers, setAllMembers] = useState('');
     const fetchMembers = async () => {
       try {
         const response = await api.get(`api/members/allmembers`);
-        setAllMembers(response.data); // ✅ set response data in state
+        setAllMembers(response.data); // set response data in state
         console.log("all members", response.data);
       } catch (error) {
         console.error("Error fetching members:", error);

@@ -89,7 +89,7 @@ if(validateForm()) {
         throw new Error("Failed to create user");
       }
 
-      // ✅ API must return something like { id: 123 } or { userId: 123 }
+      //  API must return something like { id: 123 } or { userId: 123 }
       const userId = userResponse.id ?? userResponse.userId;
 
       const profileResponse = await safeFetch(
@@ -360,37 +360,7 @@ useEffect(() => {
               <p className="error-text">{errors.occupationId}</p>
             )}
         </div>
-
-        {/* Currency
-          <div className="form-group">
-            <label>
-              Currency <span className="required">*</span>
-            </label>
-            <select
-              name="currency"
-              value={UserData.currency || "INR"}   // 👈 default INR
-              onChange={(e) =>
-                setUserData((prev) => ({
-                  ...prev,
-                  currency: e.target.value,
-                }))
-              }
-            >
-              {/* Optional placeholder only if no value is set */}
-              {/* <option value="">-- Select Currency --</option>
-              {currencyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            {errors.currency && (
-              <span className="error-text">{errors.currency}</span>
-            )}
-          </div> */} 
-
-
+        
               {/* Income */}
         <div className="form-group">
           <label>

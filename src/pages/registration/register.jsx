@@ -439,23 +439,3 @@ export default Register;
 
 
 
- //useEffect(() => {
-    // API call inside useEffect
-   // fetch("http://localhost:5103/api/BasicDetails/religions") // Example API
-  //    .then((response) => {
-     //   if (!response.ok) {
-     //     throw new Error("Failed to fetch data");
-     //   }
-      //  return response.json();
-     //  })
-     // .then((data) => {
-     //   setReligions(data); // store response in state
-  
-     // })
-    //  .catch((err) => {
-       // setError(err.message);
-        //setLoading(false);
-    //  });
- // }, []); // [] ensures API is called only once when component mounts
-
-

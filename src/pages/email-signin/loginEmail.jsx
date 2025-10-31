@@ -67,7 +67,7 @@ function LoginEmail({ onClose }) {
         <div className="log-reg-inner">
           <h2 id="login-title" className="title">Welcome to LovePelli</h2>
 
-          <form onSubmit={handleLogin} aria-describedby="login-desc">
+          <form onSubmit={handleLogin} aria-describedby="login-desc" autoComplete="on">
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -77,8 +77,8 @@ function LoginEmail({ onClose }) {
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter Your Email *"
-                required
-                autoComplete="email"
+               autoComplete="email"
+                  required
               />
             </div>
 
@@ -91,9 +91,9 @@ function LoginEmail({ onClose }) {
                 value={userPass}
                 onChange={(e) => setUserPass(e.target.value)}
                 placeholder="Enter Your Password *"
-                required
                 style={{ paddingRight: "40px" }} // add more right padding for icon space
                 autoComplete="current-password"
+                   required
               />
 
               <button
