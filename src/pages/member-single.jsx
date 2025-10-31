@@ -111,7 +111,7 @@ const MemberDetails = () => {
                                                                                         <div className="thumb-img">
                                                                                             <img src="assets/images/member/profile/profile.jpg" alt="datting thumb" />
                                                                                         </div>
-                                                                                        <div className="thumb-content">
+                                                                                        <div className="thumb-content">  
                                                                                             <h6><a href="#">{NAME}</a></h6>
                                                                                             <div className="custom-select">
                                                                                                 <select>
