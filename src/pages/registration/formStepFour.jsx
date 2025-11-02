@@ -119,7 +119,7 @@ if(validateForm()) {
             subCasteId: UserData.subCasteId == 0 ? null : UserData.subCasteId,
             gothramName: UserData.gothramName,
             professionalDetailId: UserData.professionalDetailId,
-            address: UserData.address,
+            // address: UserData.address,
             Citizenship: UserData.Citizenship,
             professionalDetailDto: {
               educationId: UserData.educationId,
@@ -224,7 +224,7 @@ useEffect(() => {
     if (!UserData.countryId) newErrors.countryId = "Country is required";
     if (!UserData.stateId && isIndiaSelected) newErrors.stateId = "State is required";
     if (!UserData.cityId && isIndiaSelected) newErrors.cityId = "City is required";
-    if (!UserData.address) newErrors.address="Address is  required";
+    // if (!UserData.address) newErrors.address="Address is  required";
  
     setErrors(newErrors);
      console.log("Validation Errors:", newErrors);
@@ -508,7 +508,7 @@ useEffect(() => {
         )}
 
                  {/*Address Field */}
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="Address">
           Address <span className="required">*</span>
         </label>
@@ -521,7 +521,7 @@ useEffect(() => {
           required
           className="border p-2 rounded w-full"
         />
-      </div>
+      </div> */}
 
        {/* Buttons */}
         <div className="form-actions">
