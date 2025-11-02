@@ -52,6 +52,13 @@ const FormStepTwo = ({
   }));
 };
 
+const handlePrev = () => {
+  // Optionally reset religionName if needed, or other fields
+  setReligionName(""); // or any logic you need
+  prevStep(); // call the passed prop to go back
+};
+
+
 
   const safeFetch = async (url, setter, label) => {
   try {
@@ -343,7 +350,7 @@ useEffect(() => {
         )}
         
       {/* Gothram */}
-        {religionName !== "Christian" && religionName !== "Muslim" && (
+       {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
           <>
             <label>Gothram:</label>
             <input
@@ -356,7 +363,7 @@ useEffect(() => {
         )}
 
        {/* Dosham */}
-        {religionName !== "Christian" && religionName !== "Muslim" && (
+        {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
           <>
             <label>Dosham:</label>
             <input
@@ -391,9 +398,9 @@ useEffect(() => {
         
         {/* Buttons */}
         <div className="button-group">
-          <button type="button" className="prev-btn" onClick={prevStep}>
-            Previous
-          </button>
+         <button type="button" className="prev-btn" onClick={handlePrev}>
+  Previous
+</button>
           <button type="button" className="next-btn" onClick={handleNext}>
             Next
           </button>
