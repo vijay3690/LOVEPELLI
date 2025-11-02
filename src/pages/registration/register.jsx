@@ -22,7 +22,6 @@ function Register() {
     cityId: 0,
     stateId: 0,
     countryId: 0,
-    address: '',
     profileForDataId: 0,
     doshamId: 0,
     firstName : '',
