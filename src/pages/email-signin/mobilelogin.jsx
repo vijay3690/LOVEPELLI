@@ -87,7 +87,7 @@ function MobileLogin({ onClose }) {
 
   const closeModal = () => {
     if (onClose) onClose();
-    else navigate("/");
+    else navigate("/homefour");
   };
 
   return (
