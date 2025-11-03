@@ -85,7 +85,8 @@ const MemberDetails = () => {
                                                         <li className="nav-item" role="presentation">
                                                             <button className="nav-link" id="Mentions-tab" data-bs-toggle="tab" data-bs-target="#Mentions" type="button" role="tab" aria-controls="Mentions" aria-selected="false">Mentions</button>
                                                         </li>
-                                                        <li className="nav-item" role="presentation">
+  
+                                                          <li className="nav-item" role="presentation">
                                                             <button className="nav-link" id="Favorites-tab" data-bs-toggle="tab" data-bs-target="#Favorites" type="button" role="tab" aria-controls="Favorites" aria-selected="false">Favorites</button>
                                                         </li>
                                                         <li className="nav-item" role="presentation">
@@ -1105,7 +1106,7 @@ const MemberDetails = () => {
                                                     </div>
                                                     <p className="mb-2">{MEMBERDESC}</p>
                                                     <div className="story__content--author mt-3 pb-2">
-                                                        <h6 className="d-block w-100 mb-3">Photos</h6>
+                                                        <h6 className="d-block w-100 mb-3"> Photos </h6>
                                                         <div className="row g-2">
                                                             {MEMBERINFO.map((val, i) => (
                                                                 <div className="col-4" key={i}>
