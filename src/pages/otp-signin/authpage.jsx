@@ -29,7 +29,6 @@ const AuthPage = () => {
                     <Mail size={25}   className="aicon" />
                             Login with Email
               </Link> 
-              
              <Link to="/mobilelogin" className="signup-button" >
                   <Smartphone size={25} className="aicon"/>
                   Login with Mobile
