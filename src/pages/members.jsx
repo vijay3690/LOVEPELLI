@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
-import HeaderFour from "../component/layout/headerfour";
 import PageHeader from "../component/layout/pageheader";
 import Pagination from "../component/section/pagination";
 import SelectAge from "../component/select/selectage";
@@ -9,6 +8,7 @@ import SelectState from "../component/select/selectstate";
 import SelectGender from "../component/select/selectgender";
 import { MEMBERCONTENTLIST } from "./pagesconsts";
 import api from "./interceptor/axiosInterceptor";
+import HeaderOne from "../component/layout/headerone";
 
 
 
@@ -35,7 +35,7 @@ const[allMembers, setAllMembers] = useState('');
 
   return (
     <Fragment>
-      <HeaderFour />
+      <HeaderOne />
       <PageHeader title={"LovePelli All Members"} curPage={"All Members"} />
 
       <div className="member member--style2 padding-top padding-bottom">
