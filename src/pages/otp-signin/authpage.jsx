@@ -36,7 +36,7 @@ const AuthPage = () => {
             </Link>
 
           {/* Google Login */}
-          <Gmail />
+          {/* <Gmail /> */}
         </div>
 
         {/* Register Link */}
