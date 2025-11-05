@@ -26,6 +26,7 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
    const [isOtherOrUnderGraduate, setOtherOrUnderGraduate] = useState(true);
    const [isIndiaSelected, setIsIndiaSelected] = useState(false);
    const [countryId, setCountryId] =useState([]);
+   const [showOtherEducation, setShowOtherEducation] = useState(false);
    const navigate = useNavigate();
 
    const handleChange = (e) => {
@@ -119,7 +120,6 @@ if(validateForm()) {
             subCasteId: UserData.subCasteId == 0 ? null : UserData.subCasteId,
             gothramName: UserData.gothramName,
             professionalDetailId: UserData.professionalDetailId,
-            // address: UserData.address,
             Citizenship: UserData.Citizenship,
             professionalDetailDto: {
               educationId: UserData.educationId,
@@ -131,7 +131,7 @@ if(validateForm()) {
               countryId: UserData.countryId,
               stateId: UserData.stateId ==0 ? null : UserData.stateId,
               cityId: UserData.cityId ==0? null : UserData.cityId ,
-              residentStatus: UserData.address,
+              // residentStatus: null,
             },
             personalDetailId: UserData.personalDetailId,
             personalDetailsDto: {
@@ -224,7 +224,8 @@ useEffect(() => {
     if (!UserData.countryId) newErrors.countryId = "Country is required";
     if (!UserData.stateId && isIndiaSelected) newErrors.stateId = "State is required";
     if (!UserData.cityId && isIndiaSelected) newErrors.cityId = "City is required";
-    // if (!UserData.address) newErrors.address="Address is  required";
+   if (showOtherEducation && !UserData.otherEducation) newErrors.otherEducation = "Please enter your education";
+
  
     setErrors(newErrors);
      console.log("Validation Errors:", newErrors);
@@ -247,38 +248,69 @@ useEffect(() => {
           <label>
             Highest Education <span className="required">*</span>
           </label>
-          <select
-            name="educationId"
-            value={UserData.educationId}
-             onChange={(e) => {
+     
+            <select
+              name="educationId"
+              value={UserData.educationId}
+              onChange={(e) => {
                 const { name, value } = e.target;
-
                 setUserData((prev) => ({
                   ...prev,
                   [name]: value,
                 }));
-
-                // 👇 Inline condition for Other/UnderGraduate
                 if (["1", "2", "7", ""].includes(value)) {
                   setOtherOrUnderGraduate(true);
                 } else {
                   setOtherOrUnderGraduate(false);
                 }
+                // Show Other textbox if value is "999" or your "Other" key
+                if (value === "999") {
+                  setShowOtherEducation(true);
+                } else {
+                  setShowOtherEducation(false);
+                  setUserData((prev) => ({
+                    ...prev,
+                    otherEducation: "", // Clear when not Other
+                  }));
+                }
               }}
-          >
-            <option value="">Select</option>
-            {educations.map((item) => (
-              <option key={item.educationId} value={item.educationId}>
-                {item.educationLevel}
-              </option>
-            ))}
-          </select>
+            >
+                <option value="">Select</option>
+                {educations.map((item) => (
+                  <option key={item.educationId} value={item.educationId}>
+                    {item.educationLevel}
+                  </option>
+                ))}
+                <option value="999">Other</option> {/* Append if not in API */}
+              </select>
+
+              {/* Show Other textbox */}
+              {showOtherEducation && (
+                <div className="form-group">
+                  <label>
+                    Please specify your education <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="otherEducation"
+                    value={UserData.otherEducation || ""}
+                    onChange={handleChange}
+                    placeholder="Enter your education"
+                    required
+                  />
+                  {errors.otherEducation && !UserData.otherEducation && (
+                    <p className="error-text">{errors.otherEducation}</p>
+                  )}
+                </div>
+              )}
+
           {/* Show validation error only if no Highest Education selected */}
             {errors.educationId && !UserData.educationId && (
               <p className="error-text">{errors.educationId}</p>
             )}
         </div>
-    { !isOtherOrUnderGraduate && (
+   {/* Only show substream if not Others and not undergrad/other */}
+{!showOtherEducation && !isOtherOrUnderGraduate && (
       <>
        <div className="form-group">
           <label>
@@ -506,22 +538,6 @@ useEffect(() => {
         </div>
         </>
         )}
-
-                 {/*Address Field */}
-      {/* <div className="form-group">
-        <label htmlFor="Address">
-          Address <span className="required">*</span>
-        </label>
-        <input
-          type="text"
-          name="address"
-          value={UserData.address}
-          onChange={handleChange}
-          placeholder="Enter your address"
-          required
-          className="border p-2 rounded w-full"
-        />
-      </div> */}
 
        {/* Buttons */}
         <div className="form-actions">
