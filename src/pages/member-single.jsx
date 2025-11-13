@@ -1,18 +1,15 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import React, { Fragment, useState} from "react";
+import { Link } from 'react-router-dom';
 import Footer from "../component/layout/footer";
 import PageHeader from "../component/layout/pageheader";
 import axios from "axios";
 import "../pages/userprofile/userprofile.css";
-import { BASE_API } from "../pages/email-signin/emailsign";
 import {MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
 import HeaderOne from "../component/layout/headerone";
 
 
 
 const MemberDetails = () => {
-
-      const navigate = useNavigate();
 
       const [profile, setProfile] = useState({
     address: "",
@@ -21,13 +18,13 @@ const MemberDetails = () => {
     maritalStatus: "",
     // Add other fields as needed
  }); //  to store API data
-  const [loading, setLoading] = useState(false);
+
+ const Base_api = import.meta.env.VITE_BASE_URL;
  
   const handleProfileClick = async () => {
     try {
-        setLoading(true);
       // Example API call
-      const response = await axios.get(`${BASE_API}/api/UserProfile/30137`);
+      const response = await axios.get(`${Base_api}/api/UserProfile/30137`);
       console.log("Profile Data:", response.data);
       setProfile([response.data]); //  Store the fetched profile data
       alert("Profile data fetched successfully!");
@@ -37,9 +34,7 @@ const MemberDetails = () => {
     } catch (error) {
       console.error("Error fetching profile data:", error);
       alert("Failed to fetch profile data!");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
 
@@ -1122,9 +1117,6 @@ const MemberDetails = () => {
                                 </div>
                                 <div className="col-xl-3 order-xl-2">
                                     <div className="group__bottom--right">
-                                        {/* <ModalSearch /> */}
-                                        {/* <ActiveMember /> */}
-                                        {/* <ActiveGroup /> */}
                                     </div>
                                 </div>
                             </div>

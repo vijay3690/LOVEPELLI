@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css"; // Contains unified modal styles
-import {BASE_API} from "./registerconstants";
+// import {BASE_API} from "./registerconstants";
 
 
 const FormStepTwo = ({
@@ -22,6 +22,8 @@ const FormStepTwo = ({
   const [isSelectedCasteIdHaveSubCastes, setIsSelectedCasteIdHaveSubCastes] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
   const handleChange = (e) => {
   const selectedId = e.target.value;
@@ -58,6 +60,17 @@ const handlePrev = () => {
   prevStep(); // call the passed prop to go back
 };
 
+// clearError function to clear error of specific field
+  const clearError = (fieldName) => {
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [fieldName]: ""
+    }));
+       // Clear error when input has value
+    if (value) {
+      clearError(name);
+    }
+  };
 
 
   const safeFetch = async (url, setter, label) => {
@@ -75,9 +88,9 @@ const handlePrev = () => {
 
 useEffect(() => {
     const fetchDropdownData = async () => {
-        safeFetch(`${BASE_API}/api/BasicDetails/religions`, setReligions, 'fetch religions');
-        safeFetch(`${BASE_API}/api/BasicDetails/motherTongues`, setMotherTongues, 'fetch motherTongues')
-        safeFetch(`${BASE_API}/api/BasicDetails/dosham`, setDosham, 'fetch dosham');
+        safeFetch(`${Base_api}/api/BasicDetails/religions`, setReligions, 'fetch religions');
+        safeFetch(`${Base_api}/api/BasicDetails/motherTongues`, setMotherTongues, 'fetch motherTongues')
+        safeFetch(`${Base_api}/api/BasicDetails/dosham`, setDosham, 'fetch dosham');
     };
     fetchDropdownData();
   }, []);
@@ -85,16 +98,16 @@ useEffect(() => {
 
  useEffect(() => {
     if (UserData.religionId ) {
-      safeFetch(`${BASE_API}/api/BasicDetails/castes/${UserData.religionId}`, setCastes, 'castes');
+      safeFetch(`${Base_api}/api/BasicDetails/castes/${UserData.religionId}`, setCastes, 'castes');
     }
       if (religionName === "Christian") {
-      safeFetch(`${BASE_API}/api/BasicDetails/division/${UserData.religionId}`, setDivisions, 'divisions');
+      safeFetch(`${Base_api}/api/BasicDetails/division/${UserData.religionId}`, setDivisions, 'divisions');
       }
   }, [UserData.religionId, religionName]);
 
   useEffect(() => {
     if (UserData.casteId && isSelectedCasteIdHaveSubCastes) {
-      safeFetch(`${BASE_API}/api/BasicDetails/subCastes/${UserData.casteId}`, setSubCastes, 'subCastes');
+      safeFetch(`${Base_api}/api/BasicDetails/subCastes/${UserData.casteId}`, setSubCastes, 'subCastes');
     }
   }, [UserData.casteId]);
 

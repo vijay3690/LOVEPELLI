@@ -3,7 +3,6 @@ import FormStepOne from "./formStepOne";
 import FormStepTwo from "./formStepTwo";
 import FormStepThree from "./formStepThree";
 import FormStepFour from "./formStepFour";
-import { BASE_API } from './registerconstants';
 
 
 
@@ -45,11 +44,13 @@ function Register() {
     employmentStatus: ""
 });
 
+const Base_api=import.meta.env.VITE_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
 
-      const response = await fetch(`${BASE_API}/api/UserProfile`, {
+      const response = await fetch(`${Base_api}/api/UserProfile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(UserData),

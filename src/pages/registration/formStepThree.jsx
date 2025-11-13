@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
-import { BASE_API} from "./registerconstants";
+
 
 const familyStatusOptions = ["Middle class", "Upper middle class", "High class", "Rich/Affluent"];
 const familyTypeOptions = ["Joint", "Nuclear"];
@@ -23,7 +23,8 @@ const livingOptions = ["Children living with me", "Children not living with me"]
   
  const showChildrenField = ["Widowed", "Divorced", "Awaiting divorce"].includes(maritalStatus);
  const showLivingOptions = Boolean(childrenCount) && childrenCount !== "None";
-
+ 
+ const Base_api=import.meta.env.VITE_BASE_URL;
 
 
   // Safe fetch wrapper
@@ -42,7 +43,7 @@ const livingOptions = ["Children living with me", "Children not living with me"]
 
   useEffect(() => {
     const fetchDropdownData = async () => {
-      safeFetch(`${BASE_API}/api/PersonalDetails/GetHeights`, setHeights, "heights");
+      safeFetch(`${Base_api}/api/PersonalDetails/GetHeights`, setHeights, "heights");
     };
     fetchDropdownData();
   }, []);
