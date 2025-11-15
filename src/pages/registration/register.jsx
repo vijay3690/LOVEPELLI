@@ -8,6 +8,7 @@ import FormStepFour from "./formStepFour";
 
 function Register() {
   const [step, setStep] = useState(1);
+  const [isPreviousClicked, setIsPreviousClicked] = useState(false);
   const [UserData, setUserData] = useState({
     userId: 0,
     religionId: 0,
@@ -66,7 +67,10 @@ const Base_api=import.meta.env.VITE_BASE_URL;
   };
 
   const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = ()    => setStep(prev => prev - 1);
+  const prevStep = () => {
+  setIsPreviousClicked(true);   // Tell child that Previous was clicked
+  setStep(prev => prev - 1);    // Move to previous step
+};
 
   return (
     <div style={{ padding: '20px' }}>
@@ -84,6 +88,8 @@ const Base_api=import.meta.env.VITE_BASE_URL;
           setUserData={setUserData}
           nextStep={nextStep}
           prevStep={prevStep}
+          isPreviousClicked={isPreviousClicked}
+          clearPreviousFlag={() => setIsPreviousClicked(false)}
         />
       )}
       {step === 3 && (
