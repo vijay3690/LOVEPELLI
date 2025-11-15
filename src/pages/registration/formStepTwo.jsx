@@ -2,21 +2,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css"; // Contains unified modal styles
+import { useDropdown } from "../../context/dropdown-context";
 // import {BASE_API} from "./registerconstants";
 
 
 const FormStepTwo = ({
   UserData,
-  setUserData,
+  setUserData,  
   nextStep,
-  prevStep
+  prevStep,
+  isPreviousClicked,
+  clearPreviousFlag
 }) => {
 
-  const [religions, setReligions] = useState([]);
-  const [castes, setCastes] = useState([]);
-  const [subCastes, setSubCastes] = useState([]);
-  const [divisions, setDivisions] = useState([]);
-  const [motherTongues, setMotherTongues] = useState([]);
+  const {religions, setReligions} = useDropdown();
+  const {castes, setCastes} = useDropdown();
+  const {subCastes, setSubCastes} = useDropdown();
+  const {divisions, setDivisions} = useDropdown();
+  const {motherTongues, setMotherTongues} = useDropdown();
   const [religionName, setReligionName] = useState("");
   const [dosham, setDosham] = useState([]);
   const [isSelectedCasteIdHaveSubCastes, setIsSelectedCasteIdHaveSubCastes] = useState(false);
@@ -25,9 +28,9 @@ const FormStepTwo = ({
 
   const Base_api=import.meta.env.VITE_BASE_URL;
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
   const selectedId = e.target.value;
-
+ 
   if(e.target.name === 'casteId') {
    
     const hasSubCastes = castes.some(x => x.casteId == selectedId && x.hasSubCaste ===true);
@@ -54,11 +57,6 @@ const FormStepTwo = ({
   }));
 };
 
-const handlePrev = () => {
-  // Optionally reset religionName if needed, or other fields
-  setReligionName(""); // or any logic you need
-  prevStep(); // call the passed prop to go back
-};
 
 // clearError function to clear error of specific field
   const clearError = (fieldName) => {
@@ -88,20 +86,33 @@ const handlePrev = () => {
 
 useEffect(() => {
     const fetchDropdownData = async () => {
+       if (religions.length === 0) {
         safeFetch(`${Base_api}/api/BasicDetails/religions`, setReligions, 'fetch religions');
+       }
+       if( motherTongues.length === 0) {
         safeFetch(`${Base_api}/api/BasicDetails/motherTongues`, setMotherTongues, 'fetch motherTongues')
+      }
+      if (dosham.length === 0 && religionName === "Hindu") {  
         safeFetch(`${Base_api}/api/BasicDetails/dosham`, setDosham, 'fetch dosham');
-    };
+       }
+      };
     fetchDropdownData();
   }, []);
 
 
  useEffect(() => {
-    if (UserData.religionId ) {
+    if (UserData.religionId && religionName !== "") {
       safeFetch(`${Base_api}/api/BasicDetails/castes/${UserData.religionId}`, setCastes, 'castes');
     }
       if (religionName === "Christian") {
       safeFetch(`${Base_api}/api/BasicDetails/division/${UserData.religionId}`, setDivisions, 'divisions');
+      }
+         if (isPreviousClicked && religionName === "") {
+        const religion = religions.find(r => r.religionId == UserData.religionId);
+        const name  = religion ? religion.religionName : "";
+        setReligionName(name);
+         // Reset the flag in parent so it runs only once
+      clearPreviousFlag();
       }
   }, [UserData.religionId, religionName]);
 
@@ -111,7 +122,7 @@ useEffect(() => {
     }
   }, [UserData.casteId]);
 
-    // ✅ DOB limits
+    //  DOB limits
   const getDobLimits = (gender) => {
     const today = new Date();
     let minAge = gender === "Male" ? 21 : 18;
@@ -136,7 +147,7 @@ useEffect(() => {
     return { minDate, maxDate };
   };
 
-    // ✅ Validation
+    //  Validation
   const validateForm = () => {
     let newErrors = {};
     const today = new Date();
@@ -179,7 +190,7 @@ useEffect(() => {
     }
  
     setErrors(newErrors);
-    console.log("Validation Errors:", newErrors); // 🔍 Debug
+    console.log("Validation Errors:", newErrors); //  Debug
     return Object.keys(newErrors).length === 0;
   };
  
@@ -237,9 +248,6 @@ useEffect(() => {
   )}
 </div>
 
-
-
-
             {/* Religion */}
 <label>
   Religion:<span className="required">*</span>
@@ -251,9 +259,8 @@ useEffect(() => {
     handleChange(e); // updates UserData state
 
     // Clear error immediately when a value is selected
-    if (e.target.value) {
-      clearError("religionId");
-    }
+   if (e.target.value) clearError("religionId");
+
   }}
 >
   <option value="">Select</option>
@@ -270,8 +277,6 @@ useEffect(() => {
 )}
 
               
-     
-
            {/* Caste */}
         <label>
   Caste:<span className="required">*</span>
@@ -349,7 +354,7 @@ useEffect(() => {
             <select
               name="divisionId"
               value={UserData.divisionId || ""}
-              onChange={handleChange}
+               onChange={handleChange}
             >
               <option value="">Select</option>
               {divisions.map((d) => (
@@ -360,7 +365,7 @@ useEffect(() => {
             </select>
             {errors.divisionId && <p className="error-text">{errors.divisionId}</p>}
           </>
-        )}
+       )} 
         
       {/* Gothram */}
        {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
@@ -411,10 +416,8 @@ useEffect(() => {
         
         {/* Buttons */}
         <div className="button-group">
-         <button type="button" className="prev-btn" onClick={handlePrev}>
-  Previous
-</button>
-          <button type="button" className="next-btn" onClick={handleNext}>
+        <button type="button" className="prev-btn"   onClick={prevStep}>Previous</button>
+        <button type="button" className="next-btn" onClick={handleNext}>
             Next
           </button>
         </div>
