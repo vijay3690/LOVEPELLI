@@ -85,7 +85,7 @@ const handleSelect = (name, value) => {
  
   const handleNext = () => {
     if (validateForm()) {
-      // ✅ Save all local states into UserData
+      //  Save all local states into UserData
       setUserData((prev) => ({
         ...prev,
         maritalStatus,
