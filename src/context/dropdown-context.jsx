@@ -4,6 +4,7 @@ const DropdownContext = createContext();
 
 export const DropdownProvider = ({ children }) => {
 
+  const [countryCodes, setCountryCodes] = useState([]);
   const [religions, setReligions] = useState([]);
   const [castes, setCastes] = useState([]);
   const [divisions, setDivisions] = useState([]);
@@ -16,6 +17,7 @@ export const DropdownProvider = ({ children }) => {
   return (
     <DropdownContext.Provider
       value={{
+        countryCodes, setCountryCodes,
         religions, setReligions,
         castes, setCastes,
         divisions, setDivisions,
