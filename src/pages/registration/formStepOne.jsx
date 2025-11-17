@@ -5,12 +5,13 @@ import {isValidPhoneNumber} from "./registerconstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import OtpDialog from "./dialogbox";
+import { useDropdown } from "../../context/dropdown-context";
 
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [errors, setErrors] = useState({});
   const [checking, setChecking] = useState(false);
-  const [countryCodes, setCountryCodes] = useState([]);
+  const {countryCodes, setCountryCodes} = useDropdown();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
