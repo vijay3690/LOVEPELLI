@@ -381,6 +381,29 @@
   color: red;
   font-size: 13px;
 }
+.form-group {
+  position: relative;
+  max-width: 500px;
+}
+
+.password-input {
+  padding-right: 40px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  user-select: none;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
 
 
 /* popup modal */
@@ -403,9 +426,6 @@
   -webkit-backdrop-filter: blur(10px);  /* Safari support */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* soft shadow */
 }
-
-
-
 
 .modal-content {
   background: white ; /* semi-transparent */

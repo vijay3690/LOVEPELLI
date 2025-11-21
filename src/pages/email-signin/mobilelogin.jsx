@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { BASE_API } from "./emailsign";
 import { useNavigate } from "react-router-dom";
 import "./email-sign.css";
 
@@ -9,6 +8,8 @@ function MobileLogin({ onClose }) {
   const [step, setStep] = useState("mobile");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  const Base_api=import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -33,7 +34,7 @@ function MobileLogin({ onClose }) {
     }
 
     try {
-      const res = await fetch(`${BASE_API}/api/LoginWithMobile/send-otp`, {
+      const res = await fetch(`${Base_api}/api/LoginWithMobile/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contactNumber: mobile.trim() }),
@@ -62,7 +63,7 @@ function MobileLogin({ onClose }) {
     }
 
     try {
-      const res = await fetch(`${BASE_API}/api/LoginWithMobile/verify-otp`, {
+      const res = await fetch(`${Base_api}/api/LoginWithMobile/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -78,7 +79,7 @@ function MobileLogin({ onClose }) {
 
       localStorage.setItem("token", data.token);
       setMessage("Login Successful!");
-      window.location.href = "/";
+      window.location.href = "/homefour";
     } catch (err) {
       console.error("Verify OTP Error:", err);
       setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
@@ -108,7 +109,7 @@ function MobileLogin({ onClose }) {
                 maxLength="10"
                 autoComplete="tel"
               />
-              <button onClick={sendOtp} disabled={!/^[6-9]\d{9}$/.test(mobile)}>
+              <button type="button" onClick={sendOtp} disabled={!/^[6-9]\d{9}$/.test(mobile)}>
                 Send OTP
               </button>
             </div>

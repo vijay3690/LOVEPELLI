@@ -1,27 +1,119 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import { Link,useNavigate } from "react-router-dom";
 import "./registration.css";
-import { BASE_API } from "./registerconstants";
+import {isValidPhoneNumber} from "./registerconstants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import OtpDialog from "./dialogbox";
+import { useDropdown } from "../../context/dropdown-context";
 
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [errors, setErrors] = useState({});
   const [checking, setChecking] = useState(false);
-  const [countryCodes, setCountryCodes] = useState([]);
+  const {countryCodes, setCountryCodes} = useDropdown();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
- const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState("mobile");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [verifying, setVerifying] = useState(false);
 
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
-    clearError(name);
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
-  // ✅ Utility to clear an error
+  if (name === "otp") {
+    setOtp(value);
+  } else if (name === "contactNumber") {
+    // validation logic for mobile number here
+    if (/^\d*$/.test(value)) {
+      setMobile(value);
+      if (isValidPhoneNumber(value)) setError("");
+      else if (value.length > 0)
+        setError("Invalid mobile number. Must be 10 digits starting with 6–9.");
+      else setError("");
+    } else {
+      setError("Only digits are allowed.");
+    }
+  }
+
+  setUserData(prev => ({ ...prev, [name]: value }));
+  clearError(name);
+};
+
+const sendOtp = async () => {
+  setError("");
+  setMessage("");
+  if (!isValidPhoneNumber(mobile)) {
+    setError("Please enter a valid 10-digit mobile number before requesting OTP.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${Base_api}/api/LoginWithMobile/send-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contactNumber: mobile.trim() }),
+    });
+
+    const data = await res.json().catch(() => ({ message: "Invalid server response" }));
+    console.log("Send OTP Response:", data, "Status:", res.status);
+
+    if (!res.ok) throw new Error(data?.message || "Failed to send OTP");
+
+    setMessage("OTP sent successfully!");
+    setStep("otp"); // Proceed to OTP step
+  } catch (err) {
+    console.error("Send OTP Error:", err);
+    setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
+  }
+};
+
+  
+    const verifyOtp = async () => {
+      setError("");
+      setMessage("");
+    if (!otp || otp.length !== 6 || verifying) return;
+  setVerifying(true);
+
+      if (!otp.trim()) {
+        setError("Please enter the OTP.");
+        return;
+      }
+  
+      try {
+        const res = await fetch(`${Base_api}/api/LoginWithMobile/verify-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ContactNumber: mobile.trim(),
+            Code: otp.trim(),
+          }),
+        });
+  
+        const data = await res.json().catch(() => ({ message: "Invalid server response" }));
+        console.log("Verify OTP Response:", data);
+  
+        if (!res.ok) throw new Error(data.message || "OTP verification failed");
+  
+        localStorage.setItem("token", data.token);
+        console.log("OTP submitted:", otp);
+        setMessage("Otp Verified!");
+        // window.location.href = "/homefour";
+      } catch (err) {
+        console.error("Verify OTP Error:", err);
+        setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
+      } finally {
+    setVerifying(false);
+  }
+    };
+
+  //  Utility to clear an error
   const clearError = (field) => {
     setErrors((prev) => {
       const { [field]: _, ...rest } = prev;
@@ -29,7 +121,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     });
   };
 
-  // ✅ Validation Function
+  //  Validation Function
   const validate = () => {
     let newErrors = {};
     if (!UserData.firstName?.trim()) newErrors.firstName = "First Name is required";
@@ -57,7 +149,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
   // Load country codes
   useEffect(() => {
-    safeFetch(`${BASE_API}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
+    safeFetch(`${Base_api}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
   }, []);
 
 
@@ -74,7 +166,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         contactNumber: fullcontactNumber,
       });
 
-      const res = await fetch(`${BASE_API}/api/Users/ValidateUser?${params.toString()}`);
+      const res = await fetch(`${Base_api}/api/Users/ValidateUser?${params.toString()}`);
       if (!res.ok) {
         const msg = await res.text();
         setErrors((prev) => ({ ...prev, api: msg || "Validation failed" }));
@@ -159,17 +251,51 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
             </option>
           ))}
         </select>
+<div className="contactInputWrapper">
+  <input
+    type="number"
+    name="contactNumber"
+    placeholder="Contact Number"
+    value={UserData.contactNumber || ""}
+    onChange={handleChange}
+    className="contactInput"
+    autoComplete="tel"
+    inputMode="numeric"
+  />
 
-        <input
-          type="number"
-          name="contactNumber"
-          placeholder="Contact Number"
-          value={UserData.contactNumber || ""}
-          onChange={handleChange}
-        />
+  {/* Use a button or a styled Link here */}
+  <Link
+    type="submit"
+    className="sendOtpBtn"
+    onClick={sendOtp}
+    disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+    aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+    tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
+  >
+    Send OTP
+  </Link>
+</div>
+
+
       </div>
       {errors.countryCode && <div className="error">{errors.countryCode}</div>}
       {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+       
+       
+        {step === "otp" && (
+  <div className="otpRow">
+    <button onClick={() => setStep("otp")}>VERIFY OTP</button>
+    <OtpDialog
+      step={step}
+      verifyOtp={verifyOtp}
+      onClose={() => setStep("done")}
+    />
+  </div>
+)}
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {message && <p style={{ color: "green" }}>{message}</p>}
+        
 
         {/* Email */}
         <label>
@@ -338,7 +464,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
         {/* Gender */}
     <div className="gender-group">
-  <label>
+  <label className="gender-lable">
     Gender <span className="required">*</span>
   </label>
 
@@ -383,9 +509,6 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     <p className="error-text">{errors.gender}</p>
   )}
 </div>
-
-
-
         {/* Next Button */}
         <button className="next-btn" onClick={handleNext}>
           Next

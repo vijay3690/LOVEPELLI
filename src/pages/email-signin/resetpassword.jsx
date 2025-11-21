@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { BASE_API } from "./emailsign";
+
 
 
 function ResetPassword() {
@@ -12,7 +12,7 @@ function ResetPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [strength, setStrength] = useState("");
-
+  const Base_api = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
 
   // Get token and email from URL search params
@@ -71,7 +71,7 @@ function ResetPassword() {
       };
 
       const res = await fetch(
-       `${BASE_API}/api/RequestRestPassword/reset-password`,
+       `${Base_api}/api/RequestRestPassword/reset-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

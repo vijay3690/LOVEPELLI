@@ -145,7 +145,7 @@ input[type="radio"] {
 .form-actions {
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.7rem;
   margin-top: 1rem;
 }
 .button-group button,
@@ -179,7 +179,7 @@ input[type="radio"] {
 .radio-options {
   display: flex;
   gap: 20px; /* space between options */
-  
+
 }
 
 .radio-label {
@@ -277,9 +277,9 @@ input[type="radio"] {
   .radio-options {
     display: flex;
     flex-direction: column; /* stack items vertically */
-    /* gap: 5px; */
-    margin-right:200px ; /* remove left margin for vertical alignment */
+    margin-right:330px ; /* remove left margin for vertical alignment */
     margin-bottom: 5px;
+    margin-top: 30px;
   }
 
   .gender-group {
@@ -288,13 +288,11 @@ input[type="radio"] {
     
   }
 
-  .gender-label {
-    margin-bottom: 8px; /* space between label and radios */
-    margin-left: 100px;       /*reset right margin */
+  .gender-lable {
+    margin-bottom: 0px; /* space between label and radios */
+    margin-right: 340px;       /*reset right margin */
   }
 }
-
-
 
 /* formStep 3 */
 /* .field-group {
@@ -310,13 +308,16 @@ input[type="radio"] {
 }
 
 .button-group {
-  display: inline-flex;
-  gap: 10px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  flex-wrap:nowrap;
 }
 
 .btn-option {
   padding: 10px 12px;
-  width: 130px;
+  width: 150px;
   border: 1px solid #ccc;
   background: white;
   border-radius: 4px;
@@ -324,7 +325,6 @@ input[type="radio"] {
   font-size: 14px;
   transition: all 0.2s ease;
 }
-
 
 .btn-option:hover {
   background: #f5f5f5;
@@ -430,4 +430,135 @@ input[type="radio"] {
 
 .close-btn:hover {
   color: red;
+}
+
+
+/* Mobile OTP Button */
+/* Container */
+.otpRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* OTP input */
+.otpInput {
+  flex: 1 1 220px;
+  max-width: 100px;
+  letter-spacing: 0.35ch; /* readable spacing for 6 digits */
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  color: #0f172a;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  caret-color: #2563eb;
+}
+
+.otpInput::placeholder { color: #94a3b8; }
+
+.otpInput:focus-visible {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+/* Verify button */
+.verifyBtn {
+  color: #fff;
+  background: #e6006e;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 32px;
+  transition: background 0.2s;
+}
+
+.verifyBtn:hover:not(:disabled) {
+  background: #b40055;
+}
+
+/* Disabled or busy state */
+.verifyBtn[aria-busy="true"],
+.verifyBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Input wrapper */
+.contactInputWrapper {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Input styles */
+.contactInput,
+.otpInput {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+  background: #fff;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.contactInput:focus,
+.otpInput:focus {
+  border-color: #e6006e;
+  outline: none;
+}
+
+/* Button disabled appearance for send OTP */
+.sendOtpBtn:disabled,
+.sendOtpBtn[aria-disabled="true"] {
+  background: #eee;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Responsive layout for OTP row */
+@media (max-width: 567px) {
+  .otpRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .verifyBtn {
+    width: 100%;
+  }
+  .contactInputWrapper {
+    max-width: 100%;
+  }
+}
+
+
+.sendOtpBtn {
+  position: absolute;
+  top: 32%;
+  right: 8px;
+  background: white;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* transition: background 0.2s; */
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.08);
+  z-index: 2;
 }

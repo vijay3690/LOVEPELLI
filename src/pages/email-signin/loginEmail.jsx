@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { BASE_API } from "./emailsign";
+import "./email-sign.css";
 
 
 
@@ -11,16 +11,16 @@ function LoginEmail({ onClose }) {
   const [userPass, setUserPass] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const res = await fetch(`${BASE_API}/api/Login`, {
+      const res = await fetch(`${Base_api}/api/Login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: userEmail, password: userPass }),
@@ -39,9 +39,7 @@ function LoginEmail({ onClose }) {
     } catch (err) {
       console.error(err);
       alert("Login failed!");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   if (redirect) {
@@ -67,7 +65,7 @@ function LoginEmail({ onClose }) {
         <div className="log-reg-inner">
           <h2 id="login-title" className="title">Welcome to LovePelli</h2>
 
-          <form onSubmit={handleLogin} aria-describedby="login-desc">
+          <form onSubmit={handleLogin} aria-describedby="login-desc" autoComplete="on">
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -77,44 +75,32 @@ function LoginEmail({ onClose }) {
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter Your Email *"
-                required
-                autoComplete="email"
+               autoComplete="email"
+                  required
               />
             </div>
 
-            <div className="form-group" style={{ position: "relative", maxWidth: 500 }}>
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={userPass}
-                onChange={(e) => setUserPass(e.target.value)}
-                placeholder="Enter Your Password *"
-                required
-                style={{ paddingRight: "40px" }} // add more right padding for icon space
-                autoComplete="current-password"
-              />
+            <div className="form-group password-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={userPass}
+                      onChange={(e) => setUserPass(e.target.value)}
+                      placeholder="Enter Your Password *"
+                      className="password-input"
+                      autoComplete="current-password"
+                      required
+                    />
 
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                title={showPassword ? "Hide password" : "Show password"}
-                style={{
-                  position: "absolute",
-                  right: "12px",
-                  top: "70%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                  color: "#666",
-                  userSelect: "none",
-                  fontSize: "18px",
-                  background: "transparent",
-                  border: "none",
-                  padding: 0,
-                }}
-              >
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      title={showPassword ? "Hide password" : "Show password"}
+                      className="password-toggle-btn"
+                    >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>

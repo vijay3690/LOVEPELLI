@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_API } from "./emailsign";
 import "./email-sign.css";
 
 
@@ -10,6 +9,8 @@ function ForgotPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function ForgotPassword() {
       setLoading(true);
 
       const response = await fetch(
-       `${BASE_API}/api/RequestRestPassword/request-password-reset`,
+       `${Base_api}/api/RequestRestPassword/request-password-reset`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

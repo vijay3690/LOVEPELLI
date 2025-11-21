@@ -1,8 +1,7 @@
 import React ,{useEffect,useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
-import { BASE_API} from './registerconstants';
-import api from '../interceptor/axiosInterceptor';
+
 
 
 const employmentOptions = [
@@ -26,7 +25,9 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
    const [isOtherOrUnderGraduate, setOtherOrUnderGraduate] = useState(true);
    const [isIndiaSelected, setIsIndiaSelected] = useState(false);
    const [countryId, setCountryId] =useState([]);
+   const [showOtherEducation, setShowOtherEducation] = useState(false);
    const navigate = useNavigate();
+   const Base_api=import.meta.env.VITE_BASE_URL;  
 
    const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,7 +68,7 @@ const safeFetch = async (url, setter, label, options = {}) => {
 if(validateForm()) {
 
         const userResponse = await safeFetch(
-        `${BASE_API}/api/Users`,
+        `${Base_api}/api/Users`,
         null,
         "Create User",
         {
@@ -89,11 +90,11 @@ if(validateForm()) {
         throw new Error("Failed to create user");
       }
 
-      // ✅ API must return something like { id: 123 } or { userId: 123 }
+      //  API must return something like { id: 123 } or { userId: 123 }
       const userId = userResponse.id ?? userResponse.userId;
 
       const profileResponse = await safeFetch(
-        `${BASE_API}/api/UserProfile`,
+        `${Base_api}/api/UserProfile`,
         null,
         "Create UserProfile",
         {
@@ -119,7 +120,6 @@ if(validateForm()) {
             subCasteId: UserData.subCasteId == 0 ? null : UserData.subCasteId,
             gothramName: UserData.gothramName,
             professionalDetailId: UserData.professionalDetailId,
-            address: UserData.address,
             Citizenship: UserData.Citizenship,
             professionalDetailDto: {
               educationId: UserData.educationId,
@@ -131,7 +131,6 @@ if(validateForm()) {
               countryId: UserData.countryId,
               stateId: UserData.stateId ==0 ? null : UserData.stateId,
               cityId: UserData.cityId ==0? null : UserData.cityId ,
-              residentStatus: UserData.address,
             },
             personalDetailId: UserData.personalDetailId,
             personalDetailsDto: {
@@ -157,7 +156,7 @@ if(validateForm()) {
 
         // call login api to get the token for the  user
        const loginToken = await safeFetch(
-          `${BASE_API}/api/Login`,
+          `${Base_api}/api/Login`,
           null ,
           "token",
           {
@@ -184,22 +183,22 @@ if(validateForm()) {
 
 useEffect(() => {
     const fetchDropdownData = async () => {
-      safeFetch(`${BASE_API}/api/ProfessionalDetails/educations`, setEducations, 'educations');
-      safeFetch(`${BASE_API}/api/ProfessionalDetails/occupations`, setOccupations, 'occupations');
-      safeFetch(`${BASE_API}/api/ProfessionalDetails/countries`, setCountries, 'countries');
+      safeFetch(`${Base_api}/api/ProfessionalDetails/educations`, setEducations, 'educations');
+      safeFetch(`${Base_api}/api/ProfessionalDetails/occupations`, setOccupations, 'occupations');
+      safeFetch(`${Base_api}/api/ProfessionalDetails/countries`, setCountries, 'countries');
     };
     fetchDropdownData();
   }, []);
 
  useEffect(() => {
     if (UserData.educationId && !isOtherOrUnderGraduate) {
-      safeFetch(`${BASE_API}/api/ProfessionalDetails/education-substreams/${UserData.educationId}`, setEducationSubStreams, 'educationsubstreams');
+      safeFetch(`${Base_api}/api/ProfessionalDetails/education-substreams/${UserData.educationId}`, setEducationSubStreams, 'educationsubstreams');
     }
   }, [UserData.educationId]);
 
 useEffect(() => {
   if (UserData.countryId && isIndiaSelected) {
-    safeFetch(`${BASE_API}/api/ProfessionalDetails/states/${UserData.countryId}`, setStates, 'states');
+    safeFetch(`${Base_api}/api/ProfessionalDetails/states/${UserData.countryId}`, setStates, 'states');
   } else {
     setStates([]); 
   }
@@ -207,7 +206,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (UserData.stateId && isIndiaSelected) {
-      safeFetch(`${BASE_API}/api/ProfessionalDetails/cities/${UserData.stateId}`, setCities, 'cities');
+      safeFetch(`${Base_api}/api/ProfessionalDetails/cities/${UserData.stateId}`, setCities, 'cities');
     }else {
     setCities([]); 
   }
@@ -224,7 +223,8 @@ useEffect(() => {
     if (!UserData.countryId) newErrors.countryId = "Country is required";
     if (!UserData.stateId && isIndiaSelected) newErrors.stateId = "State is required";
     if (!UserData.cityId && isIndiaSelected) newErrors.cityId = "City is required";
-    if (!UserData.address) newErrors.address="Address is  required";
+   if (showOtherEducation && !UserData.otherEducation) newErrors.otherEducation = "Please enter your education";
+
  
     setErrors(newErrors);
      console.log("Validation Errors:", newErrors);
@@ -247,38 +247,69 @@ useEffect(() => {
           <label>
             Highest Education <span className="required">*</span>
           </label>
-          <select
-            name="educationId"
-            value={UserData.educationId}
-             onChange={(e) => {
+     
+            <select
+              name="educationId"
+              value={UserData.educationId}
+              onChange={(e) => {
                 const { name, value } = e.target;
-
                 setUserData((prev) => ({
                   ...prev,
                   [name]: value,
                 }));
-
-                // 👇 Inline condition for Other/UnderGraduate
                 if (["1", "2", "7", ""].includes(value)) {
                   setOtherOrUnderGraduate(true);
                 } else {
                   setOtherOrUnderGraduate(false);
                 }
+                // Show Other textbox if value is "999" or your "Other" key
+                if (value === "999") {
+                  setShowOtherEducation(true);
+                } else {
+                  setShowOtherEducation(false);
+                  setUserData((prev) => ({
+                    ...prev,
+                    otherEducation: "", // Clear when not Other
+                  }));
+                }
               }}
-          >
-            <option value="">Select</option>
-            {educations.map((item) => (
-              <option key={item.educationId} value={item.educationId}>
-                {item.educationLevel}
-              </option>
-            ))}
-          </select>
+            >
+                <option value="">Select</option>
+                {educations.map((item) => (
+                  <option key={item.educationId} value={item.educationId}>
+                    {item.educationLevel}
+                  </option>
+                ))}
+                <option value="999">Other</option> {/* Append if not in API */}
+              </select>
+
+              {/* Show Other textbox */}
+              {showOtherEducation && (
+                <div className="form-group">
+                  <label>
+                    Please specify your education <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="otherEducation"
+                    value={UserData.otherEducation || ""}
+                    onChange={handleChange}
+                    placeholder="Enter your education"
+                    required
+                  />
+                  {errors.otherEducation && !UserData.otherEducation && (
+                    <p className="error-text">{errors.otherEducation}</p>
+                  )}
+                </div>
+              )}
+
           {/* Show validation error only if no Highest Education selected */}
             {errors.educationId && !UserData.educationId && (
               <p className="error-text">{errors.educationId}</p>
             )}
         </div>
-    { !isOtherOrUnderGraduate && (
+   {/* Only show substream if not Others and not undergrad/other */}
+{!showOtherEducation && !isOtherOrUnderGraduate && (
       <>
        <div className="form-group">
           <label>
@@ -360,37 +391,7 @@ useEffect(() => {
               <p className="error-text">{errors.occupationId}</p>
             )}
         </div>
-
-        {/* Currency
-          <div className="form-group">
-            <label>
-              Currency <span className="required">*</span>
-            </label>
-            <select
-              name="currency"
-              value={UserData.currency || "INR"}   // 👈 default INR
-              onChange={(e) =>
-                setUserData((prev) => ({
-                  ...prev,
-                  currency: e.target.value,
-                }))
-              }
-            >
-              {/* Optional placeholder only if no value is set */}
-              {/* <option value="">-- Select Currency --</option>
-              {currencyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            {errors.currency && (
-              <span className="error-text">{errors.currency}</span>
-            )}
-          </div> */} 
-
-
+        
               {/* Income */}
         <div className="form-group">
           <label>
@@ -536,22 +537,6 @@ useEffect(() => {
         </div>
         </>
         )}
-
-                 {/*Address Field */}
-      <div className="form-group">
-        <label htmlFor="Address">
-          Address <span className="required">*</span>
-        </label>
-        <input
-          type="text"
-          name="address"
-          value={UserData.address}
-          onChange={handleChange}
-          placeholder="Enter your address"
-          required
-          className="border p-2 rounded w-full"
-        />
-      </div>
 
        {/* Buttons */}
         <div className="form-actions">
