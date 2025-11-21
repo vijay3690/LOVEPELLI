@@ -1,14 +1,19 @@
 import axios from "axios";
 
+// Get API URL from environment variables
+const baseURL =
+  import.meta.env.VITE_BASE_URL ||
+  "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
+
 // Create axios instance
 const api = axios.create({
-  baseURL: "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net", // your backend URL
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// 🔹 Request Interceptor
+//  Request Interceptor
 api.interceptors.request.use(
   (request) => {
     // Example: attach token from localStorage
@@ -21,7 +26,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// 🔹 Response Interceptor
+//  Response Interceptor
 api.interceptors.response.use(
   (response) => response, // Pass through success
   (error) => {
