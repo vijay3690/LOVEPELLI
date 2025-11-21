@@ -1,0 +1,21 @@
+/* Chat Windows Container */
+.chat-windows-container {
+  pointer-events: none;
+}
+
+.chat-windows-container > div {
+  pointer-events: auto;
+}
+
+/* Ensure chat windows don't interfere with page content */
+@media (max-width: 768px) {
+  .chat-windows-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9000;
+  }
+}
