@@ -20,7 +20,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [step, setStep] = useState("mobile");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [verifying, setVerifying] = useState(false);
+  const [timer, setTimer] = useState(0);
 
   const Base_api=import.meta.env.VITE_BASE_URL;
 
@@ -68,50 +68,23 @@ const sendOtp = async () => {
 
     setMessage("OTP sent successfully!");
     setStep("otp"); // Proceed to OTP step
+    setTimer(3); // Start timer for resend OTP
+           const countdown = setInterval(() => {
+    setTimer((prev) => {
+      if (prev <= 1) {
+        clearInterval(countdown);
+        setMessage("");  // remove message after countdown
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+  
   } catch (err) {
     console.error("Send OTP Error:", err);
     setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
   }
 };
-
-  
-    const verifyOtp = async () => {
-      setError("");
-      setMessage("");
-    if (!otp || otp.length !== 6 || verifying) return;
-  setVerifying(true);
-
-      if (!otp.trim()) {
-        setError("Please enter the OTP.");
-        return;
-      }
-  
-      try {
-        const res = await fetch(`${Base_api}/api/LoginWithMobile/verify-otp`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ContactNumber: mobile.trim(),
-            Code: otp.trim(),
-          }),
-        });
-  
-        const data = await res.json().catch(() => ({ message: "Invalid server response" }));
-        console.log("Verify OTP Response:", data);
-  
-        if (!res.ok) throw new Error(data.message || "OTP verification failed");
-  
-        localStorage.setItem("token", data.token);
-        console.log("OTP submitted:", otp);
-        setMessage("Otp Verified!");
-        // window.location.href = "/homefour";
-      } catch (err) {
-        console.error("Verify OTP Error:", err);
-        setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
-      } finally {
-    setVerifying(false);
-  }
-    };
 
   //  Utility to clear an error
   const clearError = (field) => {
@@ -201,7 +174,7 @@ const sendOtp = async () => {
         <button className="close-btn" onClick={closeModal}>
           ✖
         </button>
-        <h2>Step 1: Basic Details</h2>
+        <h2>Basic Details</h2>
 
         {/* First + Last Name */}
         <div className="name-row">
@@ -241,7 +214,7 @@ const sendOtp = async () => {
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <select
           name="countryCode"
-          value={UserData.countryCode}   // 👈 now always controlled
+          value={UserData.countryCode}   //  now always controlled
           onChange={handleChange}
         >
           <option value="">Select Code</option>
@@ -251,47 +224,45 @@ const sendOtp = async () => {
             </option>
           ))}
         </select>
-<div className="contactInputWrapper">
-  <input
-    type="number"
-    name="contactNumber"
-    placeholder="Contact Number"
-    value={UserData.contactNumber || ""}
-    onChange={handleChange}
-    className="contactInput"
-    autoComplete="tel"
-    inputMode="numeric"
-  />
+          <div className="contactInputWrapper">
+            <input
+              type="number"
+              name="contactNumber"
+              placeholder="Contact Number"
+              value={UserData.contactNumber || ""}
+              onChange={handleChange}
+              className="contactInput"
+              autoComplete="tel"
+              inputMode="numeric"
+            />
 
-  {/* Use a button or a styled Link here */}
-  <Link
-    type="submit"
-    className="sendOtpBtn"
-    onClick={sendOtp}
-    disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-    aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-    tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
-  >
-    Send OTP
-  </Link>
-</div>
+            {/* Use a button or a styled Link here */}
+        <Link
+              type="submit"
+              className="sendOtpBtn"
+              onClick={sendOtp}
+              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
+            >
+                 Send OTP
+        </Link>
 
-
+          </div>
       </div>
       {errors.countryCode && <div className="error">{errors.countryCode}</div>}
       {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
        
-       
-        {step === "otp" && (
-  <div className="otpRow">
-    <button onClick={() => setStep("otp")}>VERIFY OTP</button>
-    <OtpDialog
-      step={step}
-      verifyOtp={verifyOtp}
-      onClose={() => setStep("done")}
-    />
-  </div>
-)}
+           {step === "otp" && (
+        <div className="otpRow">
+         <OtpDialog
+            step={step}
+            mobile={mobile}
+          />
+
+        </div>
+          )}
+           {step === "done" && <p>OTP Verified, proceed to next step</p>}
 
           {error && <p style={{ color: "red" }}>{error}</p>}
           {message && <p style={{ color: "green" }}>{message}</p>}
