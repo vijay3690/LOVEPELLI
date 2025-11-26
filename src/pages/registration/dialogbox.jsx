@@ -1,102 +1,112 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
-
-function OtpDialog({ step, mobile, onClose }) {
+function OtpDialog({ step, mobile }) {
   const [otp, setOtp] = useState("");
-  const [verifying, setVerifying] = useState(false);
+  const [timer, setTimer] = useState(60);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const dialogRef = useRef(null);
+  const navigate = useNavigate();
   const Base_api = import.meta.env.VITE_BASE_URL;
 
-  // Open/close the dialog based on the current step
   useEffect(() => {
-    const dlg = dialogRef.current;
-    if (!dlg) return;
-    if (step === "otp" && !dlg.open) {
-      dlg.showModal();
-    } else if (step !== "otp" && dlg.open) {
-      dlg.close();
-    }
+    if (step === "otp") dialogRef.current?.showModal();
   }, [step]);
 
-  async function handleVerify() {
-    if (!otp || otp.length !== 6 || verifying) return;
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  const resendOtp = async () => {
+    setTimer(30);
+    await fetch(`${Base_api}/api/LoginWithMobile/send-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contactNumber: mobile }),
+    });
+  };
+
+  const verifyOtp = async () => {
+    if (otp.length !== 6) {
+      setError("Enter 6-digit OTP");
+      return;
+    }
+
+    setLoading(true);
     setError("");
     setMessage("");
-    setVerifying(true);
+
     try {
-      const res = await fetch(`${Base_api}/api/LoginWithMobile/verify-otp`, {
+      const response = await fetch(`${Base_api}/api/LoginWithMobile/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ContactNumber: String(mobile || "").trim(),
-          Code: String(otp || "").trim(),
+          ContactNumber: mobile.trim(),
+          Code: otp.trim(),
         }),
       });
 
-      const data =
-        (await res.json().catch(() => ({ message: "Invalid server response" }))) ||
-        {};
+      const data = await response.json();
+      console.log("OTP verification response:", data);
 
-      if (!res.ok) throw new Error(data.message || "OTP verification failed");
+      if (!response.ok) throw new Error(data.message || "OTP Verification failed");
 
-      if (data.token) localStorage.setItem("token", data.token);
-      setMessage("Otp Verified!");
-      dialogRef.current?.close();
-      onClose?.();
-      setOtp("");
+      localStorage.setItem("token", data.token);
+      setMessage("OTP Verified Successfully!");
+      alert("OTP Verified Successfully!");
+      dialogRef.current.close();
+      navigate("/register");
+      
     } catch (err) {
-      const msg =
-        (err && typeof err.message === "string" && err.message) ||
-        "Verification error";
-      setError(msg.includes("fetch") ? "Server unreachable." : msg);
+      console.log("OTP verification error:", err);
+      setError(err.message.includes("fetch") ? "Server unreachable, try again." : err.message);
     } finally {
-      setVerifying(false);
+      setLoading(false);
     }
-  }
- const closeModal = () => {
-    navigate("/");
+  };
+
+  const closeDialog = () => {
+    dialogRef.current.close();
+    navigate("/register");
   };
 
   return (
-  <dialog ref={dialogRef} aria-label="OTP verification" className="verify-otp-dialog">
-  <button className="close-icon" onClick={closeModal}>
-    ✖
-  </button>
-  <h2>Verify Otp</h2>
-  <div className="otp-row">
-    <input
-      type="text"
-      placeholder="Enter OTP"
-      value={otp}
-      onChange={(e) =>
-        setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
-      }
-      maxLength={6}
-      inputMode="numeric"
-      pattern="[0-9]{6}"
-      autoComplete="one-time-code"
-      enterKeyHint="done"
-      aria-label="One-time code"
-      className="otp-input"
-      autoFocus
-    />
-    <button
-      type="button"
-      onClick={handleVerify}
-      disabled={!otp || otp.length !== 6 || verifying}
-      aria-busy={verifying ? "true" : "false"}
-      className="verify-btn"
-    >
-      {verifying ? "Verifying..." : "Verify OTP"}
-    </button>
-  </div>
-  {error && <p className="error-msg">{error}</p>}
-  {message && <p className="success-msg">{message}</p>}
-</dialog>
+    <dialog ref={dialogRef} className="verify-otp-dialog">
+      <button className="close-btn" onClick={closeDialog}>✖</button>
 
+      <h2>Verify OTP</h2>
+
+      <input
+        type="text"
+        value={otp}
+        inputMode="numeric"
+        maxLength={6}
+        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+        placeholder="Enter 6-digit OTP"
+        autoFocus
+      />
+
+      {error && <p className="error-text">{error}</p>}
+      {message && <p className="success-text">{message}</p>}
+
+      <button onClick={verifyOtp} disabled={loading || otp.length !== 6}>
+        {loading ? "Loading..." : "Verify OTP"}
+      </button>
+
+      <p>
+        Didn’t receive OTP?{" "}
+        <button className="link-btn" disabled={timer !== 0} onClick={resendOtp}>
+          {timer === 0 ? "Resend OTP" : `Resend in ${timer}s`}
+        </button>
+      </p>
+    </dialog>
   );
 }
 
