@@ -1,4 +1,4 @@
-import React ,{useEffect,useState} from 'react';
+import React ,{useEffect,useState,useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
@@ -27,7 +27,27 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
    const [countryId, setCountryId] =useState([]);
    const [showOtherEducation, setShowOtherEducation] = useState(false);
    const navigate = useNavigate();
+   const inputRefs = useRef([]);
+   const [loading, setLoading] = useState(false);
    const Base_api=import.meta.env.VITE_BASE_URL;  
+
+ const handleKeyDown = (e, index) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    
+    // Get only valid (rendered) refs
+    const validRefs = inputRefs.current.filter(ref => ref !== undefined && ref !== null);
+    
+    if (index < validRefs.length - 1) {
+      // Move to next valid field
+      validRefs[index + 1]?.focus();
+    } else {
+      // Last field - submit
+      document.getElementById("submitBtn")?.click();
+    }
+  }
+};
+
 
    const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,6 +81,7 @@ const safeFetch = async (url, setter, label, options = {}) => {
 };
 
   const handleSubmit = async (e) => {
+    setLoading(true); // Start loading
     e.preventDefault(); // prevent default form submission
 
   try {
@@ -178,6 +199,8 @@ if(validateForm()) {
   } catch (err) {
     console.error(err);
     alert("Error: " + err.message);
+  } finally {
+    setLoading(false); // Stop loading  
   }
 };
 
@@ -251,6 +274,8 @@ useEffect(() => {
             <select
               name="educationId"
               value={UserData.educationId}
+              ref={el => inputRefs.current[0] = el}
+              onKeyDown={handleKeyDown}
               onChange={(e) => {
                 const { name, value } = e.target;
                 setUserData((prev) => ({
@@ -293,6 +318,8 @@ useEffect(() => {
                     type="text"
                     name="otherEducation"
                     value={UserData.otherEducation || ""}
+                    ref={el => inputRefs.current[1] = el}
+                    onKeyDown={(e) => handleKeyDown(e, 1)}
                     onChange={handleChange}
                     placeholder="Enter your education"
                     required
@@ -318,6 +345,8 @@ useEffect(() => {
           <select
             name="educationSubStreamId"
             value={UserData.educationSubStreamId}
+            ref={el => inputRefs.current[2] = el}
+            onKeyDown={(e) => handleKeyDown(e, 2)}
             onChange={handleChange}
           >
             <option value="">Select</option>
@@ -352,6 +381,8 @@ useEffect(() => {
                 className={
                   UserData.employedIn === option ? "selected" : ""
                 }
+              ref={el => inputRefs.current[3] = el}
+              onKeyDown={(e) => handleKeyDown(e, 3)}
                 onClick={() =>
                   setUserData((prev) => ({
                     ...prev,
@@ -377,6 +408,8 @@ useEffect(() => {
           <select
             name="occupationId"
             value={UserData.occupationId}
+              ref={el => inputRefs.current[4] = el}
+              onKeyDown={(e) => handleKeyDown(e, 4)}
             onChange={handleChange}
           >
             <option value="">Select</option>
@@ -400,6 +433,8 @@ useEffect(() => {
           <select
             name="incomeID"
             value={UserData.incomeID}
+              ref={el => inputRefs.current[5] = el}
+              onKeyDown={(e) => handleKeyDown(e, 5)}
             onChange={handleChange}
           >
             <option value="">Select</option>
@@ -436,6 +471,8 @@ useEffect(() => {
           <select
             name="countryId"
             value={UserData.countryId}
+            ref={el => inputRefs.current[6] = el}
+            onKeyDown={(e) => handleKeyDown(e, 6)}
             onChange={(e) => {
                 const { name, value } = e.target;
                 if (name === "countryId") {
@@ -480,6 +517,8 @@ useEffect(() => {
           <select
             name="stateId"
             value={UserData.stateId}
+              ref={el => inputRefs.current[7] = el}
+              onKeyDown={(e) => handleKeyDown(e, 7)}
             onChange={handleChange}
           >
             <option value="">Select</option>
@@ -502,6 +541,8 @@ useEffect(() => {
           <select
             name="cityId"
             value={UserData.cityId}
+              ref={el => inputRefs.current[8] = el}
+              onKeyDown={(e) => handleKeyDown(e, 8)}
             onChange={handleChange}
           >
             <option value="">Select</option>
@@ -529,6 +570,8 @@ useEffect(() => {
           type='text'
           name='Citizenship'
           value = {UserData.Citizenship}
+          ref={el => inputRefs.current[9] = el}
+          onKeyDown={(e) => handleKeyDown(e, 9)}
           onChange={handleChange}
           placeholder='Enter your Citizenship'
           required
@@ -543,8 +586,8 @@ useEffect(() => {
           <button className="btn secondary" onClick={prevStep}>
             Previous
           </button>
-          <button className="btn primary" onClick={handleSubmit}>
-            Submit
+          <button id="submitBtn" type="submit" className="btn primary" onClick={handleSubmit} disabled={loading}>
+            {loading? <i className="fa-solid fa-spinner fa-spin"></i> : "Submit"}
           </button>
         </div>
       </div>

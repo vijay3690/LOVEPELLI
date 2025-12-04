@@ -76,6 +76,13 @@ input[type="radio"] {
   margin-right: 0.5rem;
 }
 
+input:focus,
+select:focus {
+  border-color: #e6006e;
+  outline: none; /* Add a visible outline for accessibility */
+}
+
+
 .radio-options,
 .option-group {
   display: flex;
@@ -295,9 +302,6 @@ input[type="radio"] {
 }
 
 /* formStep 3 */
-/* .field-group {
-  margin-bottom: 5px;
-} */
 
 .field-label {
   font-weight: 500;
@@ -409,6 +413,7 @@ input[type="radio"] {
   font-size: 13px;
   margin-top: 4px;
 }
+
 /* Close button top-right */
 /* parent popup/container */
 .signup-container {
@@ -494,13 +499,18 @@ input[type="radio"] {
   box-shadow: none;
 }
 
+.verify-otp-dialog{
+  border: #ccc 1px solid;
+  border-radius: 12px;
+  padding: 20px;
+}
+
 /* Input wrapper */
 .contactInputWrapper {
   display: flex;
   align-items: center;
   max-width: 400px;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 /* Input styles */
@@ -508,27 +518,18 @@ input[type="radio"] {
 .otpInput {
   width: 100%;
   font-size: 1rem;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
   transition: border-color 0.2s;
   background: #fff;
   color: #222;
-  margin-bottom: 10px;
 }
 
 .contactInput:focus,
 .otpInput:focus {
   border-color: #e6006e;
   outline: none;
-}
-
-/* Button disabled appearance for send OTP */
-.sendOtpBtn:disabled,
-.sendOtpBtn[aria-disabled="true"] {
-  background: #eee;
-  color: #888;
-  cursor: not-allowed;
 }
 
 /* Responsive layout for OTP row */
@@ -545,10 +546,9 @@ input[type="radio"] {
   }
 }
 
-
 .sendOtpBtn {
   position: absolute;
-  top: 32%;
+  top: 32.5%;
   right: 8px;
   background: white;
   color: #555;
@@ -558,7 +558,52 @@ input[type="radio"] {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  /* transition: background 0.2s; */
-  box-shadow: 0 0 0 2px rgba(37,99,235,0.08);
-  z-index: 2;
+}
+
+.otp-dialog.closing {
+  animation: fadeOut 0.3s forwards;
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+ /* Full Screen Overlay Loader */
+.overlay-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 25vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.spinner {
+  color: #3a73c8;
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status {
+  margin-top: 12px;
+  font-size: 16px;
+  color: #0066ff;
 }
