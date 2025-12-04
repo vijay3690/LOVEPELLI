@@ -44,7 +44,7 @@ function ResetPassword() {
 
       // First attempt with "password"
       let res = await fetch(
-        `https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password`,
+        "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net/api/RequestRestPassword/reset-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

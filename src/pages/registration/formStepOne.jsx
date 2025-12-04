@@ -17,7 +17,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     clearError(name);
   };
 
-  // ✅ Utility to clear an error
+  //  Utility to clear an error
   const clearError = (field) => {
     setErrors((prev) => {
       const { [field]: _, ...rest } = prev;
@@ -25,7 +25,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     });
   };
 
-  // ✅ Validation Function
+  //  Validation Function
   const validate = () => {
     let newErrors = {};
     if (!UserData.firstName?.trim()) newErrors.firstName = "First Name is required";
