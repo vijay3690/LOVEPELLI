@@ -26,6 +26,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
 const handleChange = (e) => {
   const { name, value } = e.target;
+  setUserData({ ...UserData, [name]: value });
 
   //  Utility to clear an error
   const clearError = (field) => {
@@ -35,21 +36,15 @@ const handleChange = (e) => {
     });
   };
 
-  //  Validation Function
-  const validate = () => {
-    let newErrors = {};
-    if (!UserData.firstName?.trim()) newErrors.firstName = "First Name is required";
-    if (!UserData.lastName?.trim()) newErrors.lastName = "Last Name is required";
-    if (!UserData.email?.trim()) newErrors.email = "Email is required";
-    if (!UserData.password?.trim()) newErrors.password = "Password is required";
-    if (!UserData.confirmPassword?.trim()) newErrors.confirmPassword = "Confirm Password is required";
-    if (!UserData.gender?.trim()) newErrors.gender = "Please select your gender";
-    if (!UserData.profileForDataId) newErrors.profileForDataId = "Please select profile for";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  if (value.trim() === "") {
+    setErrors((prev) => ({ ...prev, [name]: `${name} is required` }));
+  } else {
+    clearError(name);
+  }
+};
 
-  // Utility for safe fetch
+// Load country codes on mount
+useEffect(() => {
   const safeFetch = async (url, setter, label) => {
     try {
       const res = await fetch(url);
@@ -60,11 +55,8 @@ const handleChange = (e) => {
       console.error(`Error ${label} from ${url}:`, err);
     }
   };
-
-  // Load country codes
-  useEffect(() => {
-    safeFetch(`${Base_api}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
-  }, []);
+  safeFetch(`${Base_api}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
+}, []);
 
 
   const handleNext = async () => {
@@ -107,6 +99,17 @@ const handleChange = (e) => {
 
   const closeModal = () => {
     navigate("/");
+  };
+
+  const sendOtp = async () => {
+    if (!isValidPhoneNumber(UserData.contactNumber || "")) {
+      setError("Please enter a valid phone number");
+      return;
+    }
+    
+    setStep("otp");
+    setMobile(UserData.contactNumber);
+    // Add your OTP sending logic here
   };
 
   return (
