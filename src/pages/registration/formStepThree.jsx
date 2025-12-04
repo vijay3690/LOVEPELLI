@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
@@ -16,15 +16,52 @@ const FormStepThree = ({ UserData, setUserData, nextStep, prevStep }) => {
   const [childrenCount, setChildrenCount] = useState(UserData.childrenCount || "");
   const [childrenLiving, setChildrenLiving] = useState(UserData.childrenLiving || "");
   const [heights, setHeights] = useState([]);
-   const navigate = useNavigate(); // hook for navigation
+
 const maritalOptions = ["Single", "Widowed", "Divorced", "Awaiting divorce"];
 const childrenOptions = ["None", "1", "2", "3", "4 and above"];
 const livingOptions = ["Children living with me", "Children not living with me"];
   
  const showChildrenField = ["Widowed", "Divorced", "Awaiting divorce"].includes(maritalStatus);
  const showLivingOptions = Boolean(childrenCount) && childrenCount !== "None";
- 
+
+ const inputRefs = useRef([]);
+ const navigate = useNavigate(); // hook for navigation
  const Base_api=import.meta.env.VITE_BASE_URL;
+
+const handleKeyDown = (e, index, type, groupLength = 0) => {
+  // ENTER KEY ACTION
+  if (e.key === "Enter") {
+    e.preventDefault();
+
+    if (type === "button") {
+      inputRefs.current[index]?.click(); // trigger button click
+    }
+
+    // Move focus to next field
+    if (inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    } else {
+      document.getElementById("submitBtn")?.click();
+    }
+  }
+
+  // ARROW KEY NAVIGATION FOR BUTTON GROUPS
+  if (type === "button") {
+    if (e.key === "ArrowRight" && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    if (e.key === "ArrowLeft" && inputRefs.current[index - 1]) {
+      inputRefs.current[index - 1].focus();
+    }
+    if (e.key === "ArrowDown") {
+    if (inputRefs.current[index + 1]) inputRefs.current[index + 1].focus();
+    }
+    if (e.key === "ArrowUp") {
+    if (inputRefs.current[index - 1]) inputRefs.current[index - 1].focus();
+   }
+  }
+};
 
 
   // Safe fetch wrapper
@@ -72,12 +109,8 @@ const handleSelect = (name, value) => {
     if (!UserData.familyType) newErrors.familyType = "Family type is required";
     if (!UserData.disability) newErrors.disability = "Disability selection is required";
 
-    if (showChildrenField && !childrenCount) {
-      newErrors.childrenCount = "Number of children is required";
-    }
-    if (showLivingOptions && !childrenLiving) {
-      newErrors.childrenLiving = "Children living status is required";
-    }
+    if (showChildrenField && !childrenCount) {newErrors.childrenCount = "Number of children is required";}
+    if (showLivingOptions && !childrenLiving) {newErrors.childrenLiving = "Children living status is required";}
  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -95,19 +128,20 @@ const handleSelect = (name, value) => {
       nextStep();
     }
   };
- 
-  const closeModal = ()=>{
-    navigate("/")
-  }
 
-const clearError = (fieldName) => {
+const clearError = (field) => {
   setErrors((prev) => {
-    const updated = { ...prev };
-    delete updated[fieldName];
-    return updated;
+          const copy = { ...prev };
+      delete copy[field];
+      return copy;
   });
 };
 
+ const closeModal = ()=>{
+    navigate("/")
+  };
+
+    let currentIndex = 0;
 
   return (
     <div className="modal-overlay">
@@ -123,30 +157,36 @@ const clearError = (fieldName) => {
   </label>
 
   <div className="button-group">
-    {maritalOptions.map((option) => (
-      <button
-        key={option}
-        type="button"
-        className={`btn-option ${maritalStatus === option ? "active" : ""}`}
-        onClick={() => {
-          setMaritalStatus(option);
-          setChildrenCount("");
-          setChildrenLiving("");
-          clearError("maritalStatus"); // ✅ clear error when user selects
-        }}
-      >
-        {option}
-      </button>
-    ))}
+{maritalOptions.map((option) => {
+  const localIndex = currentIndex++;
+
+  return (
+  <button
+  key={option}
+  type="button"
+  className={`btn-option ${maritalStatus === option ? "active" : ""}`}
+  ref={(el) => (inputRefs.current[localIndex] = el)}
+  onKeyDown={(e) => handleKeyDown(e, localIndex, "button", maritalOptions.length)}
+  onClick={() => {
+    setMaritalStatus(option);
+    setChildrenCount("");
+    setChildrenLiving("");
+    clearError("maritalStatus");
+  }}
+>
+  {option}
+</button>
+
+  );
+})}
+
   </div>
 
-  {/* ✅ Show validation error only if no marital status selected */}
+  {/*  Show validation error only if no marital status selected */}
   {errors.maritalStatus && !maritalStatus && (
     <p className="error-text">{errors.maritalStatus}</p>
   )}
 </div>
-
-
      {/* Children */}
         {showChildrenField && (
           <div className="field-group">
@@ -154,19 +194,26 @@ const clearError = (fieldName) => {
               No. of Children:<span className="required">*</span>
             </label>
             <div className="button-group">
-              {childrenOptions.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className={`btn-option1 ${childrenCount === option ? "active" : ""}`}
-                  onClick={() => {
-                    setChildrenCount(option);
-                    setChildrenLiving("");
-                  }}
-                >
-                  {option}
-                </button>
-              ))}
+          {childrenOptions.map((option) => {
+           const localIndex = currentIndex++;
+
+  return (
+    <button
+      key={option}
+      type="button"
+      className={`btn-option1 ${childrenCount === option ? "active" : ""}`}
+      ref={(el) => (inputRefs.current[localIndex] = el)}
+      onKeyDown={(e) => handleKeyDown(e, localIndex, "button", childrenOptions.length)}
+      onClick={() => {
+        setChildrenCount(option);
+        setChildrenLiving("");
+      }}
+    >
+      {option}
+    </button>
+  );
+})}
+
             </div>
       {errors.childrenCount && !childrenCount && (
     <p className="error-text">{errors.childrenCount}</p>
@@ -181,16 +228,24 @@ const clearError = (fieldName) => {
               Children Living Status:<span className="required">*</span>
             </label>
             <div className="button-group">
-              {livingOptions.map((option) => (
+              {livingOptions.map((option) => {
+                  const localIndex = currentIndex++;
+                return (
                 <button
                   key={option}
                   type="button"
                   className={`btn-option ${childrenLiving === option ? "active" : ""}`}
-                  onClick={() => setChildrenLiving(option)}
+                 ref={(el) => (inputRefs.current[localIndex] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, localIndex, "button", livingOptions.length)}
+                  onClick={() => {
+                    setChildrenLiving(option);
+                    clearError("childrenLiving");
+                  }}
                 >
                   {option}
                 </button>
-              ))}
+                );
+              })}
             </div>
           {errors.childrenLiving && !childrenLiving && (
     <p className="error-text">{errors.childrenLiving}</p>
@@ -202,11 +257,14 @@ const clearError = (fieldName) => {
              <label>
           Height:<span className="required">*</span>
         </label>
-        <select
-          name="heightId"
-          value={UserData.heightId}
-          onChange={handleChange}
-        >
+       <select
+            name="heightId"
+            value={UserData.heightId}
+            ref={(el) => (inputRefs.current[14] = el)}
+            onKeyDown={(e) => handleKeyDown(e, 14)}
+            onChange={handleChange}
+      >
+
           <option value="">Select</option>
           {heights.map((height) => (
             <option key={height.heightId} value={height.heightId}>
@@ -224,11 +282,13 @@ const clearError = (fieldName) => {
           Family Status:<span className="required">*</span>
         </label>
         <div className="option-group">
-          {familyStatusOptions.map((status) => (
+          {familyStatusOptions.map((status,i) => (
             <button
               key={status}
               type="button"
               className={UserData.familyStatus === status ? "selected" : ""}
+              ref={(el) => (inputRefs.current[15 + i] = el)}
+              onKeyDown={(e) => handleKeyDown(e, 15 + i, "button", familyStatusOptions.length)}
               onClick={() => handleSelect("familyStatus", status)}
             >
               {status}
@@ -245,11 +305,13 @@ const clearError = (fieldName) => {
           Family Type:<span className="required">*</span>
         </label>
         <div className="option-group">
-          {familyTypeOptions.map((type) => (
+          {familyTypeOptions.map((type,i) => (
             <button
               key={type}
               type="button"
               className={UserData.familyType === type ? "selected" : ""}
+               ref={(el) => (inputRefs.current[20 + i] = el)}
+               onKeyDown={(e) => handleKeyDown(e, 20 + i, "button", familyTypeOptions.length)}
               onClick={() => handleSelect("familyType", type)}
             >
               {type}
@@ -266,11 +328,13 @@ const clearError = (fieldName) => {
           Any Disability:<span className="required">*</span>
         </label>
         <div className="option-group">
-          {disabilityOptions.map((option) => (
+          {disabilityOptions.map((option,i) => (
             <button
               key={option}
               type="button"
               className={UserData.disability === option ? "selected" : ""}
+              ref={(el) => (inputRefs.current[25 + i] = el)}
+              onKeyDown={(e) => handleKeyDown(e, 25 + i, "button", disabilityOptions.length)}
               onClick={() => handleSelect("disability", option)}
             >
               {option}
@@ -287,7 +351,7 @@ const clearError = (fieldName) => {
           <button type="button" className="prev-btn" onClick={prevStep}>
             Previous
           </button>
-          <button type="button" className="next-btn" onClick={handleNext}>
+          <button id="submitBtn" type="button" className="next-btn" onClick={handleNext}>
             Next
           </button>
         </div>
