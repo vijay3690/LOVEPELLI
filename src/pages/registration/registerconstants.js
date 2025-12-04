@@ -1,2 +1,8 @@
 
-export const BASE_API = "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
+
+
+
+
+export function isValidPhoneNumber(mobile) {
+  return /^[6-9]\d{9}$/.test(mobile);
+}

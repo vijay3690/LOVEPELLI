@@ -64,7 +64,7 @@ input,
 select {
   display: block;
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.65rem;
   margin-bottom: 1rem;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -75,6 +75,13 @@ select {
 input[type="radio"] {
   margin-right: 0.5rem;
 }
+
+input:focus,
+select:focus {
+  border-color: #e6006e;
+  outline: none; /* Add a visible outline for accessibility */
+}
+
 
 .radio-options,
 .option-group {
@@ -145,7 +152,7 @@ input[type="radio"] {
 .form-actions {
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.7rem;
   margin-top: 1rem;
 }
 .button-group button,
@@ -172,21 +179,14 @@ input[type="radio"] {
 
 .gender-group {
   display: flex;
-  /* align-items: center; */
-  align-items:flex-start;
+  align-items: center;
   margin-bottom: 10px;
-}
-
-.gender-label {
-  margin-right: 10px;
 }
 
 .radio-options {
   display: flex;
-  flex-direction: row; /* force row */
-  gap: 20px;
-  align-items: center;
-  flex-wrap: nowrap;   /* prevent wrapping */
+  gap: 20px; /* space between options */
+
 }
 
 .radio-label {
@@ -237,10 +237,33 @@ input[type="radio"] {
 
 .password-box input {
   width: 100%;
-  padding: 8px;
+  padding: 0.65rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.password-container {
+  position: relative;
+  max-width: 500px;
+}
+/* eye slash show password */
+.password-input {
+  padding-right: 60px; /* space for the icon */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 12px;
+  top: 60%; /* move down slightly */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  user-select: none;
+  font-size: 12px;
+}
+
 
 .gender-row {
   display: flex;
@@ -248,38 +271,37 @@ input[type="radio"] {
   align-items: center; /* align vertically */
 }
 
+
 .gender-row label {
   display: flex;
-  align-items: center;
+  align-items:flex-start;
   gap: 5px; /* space between radio and text */
   font-size: 14px;
 }
 
 /* Mobile view adjustments */
-@media (max-width: 600px) {
-   .radio-options {
-    flex-direction: column;  /* stack vertically */
-    align-items: flex-start; /* align nicely on the left */
-    gap: 10px;
+@media (max-width: 768px) {
+  .radio-options {
+    display: flex;
+    flex-direction: column; /* stack items vertically */
+    margin-right:330px ; /* remove left margin for vertical alignment */
+    margin-bottom: 5px;
+    margin-top: 30px;
   }
-
 
   .gender-group {
     display: flex;
     flex-direction: column;
+    
   }
 
-  .gender-label {
-    margin-bottom: 8px; /* space between label and radios */
-    margin-right: 200px;
+  .gender-lable {
+    margin-bottom: 0px; /* space between label and radios */
+    margin-right: 340px;       /*reset right margin */
   }
 }
 
-
 /* formStep 3 */
-/* .field-group {
-  margin-bottom: 5px;
-} */
 
 .field-label {
   font-weight: 500;
@@ -290,13 +312,16 @@ input[type="radio"] {
 }
 
 .button-group {
-  display: inline-flex;
-  gap: 10px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  flex-wrap:nowrap;
 }
 
 .btn-option {
   padding: 10px 12px;
-  width: 130px;
+  width: 150px;
   border: 1px solid #ccc;
   background: white;
   border-radius: 4px;
@@ -304,7 +329,6 @@ input[type="radio"] {
   font-size: 14px;
   transition: all 0.2s ease;
 }
-
 
 .btn-option:hover {
   background: #f5f5f5;
@@ -380,7 +404,7 @@ input[type="radio"] {
 /* required field */
 .required {
   color: red;
-  margin-left: 4px;
+   margin-left: 4px; 
   font-weight: bold;
 }
 
@@ -389,6 +413,7 @@ input[type="radio"] {
   font-size: 13px;
   margin-top: 4px;
 }
+
 /* Close button top-right */
 /* parent popup/container */
 .signup-container {
@@ -410,4 +435,134 @@ input[type="radio"] {
 
 .close-btn:hover {
   color: red;
+}
+
+
+/* Mobile OTP Button */
+/* Container */
+.otpRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* OTP input */
+.otpInput {
+  flex: 1 1 220px;
+  max-width: 100px;
+  letter-spacing: 0.35ch; /* readable spacing for 6 digits */
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  color: #0f172a;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  caret-color: #2563eb;
+}
+
+.otpInput::placeholder { color: #94a3b8; }
+
+.otpInput:focus-visible {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+/* Verify button */
+.verifyBtn {
+  color: #fff;
+  background: #e6006e;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 32px;
+  transition: background 0.2s;
+}
+
+.verifyBtn:hover:not(:disabled) {
+  background: #b40055;
+}
+
+/* Disabled or busy state */
+.verifyBtn[aria-busy="true"],
+.verifyBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.verify-otp-dialog{
+  border: #ccc 1px solid;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* Input wrapper */
+.contactInputWrapper {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Input styles */
+.contactInput,
+.otpInput {
+  width: 100%;
+  font-size: 1rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+  background: #fff;
+  color: #222;
+}
+
+.contactInput:focus,
+.otpInput:focus {
+  border-color: #e6006e;
+  outline: none;
+}
+
+/* Responsive layout for OTP row */
+@media (max-width: 567px) {
+  .otpRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .verifyBtn {
+    width: 100%;
+  }
+  .contactInputWrapper {
+    max-width: 100%;
+  }
+}
+
+.sendOtpBtn {
+  position: absolute;
+  top: 32.5%;
+  right: 8px;
+  background: white;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.otp-dialog.closing {
+  animation: fadeOut 0.3s forwards;
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: scale(0.95); }
 }

@@ -81,6 +81,62 @@
   }
 }
 
+/* forgot password */
+.forgot-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.forgot-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+.forgot-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.forgot-button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.forgot-button:hover {
+  background-color: #0056b3;
+}
+
+.error-msg {
+  color: #d93025;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.success-msg {
+  color: #2e7d32;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+
 
 
 /* ResetPassword.css */
@@ -247,6 +303,73 @@
   background: #45a049;
 }
 
+/* reset password */
+
+.reset-password-form {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.reset-password-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.reset-password-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  gap: 8px;
+}
+
+.reset-button {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.reset-button:hover {
+  background: #0056b3;
+}
+
+.error {
+  color: #d93025;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.success {
+  color: #2e7d32;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.strength {
+  font-size: 14px;
+  font-weight: bold;
+}
 
 
 /* loginEmail */
@@ -258,6 +381,29 @@
   color: red;
   font-size: 13px;
 }
+.form-group {
+  position: relative;
+  max-width: 500px;
+}
+
+.password-input {
+  padding-right: 40px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  user-select: none;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
 
 
 /* popup modal */
@@ -280,9 +426,6 @@
   -webkit-backdrop-filter: blur(10px);  /* Safari support */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* soft shadow */
 }
-
-
-
 
 .modal-content {
   background: white ; /* semi-transparent */
@@ -327,7 +470,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); */
   text-align: center;
   color: #fff;
   font-family: Arial, sans-serif;

@@ -2,10 +2,10 @@ import React from "react";
 import { Mail, Smartphone } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "./signuppage.css"; 
-import Glogin from "./gmail"; 
 
 
-const SignUp = () => {
+
+const AuthPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -24,21 +24,16 @@ const SignUp = () => {
       <div className="signup-container">
         {/* Login Section */}
         <div className="signup-box">
-          <h2 className="signup-title">Welcome to LovePelli 💖</h2>
+          <h2 className="signup-title">Welcome to LovePelli</h2>
               <Link to="/loginEmail" className="signup-button">
-              <Mail size={18} style={{ marginRight: "8px" }} />
+                    <Mail size={25}   className="aicon" />
                             Login with Email
               </Link> 
-              
-             <Link to="/mobilelogin" className="signup-button">
-                <Smartphone size={18} style={{ marginRight: "8px" }} />
+             <Link to="/mobilelogin" className="signup-button" >
+                  <Smartphone size={25} className="aicon"/>
                   Login with Mobile
             </Link>
-
-          {/* Google Login */}
-          <Glogin />
         </div>
-
         {/* Register Link */}
         <div className="login-link">
           Don’t have an account?
@@ -55,4 +50,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AuthPage;

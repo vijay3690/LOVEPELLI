@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "./email-sign.css";
 
-const BASE_API =
-  "https://lovepelliapi-gdcmb2ezcvcmedew.eastus2-01.azurewebsites.net";
+
 
 function LoginEmail({ onClose }) {
   const [userEmail, setUserEmail] = useState("");
   const [userPass, setUserPass] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
   const navigate = useNavigate();
 
@@ -15,7 +20,7 @@ function LoginEmail({ onClose }) {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${BASE_API}/api/Login`, {
+      const res = await fetch(`${Base_api}/api/Login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: userEmail, password: userPass }),
@@ -28,62 +33,85 @@ function LoginEmail({ onClose }) {
         setRedirect(true); // redirect after login
         if (onClose) onClose(); // close modal if onClose prop passed
       } else {
-        alert("Invalid email or password!");
+        // prefer inline message or toast; keeping alert for minimal change
+        alert(data?.message || "Invalid email or password!");
       }
     } catch (err) {
       console.error(err);
       alert("Login failed!");
-    }
+    } 
   };
 
   if (redirect) {
     return <Navigate to="/members" replace />;
   }
 
-   const closeModal = () => {
-    navigate("/");
+  const closeModal = () => {
+    if (onClose) onClose();
+    else navigate("/");
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <div className="modal-content">
-        <button className="close-btn" onClick={closeModal}>
+        <button
+          className="close-btn"
+          onClick={closeModal}
+          aria-label="Close dialog"
+        >
           ✖
         </button>
 
         <div className="log-reg-inner">
-          <h2 className="title">Welcome to LovePelli</h2>
+          <h2 id="login-title" className="title">Welcome to LovePelli</h2>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} aria-describedby="login-desc" autoComplete="on">
             <div className="form-group">
-              <label>Email</label>
+              <label htmlFor="email">Email</label>
               <input
+                id="email"
+                name="email"
                 type="email"
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter Your Email *"
-                required
+               autoComplete="email"
+                  required
               />
             </div>
 
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                value={userPass}
-                onChange={(e) => setUserPass(e.target.value)}
-                placeholder="Enter Your Password *"
-                required
-              />
+            <div className="form-group password-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={userPass}
+                      onChange={(e) => setUserPass(e.target.value)}
+                      placeholder="Enter Your Password *"
+                      className="password-input"
+                      autoComplete="current-password"
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      title={showPassword ? "Hide password" : "Show password"}
+                      className="password-toggle-btn"
+                    >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
             </div>
 
-            <p className="f-pass">
+            <p id="login-desc" className="f-pass">
               Forgot your password? <Link to="/forgotpassword">Recover password</Link>
             </p>
 
             <div className="text-center">
-              <button type="submit" className="default-btn">
-                Log In
+              <button type="submit" className="default-btn" >
+                                Log In
               </button>
             </div>
 

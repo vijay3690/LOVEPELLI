@@ -1,5 +1,5 @@
 import { Component } from "react";
-import SignUp from "../otp-signin/signup";
+import AuthPage from "../otp-signin/authpage";
 
 
 class LogIn extends Component {
@@ -32,7 +32,7 @@ class LogIn extends Component {
                                 <div className="main-content inloginp">
                                     <form action="#">
                                         <div className = "or-content">
-                                           <SignUp/>
+                                           <AuthPage/>
                                         </div>
                                     </form>
                                 </div>

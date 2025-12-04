@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import { Link,useNavigate } from "react-router-dom";
 import "./registration.css";
-import { BASE_API } from "./registerconstants";
+import {isValidPhoneNumber} from "./registerconstants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import OtpDialog from "./dialogbox";
+import { useDropdown } from "../../context/dropdown-context";
 
 
 const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [errors, setErrors] = useState({});
   const [checking, setChecking] = useState(false);
-  const [countryCodes, setCountryCodes] = useState([]);
+  const {countryCodes, setCountryCodes} = useDropdown();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState("mobile");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(0);
 
+  const Base_api=import.meta.env.VITE_BASE_URL;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
-    clearError(name);
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
   //  Utility to clear an error
   const clearError = (field) => {
@@ -53,7 +63,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
   // Load country codes
   useEffect(() => {
-    safeFetch(`${BASE_API}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
+    safeFetch(`${Base_api}/api/BasicDetails/countryCodes`, setCountryCodes, "country codes");
   }, []);
 
 
@@ -70,7 +80,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         contactNumber: fullcontactNumber,
       });
 
-      const res = await fetch(`${BASE_API}/api/Users/ValidateUser?${params.toString()}`);
+      const res = await fetch(`${Base_api}/api/Users/ValidateUser?${params.toString()}`);
       if (!res.ok) {
         const msg = await res.text();
         setErrors((prev) => ({ ...prev, api: msg || "Validation failed" }));
@@ -105,7 +115,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         <button className="close-btn" onClick={closeModal}>
           ✖
         </button>
-        <h2>Step 1: Basic Details</h2>
+        <h2>Basic Details</h2>
 
         {/* First + Last Name */}
         <div className="name-row">
@@ -140,12 +150,12 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
         {/* Phone Number */}
              <label>
-        Phone Number <span className="required">*</span>
+        Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <select
           name="countryCode"
-          value={UserData.countryCode}   // 👈 now always controlled
+          value={UserData.countryCode}   //  now always controlled
           onChange={handleChange}
         >
           <option value="">Select Code</option>
@@ -155,17 +165,49 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
             </option>
           ))}
         </select>
+          <div className="contactInputWrapper">
+            <input
+              type="number"
+              name="contactNumber"
+              placeholder="Contact Number"
+              value={UserData.contactNumber || ""}
+              onChange={handleChange}
+              className="contactInput"
+              autoComplete="tel"
+              inputMode="numeric"
+            />
 
-        <input
-          type="number"
-          name="contactNumber"
-          placeholder="Contact Number"
-          value={UserData.contactNumber || ""}
-          onChange={handleChange}
-        />
+            {/* Use a button or a styled Link here */}
+        <Link
+              type="submit"
+              className="sendOtpBtn"
+              onClick={sendOtp}
+              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
+            >
+                 Send OTP
+        </Link>
+
+          </div>
       </div>
       {errors.countryCode && <div className="error">{errors.countryCode}</div>}
       {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+       
+           {step === "otp" && (
+        <div className="otpRow">
+         <OtpDialog
+            step={step}
+            mobile={mobile}
+          />
+
+        </div>
+          )}
+           {step === "done" && <p>OTP Verified, proceed to next step</p>}
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {message && <p style={{ color: "green" }}>{message}</p>}
+        
 
         {/* Email */}
         <label>
@@ -199,66 +241,87 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
         {/* Password */}
         <div className="password-row">
           <div className="password-box">
-            <label>
-              Password <span className="required">*</span>
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={UserData.password || ""}
-              onChange={(e) => {
-                const value = e.target.value;
-                setUserData({ ...UserData, password: value });
 
-                const regex =
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+              <div className="password-container">
+                  <label>
+                    Password <span className="required">*</span>
+                  </label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter Password"
+                    value={UserData.password || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setUserData({ ...UserData, password: value });
 
-                if (!value) {
-                  setErrors((prev) => ({ ...prev, password: "Password is required" }));
-                } else if (!regex.test(value)) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    password: "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
-                  }));
-                } else {
-                  clearError("password");
-                }
-              }}
-            />
+                      const regex =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+
+                      if (!value) {
+                        setErrors((prev) => ({ ...prev, password: "Password is required" }));
+                      } else if (!regex.test(value)) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          password:
+                            "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
+                        }));
+                      } else {
+                        clearError("password");
+                      }
+                    }}
+                    className="password-input"
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="password-toggle-icon"
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </span>
+                </div>
             {errors.password && <p className="error-text">{errors.password}</p>}
           </div>
         </div>
 
         {/* Confirm Password */}
         <div className="password-box">
-          <label>
-            Confirm Password <span className="required">*</span>
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={UserData.confirmPassword || ""}
-            onChange={(e) => {
-              const value = e.target.value;
-              setUserData({ ...UserData, confirmPassword: value });
+          <div className="password-container" style={{ position: "relative" }}>
+      <label>
+        Confirm Password <span className="required">*</span>
+      </label>
+      <input
+        type={showConfirmPassword ? "text" : "password"}  // toggle type here
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={UserData.confirmPassword || ""}
+        onChange={(e) => {
+          const value = e.target.value;
+          setUserData({ ...UserData, confirmPassword: value });
 
-              if (!value) {
-                setErrors((prev) => ({
-                  ...prev,
-                  confirmPassword: "Confirm Password is required",
-                }));
-              } else if (value !== UserData.password) {
-                setErrors((prev) => ({
-                  ...prev,
-                  confirmPassword: "Passwords do not match",
-                }));
-              } else {
-                clearError("confirmPassword");
-              }
-            }}
-          />
+          if (!value) {
+            setErrors((prev) => ({
+              ...prev,
+              confirmPassword: "Confirm Password is required",
+            }));
+          } else if (value !== UserData.password) {
+            setErrors((prev) => ({
+              ...prev,
+              confirmPassword: "Passwords do not match",
+            }));
+          } else {
+            clearError("confirmPassword");
+          }
+        }}
+        className="password-input"
+        style={{ paddingRight: "40px" }} // ensure space for icon
+      />
+      <span
+        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+        className="password-toggle-icon"
+      >
+        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+      </span>
+    </div>
           {errors.confirmPassword && (
             <p className="error-text">{errors.confirmPassword}</p>
           )}
@@ -313,7 +376,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
 
         {/* Gender */}
     <div className="gender-group">
-  <label className="gender-label">
+  <label className="gender-lable">
     Gender <span className="required">*</span>
   </label>
 
@@ -358,9 +421,6 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
     <p className="error-text">{errors.gender}</p>
   )}
 </div>
-
-
-
         {/* Next Button */}
         <button className="next-btn" onClick={handleNext}>
           Next

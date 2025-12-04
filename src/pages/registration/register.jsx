@@ -3,12 +3,12 @@ import FormStepOne from "./formStepOne";
 import FormStepTwo from "./formStepTwo";
 import FormStepThree from "./formStepThree";
 import FormStepFour from "./formStepFour";
-import { BASE_API } from './registerconstants';
 
 
 
 function Register() {
   const [step, setStep] = useState(1);
+  const [isPreviousClicked, setIsPreviousClicked] = useState(false);
   const [UserData, setUserData] = useState({
     userId: 0,
     religionId: 0,
@@ -22,7 +22,6 @@ function Register() {
     cityId: 0,
     stateId: 0,
     countryId: 0,
-    address: '',
     profileForDataId: 0,
     doshamId: 0,
     firstName : '',
@@ -46,11 +45,13 @@ function Register() {
     employmentStatus: ""
 });
 
+const Base_api=import.meta.env.VITE_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
 
-      const response = await fetch(`${BASE_API}/api/UserProfile`, {
+      const response = await fetch(`${Base_api}/api/UserProfile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(UserData),
@@ -66,7 +67,10 @@ function Register() {
   };
 
   const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = ()    => setStep(prev => prev - 1);
+  const prevStep = () => {
+  setIsPreviousClicked(true);   // Tell child that Previous was clicked
+  setStep(prev => prev - 1);    // Move to previous step
+};
 
   return (
     <div style={{ padding: '20px' }}>
@@ -84,6 +88,8 @@ function Register() {
           setUserData={setUserData}
           nextStep={nextStep}
           prevStep={prevStep}
+          isPreviousClicked={isPreviousClicked}
+          clearPreviousFlag={() => setIsPreviousClicked(false)}
         />
       )}
       {step === 3 && (
@@ -437,25 +443,5 @@ export default Register;
 
 
 
-
-
- //useEffect(() => {
-    // API call inside useEffect
-   // fetch("http://localhost:5103/api/BasicDetails/religions") // Example API
-  //    .then((response) => {
-     //   if (!response.ok) {
-     //     throw new Error("Failed to fetch data");
-     //   }
-      //  return response.json();
-     //  })
-     // .then((data) => {
-     //   setReligions(data); // store response in state
-  
-     // })
-    //  .catch((err) => {
-       // setError(err.message);
-        //setLoading(false);
-    //  });
- // }, []); // [] ensures API is called only once when component mounts
 
 

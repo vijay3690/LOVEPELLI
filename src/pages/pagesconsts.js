@@ -1,3 +1,4 @@
+
 //activity constants
 
 export const ACTIVITYBTNTEXT = "Load More";
@@ -535,6 +536,8 @@ export const GROUPMEMBERLIST = [
 export const MEMBERNAME = "William Smith";
 export const MEMBERACTIVITY = "Active 3 Days Ago";
 export const MEMBERDESC = "Challenges are whats make lifes interesting and overcoming them is what makes life meaningful";
+
+
 
 export const MEMBERINFO = [
     {

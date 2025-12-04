@@ -15,55 +15,62 @@ import MembersPage from "./pages/members";
 import MembershipPage from "./pages/membership";
 import Policy from "./pages/policy";
 import HomePageFour from "./pages/homepages/homefour";
-import HomePage from "./pages/homepages/home";
+import HomePage from "./pages/homepages/home";  // 👈 this will be your first open public home page
 import Logout from "./pages/authentication/logout";
-import SignUp from "./pages/otp-signin/signup";
+import AuthPage from "./pages/otp-signin/authpage";
 import Register from "./pages/registration/register";
 import ProtectedRoute from "/src/protectedroute";
 import LogInEmail from "./pages/email-signin/loginEmail";
 import ForgotPassword from "./pages/email-signin/forgotpassword";
 import ResetPassword from "./pages/email-signin/resetpassword";
 import MobileLogin from "./pages/email-signin/mobilelogin";
-// import LogInModal from "./pages/email-signin/loginmodal";
+import Interests from "./pages/userprofile/interests";
+import Notification from "./pages/userprofile/notifications";
+
+
+
 
 function App() {
-	return (
-		<div className="App">
-			<BrowserRouter>
-				<ScrollToTop />
-				<Routes>
-					{/* Public Routes */}
-					<Route path="/login" element={<LogIn />} />
-					<Route path="/signup" element={<SignUp />} />
-					<Route path="/register" element={<Register />} />
-					<Route path="/logout" element={<Logout />} />
-					<Route path="/loginEmail" element={<LogInEmail />} />
-					<Route path="/forgotpassword" element={<ForgotPassword/>}/>
-					<Route path="/resetpassword" element={<ResetPassword/>}/>
-					<Route path="/mobilelogin" element={<MobileLogin/>}/>
-					{/* <Route path="/loginmodal" element={<LogInModal />} /> */}
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
 
-					{/* Protected Routes */}
-					<Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-					<Route path="/homefour" element={<ProtectedRoute><HomePageFour /></ProtectedRoute>} />
-					<Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
-					<Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
-					<Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
-					<Route path="/group" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
-					<Route path="/group-single" element={<ProtectedRoute><GroupDetails /></ProtectedRoute>} />
-					<Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
-					<Route path="/activity" element={<ProtectedRoute><ActivityPage /></ProtectedRoute>} />
-					<Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
-					<Route path="/member-single" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
-					<Route path="/policy" element={<ProtectedRoute><Policy /></ProtectedRoute>} />
-					<Route path="errorpage" element={<ProtectedRoute><ErrorPage/></ProtectedRoute>}/>
+          {/* ---------- Public Routes ---------- */}
+          <Route path="/" element={<HomePage />} />  {/* 👈 Default public landing page */}
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/authpage" element={<AuthPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/loginEmail" element={<LogInEmail />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/mobilelogin" element={<MobileLogin />} />
 
-					{/* Catch-all → redirect */}
-					<Route path="*" element={<Navigate to="/login" replace />} />
-				</Routes>
-			</BrowserRouter>
-		</div>
-	);
+          {/* ---------- Protected Routes ---------- */}
+          <Route path="/homefour" element={<ProtectedRoute><HomePageFour /></ProtectedRoute>} />
+          <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
+          <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          <Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
+          <Route path="/group" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
+          <Route path="/group-single" element={<ProtectedRoute><GroupDetails /></ProtectedRoute>} />
+          <Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
+          <Route path="/activity" element={<ProtectedRoute><ActivityPage /></ProtectedRoute>} />
+          <Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
+          <Route path="/member-single" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
+          <Route path="/policy" element={<ProtectedRoute><Policy /></ProtectedRoute>} />
+          <Route path="/errorpage" element={<ErrorPage />} />
+          <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
+
+
+          {/* ---------- Catch-All Route ---------- */}
+          <Route path="*" element={<Navigate to="/" replace />} /> {/* 👈 redirect unknown routes to homepage */}
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
