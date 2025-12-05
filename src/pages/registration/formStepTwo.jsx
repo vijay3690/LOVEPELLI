@@ -1,36 +1,55 @@
 // src/components/FormStepTwo.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css"; // Contains unified modal styles
-import { useDropdown } from "../../context/dropdown-context";
 // import {BASE_API} from "./registerconstants";
 
 
 const FormStepTwo = ({
   UserData,
-  setUserData,  
+  setUserData,
   nextStep,
-  prevStep,
-  isPreviousClicked,
-  clearPreviousFlag
+  prevStep
 }) => {
 
-  const {religions, setReligions} = useDropdown();
-  const {castes, setCastes} = useDropdown();
-  const {subCastes, setSubCastes} = useDropdown();
-  const {divisions, setDivisions} = useDropdown();
-  const {motherTongues, setMotherTongues} = useDropdown();
+  const [religions, setReligions] = useState([]);
+  const [castes, setCastes] = useState([]);
+  const [subCastes, setSubCastes] = useState([]);
+  const [divisions, setDivisions] = useState([]);
+  const [motherTongues, setMotherTongues] = useState([]);
   const [religionName, setReligionName] = useState("");
   const [dosham, setDosham] = useState([]);
   const [isSelectedCasteIdHaveSubCastes, setIsSelectedCasteIdHaveSubCastes] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
+  const inputRefs = useRef([]);
   const Base_api=import.meta.env.VITE_BASE_URL;
 
-const handleChange = (e) => {
-  const selectedId = e.target.value;
- 
+  // Clear and rebuild refs each render in visual order
+    inputRefs.current = [];
+
+ const handleKeyDown = (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    
+    // Find current element's index in valid refs
+    const validRefs = inputRefs.current.filter(Boolean);
+    const currentIndex = validRefs.indexOf(e.target);
+    
+    if (currentIndex < validRefs.length - 1) {
+      validRefs[currentIndex + 1]?.focus();
+    } else {
+      document.getElementById("submitBtn")?.click();
+    }
+  }
+};
+
+
+
+  const handleChange = (e) => {
+   const selectedId = e.target.value;
+  const { name, value } = e.target;   // here is value
+
   if(e.target.name === 'casteId') {
    
     const hasSubCastes = castes.some(x => x.casteId == selectedId && x.hasSubCaste ===true);
@@ -53,10 +72,20 @@ const handleChange = (e) => {
   // This will update the UserData state with the selected value
   setUserData(prev => ({
     ...prev,
-    [e.target.name]: selectedId
+     [e.target.name]: selectedId,
+    [name]: value,
   }));
+    // Clear error for this field if value is not empty
+  if (value) {
+    clearError(name);
+  }
 };
 
+const handlePrev = () => {
+  // Optionally reset religionName if needed, or other fields
+  setReligionName(""); // or any logic you need
+  prevStep(); // call the passed prop to go back
+};
 
 // clearError function to clear error of specific field
   const clearError = (fieldName) => {
@@ -64,10 +93,6 @@ const handleChange = (e) => {
       ...prevErrors,
       [fieldName]: ""
     }));
-       // Clear error when input has value
-    if (value) {
-      clearError(name);
-    }
   };
 
 
@@ -86,33 +111,20 @@ const handleChange = (e) => {
 
 useEffect(() => {
     const fetchDropdownData = async () => {
-       if (religions.length === 0) {
         safeFetch(`${Base_api}/api/BasicDetails/religions`, setReligions, 'fetch religions');
-       }
-       if( motherTongues.length === 0) {
         safeFetch(`${Base_api}/api/BasicDetails/motherTongues`, setMotherTongues, 'fetch motherTongues')
-      }
-      if (dosham.length === 0 && religionName === "Hindu") {  
         safeFetch(`${Base_api}/api/BasicDetails/dosham`, setDosham, 'fetch dosham');
-       }
-      };
+    };
     fetchDropdownData();
   }, []);
 
 
  useEffect(() => {
-    if (UserData.religionId && religionName !== "") {
+    if (UserData.religionId ) {
       safeFetch(`${Base_api}/api/BasicDetails/castes/${UserData.religionId}`, setCastes, 'castes');
     }
       if (religionName === "Christian") {
       safeFetch(`${Base_api}/api/BasicDetails/division/${UserData.religionId}`, setDivisions, 'divisions');
-      }
-         if (isPreviousClicked && religionName === "") {
-        const religion = religions.find(r => r.religionId == UserData.religionId);
-        const name  = religion ? religion.religionName : "";
-        setReligionName(name);
-         // Reset the flag in parent so it runs only once
-      clearPreviousFlag();
       }
   }, [UserData.religionId, religionName]);
 
@@ -147,7 +159,7 @@ useEffect(() => {
     return { minDate, maxDate };
   };
 
-    //  Validation
+    // Validation
   const validateForm = () => {
     let newErrors = {};
     const today = new Date();
@@ -228,7 +240,9 @@ useEffect(() => {
         min={minDate}
         max={maxDate}
         value={UserData.dob || ""}
-        onChange={(e) => {
+        ref={(el) => (inputRefs.current[0] = el)}
+        onKeyDown={handleKeyDown} 
+         onChange={(e) => {
           const value = e.target.value;
 
           // Update UserData state for dob
@@ -248,6 +262,7 @@ useEffect(() => {
   )}
 </div>
 
+
             {/* Religion */}
 <label>
   Religion:<span className="required">*</span>
@@ -255,12 +270,15 @@ useEffect(() => {
 <select
   name="religionId"
   value={UserData.religionId || ""}
+  ref={(el) => (inputRefs.current[1] = el)}
+  onKeyDown={handleKeyDown} 
   onChange={(e) => {
-    handleChange(e); // updates UserData state
+  handleChange(e); // updates UserData state
 
     // Clear error immediately when a value is selected
-   if (e.target.value) clearError("religionId");
-
+    if (e.target.value) {
+      clearError("religionId");
+    }
   }}
 >
   <option value="">Select</option>
@@ -276,7 +294,6 @@ useEffect(() => {
   <p className="error-text">{errors.religionId}</p>
 )}
 
-              
            {/* Caste */}
         <label>
   Caste:<span className="required">*</span>
@@ -284,6 +301,8 @@ useEffect(() => {
 <select
   name="casteId"
   value={UserData.casteId || ""}
+  ref={(el) => (inputRefs.current[2] = el)}
+  onKeyDown={handleKeyDown} 
   onChange={(e) => {
     handleChange(e); // update UserData state
 
@@ -316,6 +335,8 @@ useEffect(() => {
             <select
               name="subCasteId"
               value={UserData.subCasteId || ""}
+              ref={(el) => (inputRefs.current[3] = el)}
+              onKeyDown={handleKeyDown} 
               onChange={handleChange}
             >
               <option value="">Select</option>
@@ -338,6 +359,8 @@ useEffect(() => {
               type="text"
               name="subCasteName"
               value={UserData.subCasteName || ""}
+              ref={(el) => (inputRefs.current[4] = el)}
+              onKeyDown={handleKeyDown} 
               placeholder="Optional"
               onChange={handleChange}
             />
@@ -354,7 +377,9 @@ useEffect(() => {
             <select
               name="divisionId"
               value={UserData.divisionId || ""}
-               onChange={handleChange}
+              ref={(el) => (inputRefs.current[5] = el)}
+              onKeyDown={handleKeyDown} 
+              onChange={handleChange}
             >
               <option value="">Select</option>
               {divisions.map((d) => (
@@ -365,7 +390,7 @@ useEffect(() => {
             </select>
             {errors.divisionId && <p className="error-text">{errors.divisionId}</p>}
           </>
-       )} 
+        )}
         
       {/* Gothram */}
        {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
@@ -375,6 +400,8 @@ useEffect(() => {
               type="text"
               name="gotram"
               value={UserData.gotram || ""}
+              ref={(el) => (inputRefs.current[6] = el)}
+              onKeyDown={handleKeyDown} 
               onChange={handleChange}
             />
           </>
@@ -388,6 +415,8 @@ useEffect(() => {
               type="text"
               name="dosham"
               value={UserData.dosham || ""}
+              ref={(el) => (inputRefs.current[7] = el)}
+              onKeyDown={handleKeyDown} 
               onChange={handleChange}
             />
           </>
@@ -400,6 +429,8 @@ useEffect(() => {
         <select
           name="motherTongueId"
           value={UserData.motherTongueId || ""}
+          ref={el => inputRefs.current[8] = el}
+          onKeyDown={handleKeyDown} 
           onChange={handleChange}
         >
           <option value="">Select</option>
@@ -416,8 +447,10 @@ useEffect(() => {
         
         {/* Buttons */}
         <div className="button-group">
-        <button type="button" className="prev-btn"   onClick={prevStep}>Previous</button>
-        <button type="button" className="next-btn" onClick={handleNext}>
+         <button type="button" className="prev-btn" onClick={handlePrev}>
+            Previous
+         </button>
+          <button id="submitBtn" type="button" className="next-btn" onClick={handleNext}>
             Next
           </button>
         </div>

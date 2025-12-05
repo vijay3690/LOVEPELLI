@@ -25,7 +25,7 @@ function ResetPassword() {
     }
   }, [token, email]);
 
-  // ✅ Password strength checker
+  //  Password strength checker
   const checkPasswordStrength = (value) => {
     if (value.length < 6) return "Weak";
     if (/[A-Z]/.test(value) && /\d/.test(value) && /[@$!%*?&]/.test(value))
@@ -99,7 +99,7 @@ function ResetPassword() {
     }
   };
 
-  // ✅ Password strength color
+  //  Password strength color
   const getStrengthColor = () => {
     switch (strength) {
       case "Weak":
@@ -139,7 +139,6 @@ function ResetPassword() {
             </p>
           )}
         </div>
-
         <div>
           <input
             type={showPassword ? "text" : "password"}
@@ -150,7 +149,6 @@ function ResetPassword() {
             minLength={6}
           />
         </div>
-
         <div className="checkbox">
           <input
             type="checkbox"
@@ -160,7 +158,6 @@ function ResetPassword() {
           />
           <label htmlFor="showPassword">Show Password</label>
         </div>
-
         <button type="submit" disabled={loading} className="reset-button">
           {loading ? "Updating..." : "Update Password"}
         </button>
