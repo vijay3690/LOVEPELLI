@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -13,9 +13,20 @@ function LoginEmail({ onClose }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const Base_api=import.meta.env.VITE_BASE_URL;
-
+  const inputRefs = useRef([]); 
   const navigate = useNavigate();
+ 
 
+    const handleKeyDown = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // stop form submit
+      if (index < inputRefs.current.length - 1) {
+        inputRefs.current[index + 1].focus(); // move to next field
+      } else {
+        document.getElementById("submitBtn").click(); // submit button action
+      }
+    }
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -73,6 +84,8 @@ function LoginEmail({ onClose }) {
                 name="email"
                 type="email"
                 value={userEmail}
+                 ref={el => inputRefs.current[0] = el}
+                 onKeyDown={(e) => handleKeyDown(e, 0)}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter Your Email *"
                autoComplete="email"
@@ -87,6 +100,8 @@ function LoginEmail({ onClose }) {
                       name="password"
                       type={showPassword ? "text" : "password"}
                       value={userPass}
+                      ref={el => inputRefs.current[0] = el}
+                      onKeyDown={(e) => handleKeyDown(e, 0)}
                       onChange={(e) => setUserPass(e.target.value)}
                       placeholder="Enter Your Password *"
                       className="password-input"
@@ -96,6 +111,8 @@ function LoginEmail({ onClose }) {
 
                     <button
                       type="button"
+                       ref={el => inputRefs.current[1] = el}
+                       onKeyDown={(e) => handleKeyDown(e, 1)}
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       title={showPassword ? "Hide password" : "Show password"}
@@ -110,7 +127,7 @@ function LoginEmail({ onClose }) {
             </p>
 
             <div className="text-center">
-              <button type="submit" className="default-btn" >
+              <button id="submitBtn" type="submit" className="default-btn" >
                                 Log In
               </button>
             </div>

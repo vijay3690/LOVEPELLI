@@ -17,7 +17,7 @@ function ForgotPassword() {
     setMsg("");
     setError("");
 
-    // ✅ Basic validation
+    //  Basic validation
     if (!email.trim()) {
       setError("Email is required.");
       return;
@@ -56,7 +56,7 @@ function ForgotPassword() {
         setMsg(data.message || "Reset link sent successfully!");
         setEmail("");
 
-        // ✅ Redirect to login or same page after 3 seconds
+        //  Redirect to login or same page after 3 seconds
         setTimeout(() => {
           navigate("/login");
         }, 3000);
