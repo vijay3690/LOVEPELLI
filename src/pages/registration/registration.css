@@ -248,20 +248,20 @@ select:focus {
 }
 /* eye slash show password */
 .password-input {
-  padding-right: 60px; /* space for the icon */
+  padding-right: 50px; /* space for the icon */
   width: 100%;
   box-sizing: border-box;
 }
 
 .password-toggle-icon {
   position: absolute;
-  right: 12px;
-  top: 60%; /* move down slightly */
+  right: 13px;
+  top: 56%; /*move down slightly*/
   transform: translateY(-50%);
   cursor: pointer;
   color: #666;
   user-select: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 

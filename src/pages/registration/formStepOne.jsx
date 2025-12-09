@@ -467,7 +467,7 @@ const handleNext = async () => {
 
         {/* Confirm Password */}
         <div className="password-box">
-          <div className="password-container" style={{ position: "relative" }}>
+          <div className="password-container">
       <label>
         Confirm Password <span className="required">*</span>
       </label>
@@ -509,7 +509,9 @@ const handleNext = async () => {
         >
           <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
         </span>
-         {/* ADD SUCCESS MESSAGE HERE */}
+    </div>
+    <div>
+           {/* ADD SUCCESS MESSAGE HERE */}
             {isPasswordMatch && (
               <p style={{ color: "green", marginTop: "0px", fontSize: "14px" }}>
                 ✓ Passwords match
