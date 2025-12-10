@@ -51,7 +51,7 @@ const handleChange = (e) => {
       setMobile(value);
       if (isValidPhoneNumber(value)) setError("");
       else if (value.length > 0)
-        setError("Invalid mobile number. Must be 10 digits starting with 6–9.");
+        setError("Please enter a valid phone number to receive otp for verification");
       else setError("");
     } else {
       setError("Only digits are allowed.");
@@ -68,7 +68,7 @@ const sendOtp = async () => {
   setError("");
   setMessage("");
   if (!isValidPhoneNumber(mobile)) {
-    setError("Please enter a valid 10-digit mobile number before requesting OTP.");
+    setError("Please enter a valid phone number to receive otp for verification");
     return;
   }
 
@@ -331,30 +331,7 @@ const handleNext = async () => {
               autoComplete="tel"
               inputMode="numeric"
             />
-
-            {/* Use a button or a styled Link here */}
-              {/* Full Screen Overlay Loader */}
-              {loading && (
-                <div className="overlay-loader">
-                  <div className="spinner"><img src="assets/images/gifs/Spinner1.gif" alt="Spinner" /></div>
-                  <p>Sending OTP...</p>
-                </div>
-              )}
-        <Link
-              type="submit"
-              className="sendOtpBtn"
-               ref={el => inputRefs.current[4] = el}
-               onKeyDown={(e) => handleKeyDown(e, 4)}
-              onClick={sendOtp}
-              disable={loading}
-              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
-            >
-              {time > 0 ? `Resend in ${time}s` : "Send OTP"}
-        </Link>
-
-          </div>
+       </div>
       </div>
       {errors.countryCode && <div className="error">{errors.countryCode}</div>}
       {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
@@ -374,7 +351,30 @@ const handleNext = async () => {
           {error && <p style={{ color: "red" }}>{error}</p>}
           {message && <p style={{ color: "green" }}>{message}</p>}
         
-
+   <div className="otpSection">
+            {/* Use a button or a styled Link here */}
+              {/* Full Screen Overlay Loader */}
+              {loading && (
+                <div className="overlay-loader">
+                  <div className="spinner"><img src="assets/images/gifs/Spinner1.gif" alt="Spinner" /></div>
+                  <p>Sending OTP...</p>
+                </div>
+              )}
+        <Link
+              type="submit"
+              className="sendOtpBtn"
+              ref={el => inputRefs.current[4] = el}
+              onKeyDown={(e) => handleKeyDown(e, 4)}
+              onClick={sendOtp}
+              disable={loading}
+              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
+            >
+              {time > 0 ? `Resend in ${time}s` : "Send OTP"}
+        </Link>
+          </div>
+          
         {/* Email */}
         <label>
           Email <span className="required">*</span>
