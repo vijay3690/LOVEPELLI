@@ -547,17 +547,32 @@ select:focus {
 }
 
 .sendOtpBtn {
-  position: absolute;
-  top: 32.5%;
-  right: 8px;
-  background: white;
-  color: #555;
+  padding: 10px;
+  width: 90px;
   border: none;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  background: white;
+  color: #e6006e;
+  font-size: 14px;
+  margin-left: 350PX;
+  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.sendOtpBtn:hover {
+  background: #e6006e;
+  color: white;
+}
+/* ---------- Mobile Responsive ---------- */
+@media (max-width: 600px) {
+ .sendOtpBtn {
+    grid-column: span 2;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    font-size: 14px;
+  }
 }
 
 .otp-dialog.closing {
