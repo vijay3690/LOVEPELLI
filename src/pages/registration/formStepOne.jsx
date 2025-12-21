@@ -267,7 +267,7 @@ const handleNext = async () => {
         {/* First + Last Name */}
         <div className="name-row">
           <div className="name-box">
-            <label>
+            <label className="labels">
               First Name <span className="required">*</span>
             </label>
             <input
@@ -283,7 +283,7 @@ const handleNext = async () => {
           </div>
 
           <div className="name-box">
-            <label>
+            <label className="labels">
               Last Name <span className="required">*</span>
             </label>
             <input
@@ -300,7 +300,7 @@ const handleNext = async () => {
         </div>
 
         {/* Phone Number */}
-             <label>
+             <label className="labels">
         Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -376,7 +376,7 @@ const handleNext = async () => {
           </div>
           
         {/* Email */}
-        <label>
+        <label className="labels">
           Email <span className="required">*</span>
         </label>
         <input
@@ -411,7 +411,7 @@ const handleNext = async () => {
           <div className="password-box">
 
               <div className="password-container">
-                  <label>
+                  <label className="labels">
                     Password <span className="required">*</span>
                   </label>
             <input
@@ -468,7 +468,7 @@ const handleNext = async () => {
         {/* Confirm Password */}
         <div className="password-box">
           <div className="password-container">
-      <label>
+      <label className="labels">
         Confirm Password <span className="required">*</span>
       </label>
       <input
@@ -525,7 +525,7 @@ const handleNext = async () => {
 
           
               {/* Profile For */}
-        <label>
+        <label className="labels">
           Profile For <span className="required">*</span>
         </label>
         <select
@@ -574,7 +574,7 @@ const handleNext = async () => {
 
         {/* Gender */}
     <div className="gender-group">
-  <label className="gender-lable">
+  <label className="labels">
     Gender <span className="required">*</span>
   </label>
 
@@ -600,11 +600,11 @@ const handleNext = async () => {
             value={g}
             checked={UserData.gender === g}
             disabled={disabled}
-             ref={el => inputRefs.current[9] = el}
+            ref={el => inputRefs.current[9] = el}
                       onKeyDown={(e) => handleKeyDown(e, 9)}
             onChange={(e) => {
-              const value = e.target.value;
-              setUserData({ ...UserData, gender: value });
+            const value = e.target.value;
+            setUserData({ ...UserData, gender: value });
 
               // Clear error when user selects a valid gender
               clearError("gender");
