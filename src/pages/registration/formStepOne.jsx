@@ -51,7 +51,7 @@ const handleChange = (e) => {
       setMobile(value);
       if (isValidPhoneNumber(value)) setError("");
       else if (value.length > 0)
-        setError("Invalid mobile number. Must be 10 digits starting with 6–9.");
+        setError("Please enter a valid phone number to receive otp for verification");
       else setError("");
     } else {
       setError("Only digits are allowed.");
@@ -68,7 +68,7 @@ const sendOtp = async () => {
   setError("");
   setMessage("");
   if (!isValidPhoneNumber(mobile)) {
-    setError("Please enter a valid 10-digit mobile number before requesting OTP.");
+    setError("Please enter a valid phone number to receive otp for verification");
     return;
   }
 
@@ -267,7 +267,7 @@ const handleNext = async () => {
         {/* First + Last Name */}
         <div className="name-row">
           <div className="name-box">
-            <label>
+            <label className="labels">
               First Name <span className="required">*</span>
             </label>
             <input
@@ -283,7 +283,7 @@ const handleNext = async () => {
           </div>
 
           <div className="name-box">
-            <label>
+            <label className="labels">
               Last Name <span className="required">*</span>
             </label>
             <input
@@ -300,7 +300,7 @@ const handleNext = async () => {
         </div>
 
         {/* Phone Number */}
-             <label>
+             <label className="labels">
         Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -331,30 +331,7 @@ const handleNext = async () => {
               autoComplete="tel"
               inputMode="numeric"
             />
-
-            {/* Use a button or a styled Link here */}
-              {/* Full Screen Overlay Loader */}
-              {loading && (
-                <div className="overlay-loader">
-                  <div className="spinner"><img src="assets/images/gifs/Spinner1.gif" alt="Spinner" /></div>
-                  <p>Sending OTP...</p>
-                </div>
-              )}
-        <Link
-              type="submit"
-              className="sendOtpBtn"
-               ref={el => inputRefs.current[4] = el}
-               onKeyDown={(e) => handleKeyDown(e, 4)}
-              onClick={sendOtp}
-              disable={loading}
-              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
-              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
-            >
-              {time > 0 ? `Resend in ${time}s` : "Send OTP"}
-        </Link>
-
-          </div>
+       </div>
       </div>
       {errors.countryCode && <div className="error">{errors.countryCode}</div>}
       {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
@@ -374,9 +351,32 @@ const handleNext = async () => {
           {error && <p style={{ color: "red" }}>{error}</p>}
           {message && <p style={{ color: "green" }}>{message}</p>}
         
-
+   <div className="otpSection">
+            {/* Use a button or a styled Link here */}
+              {/* Full Screen Overlay Loader */}
+              {loading && (
+                <div className="overlay-loader">
+                  <div className="spinner"><img src="assets/images/gifs/Spinner1.gif" alt="Spinner" /></div>
+                  <p>Sending OTP...</p>
+                </div>
+              )}
+        <Link
+              type="submit"
+              className="sendOtpBtn"
+              ref={el => inputRefs.current[4] = el}
+              onKeyDown={(e) => handleKeyDown(e, 4)}
+              onClick={sendOtp}
+              disable={loading}
+              disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              aria-disabled={isValidPhoneNumber(UserData.contactNumber || "")}
+              tabIndex={isValidPhoneNumber(UserData.contactNumber || "") ? -1 : 0}
+            >
+              {time > 0 ? `Resend in ${time}s` : "Send OTP"}
+        </Link>
+          </div>
+          
         {/* Email */}
-        <label>
+        <label className="labels">
           Email <span className="required">*</span>
         </label>
         <input
@@ -411,7 +411,7 @@ const handleNext = async () => {
           <div className="password-box">
 
               <div className="password-container">
-                  <label>
+                  <label className="labels">
                     Password <span className="required">*</span>
                   </label>
             <input
@@ -467,8 +467,8 @@ const handleNext = async () => {
 
         {/* Confirm Password */}
         <div className="password-box">
-          <div className="password-container" style={{ position: "relative" }}>
-      <label>
+          <div className="password-container">
+      <label className="labels">
         Confirm Password <span className="required">*</span>
       </label>
       <input
@@ -509,7 +509,9 @@ const handleNext = async () => {
         >
           <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
         </span>
-         {/* ADD SUCCESS MESSAGE HERE */}
+    </div>
+    <div>
+           {/* ADD SUCCESS MESSAGE HERE */}
             {isPasswordMatch && (
               <p style={{ color: "green", marginTop: "0px", fontSize: "14px" }}>
                 ✓ Passwords match
@@ -523,7 +525,7 @@ const handleNext = async () => {
 
           
               {/* Profile For */}
-        <label>
+        <label className="labels">
           Profile For <span className="required">*</span>
         </label>
         <select
@@ -572,7 +574,7 @@ const handleNext = async () => {
 
         {/* Gender */}
     <div className="gender-group">
-  <label className="gender-lable">
+  <label className="labels">
     Gender <span className="required">*</span>
   </label>
 
@@ -598,11 +600,11 @@ const handleNext = async () => {
             value={g}
             checked={UserData.gender === g}
             disabled={disabled}
-             ref={el => inputRefs.current[9] = el}
+            ref={el => inputRefs.current[9] = el}
                       onKeyDown={(e) => handleKeyDown(e, 9)}
             onChange={(e) => {
-              const value = e.target.value;
-              setUserData({ ...UserData, gender: value });
+            const value = e.target.value;
+            setUserData({ ...UserData, gender: value });
 
               // Clear error when user selects a valid gender
               clearError("gender");

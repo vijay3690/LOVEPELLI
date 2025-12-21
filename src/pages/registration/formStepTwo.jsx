@@ -217,13 +217,15 @@ useEffect(() => {
     navigate("/");
   };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-            {/* Close Button */}
-        <button className="close-btn" onClick={closeModal}>✖</button>
-        <h2>Basic Details</h2>
 
+// UI Rendering
+
+  return (
+    <div className="modal-overlay2">
+      <div className="modal-content2">
+                  {/* Close Button */}
+        <button className="close-btn2" onClick={closeModal}>✖</button>
+        <h2>Basic Details</h2>
              {/* DOB */}
 <div className="dob-group">
   <label>

@@ -14,7 +14,20 @@
   z-index: 1000;
   padding: 1rem;
 }
-
+.modal-overlay2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white; /* Clean white background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+/* Form Step 1 */
 /* Modal Box */
 .modal-content {
   background: #ffffff;
@@ -27,6 +40,39 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', Arial, sans-serif;
   animation: slideIn 0.3s ease-out;
+}
+/* Headings */
+.modal-content h2,
+.form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ff007a;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Form Step 1 */
+/* Modal Box */
+.modal-content2 {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px; /* Consistent size */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  animation: slideIn 0.3s ease-out;
+}
+/* Headings */
+.modal-content2 h2,
+.form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ff007a;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 /* Animation */
@@ -41,21 +87,13 @@
   }
 }
 
-/* Headings */
-.modal-content h2,
-.form-title {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #ff007a;
-  font-size: 1.4rem;
-  font-weight: bold;
-}
+
 
 /* Labels */
-label {
+.labels {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 500;
   color: #555;
 }
 
@@ -160,20 +198,7 @@ select:focus {
   flex: 1;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .modal-content {
-    padding: 1.25rem;
-  }
-  .radio-options {
-    flex-direction: row;
-  }
-  .next-btn,
-  .prev-btn {
-    font-size: 0.95rem;
-    padding: 0.6rem;
-  }
-}
+
 
 /* formStep 1 */
 
@@ -207,11 +232,6 @@ select:focus {
   flex-direction: column;
 }
 
-.name-box label {
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
 .name-box input {
   width: 100%;
   padding: 8px;
@@ -230,11 +250,6 @@ select:focus {
   flex-direction: column;
 }
 
-.password-box label {
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
 .password-box input {
   width: 100%;
   padding: 0.65rem;
@@ -248,20 +263,20 @@ select:focus {
 }
 /* eye slash show password */
 .password-input {
-  padding-right: 60px; /* space for the icon */
+  padding-right: 50px; /* space for the icon */
   width: 100%;
   box-sizing: border-box;
 }
 
 .password-toggle-icon {
   position: absolute;
-  right: 12px;
-  top: 60%; /* move down slightly */
+  right: 13px;
+  top: 56%; /*move down slightly*/
   transform: translateY(-50%);
   cursor: pointer;
   color: #666;
   user-select: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 
@@ -279,27 +294,6 @@ select:focus {
   font-size: 14px;
 }
 
-/* Mobile view adjustments */
-@media (max-width: 768px) {
-  .radio-options {
-    display: flex;
-    flex-direction: column; /* stack items vertically */
-    margin-right:330px ; /* remove left margin for vertical alignment */
-    margin-bottom: 5px;
-    margin-top: 30px;
-  }
-
-  .gender-group {
-    display: flex;
-    flex-direction: column;
-    
-  }
-
-  .gender-lable {
-    margin-bottom: 0px; /* space between label and radios */
-    margin-right: 340px;       /*reset right margin */
-  }
-}
 
 /* formStep 3 */
 
@@ -386,21 +380,6 @@ select:focus {
   font-size: 14px;
 }
 
-/*  Mobile responsive */
-@media (max-width: 768px) {
-  .button-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* two equal columns */
-    gap: 10px;
-  }
-
-  .btn-option {
-    width: 100%;             /* full width on mobile */
-    text-align: center;
-  }
-}
-
-
 /* required field */
 .required {
   color: red;
@@ -417,7 +396,7 @@ select:focus {
 /* Close button top-right */
 /* parent popup/container */
 .signup-container {
-  position: relative; /* 👈 important for .close-btn positioning */
+  position: relative; /*  important for .close-btn positioning */
 }
 
 /* close button */
@@ -437,6 +416,24 @@ select:focus {
   color: red;
 }
 
+.signup-container2 {
+  position: relative; /*  important for .close-btn positioning */   
+}
+ /* close button step 2 */
+.close-btn2 {
+  position: relative;
+  margin-left: 420px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #444;
+  z-index: 10;
+}
+
+.close-btn2:hover {
+  color: red;
+}  
 
 /* Mobile OTP Button */
 /* Container */
@@ -532,33 +529,25 @@ select:focus {
   outline: none;
 }
 
-/* Responsive layout for OTP row */
-@media (max-width: 567px) {
-  .otpRow {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .verifyBtn {
-    width: 100%;
-  }
-  .contactInputWrapper {
-    max-width: 100%;
-  }
+.sendOtpBtn {
+  padding: 10px;
+  width: 90px;
+  border: none;
+  background: white;
+  color: #e6006e;
+  font-size: 14px;
+  margin-left: 350PX;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
 
-.sendOtpBtn {
-  position: absolute;
-  top: 32.5%;
-  right: 8px;
-  background: white;
-  color: #555;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
+.sendOtpBtn:hover {
+  background: #e6006e;
+  color: white;
 }
+
 
 .otp-dialog.closing {
   animation: fadeOut 0.3s forwards;
@@ -606,4 +595,219 @@ select:focus {
   margin-top: 12px;
   font-size: 16px;
   color: #0066ff;
+}
+
+/* ================= MOBILE RESPONSIVE FIXES ================= */
+@media (max-width: 768px) {
+
+/*  Mobile responsive */
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal columns */
+    gap: 10px;
+  }
+
+  .btn-option {
+    width: 100%;             /* full width on mobile */
+    text-align: center;
+  }
+
+/* Responsive */
+  .modal-content {
+    padding: 1.25rem;
+  }
+    .modal-content2 {
+    padding: 1.25rem;
+  }
+  .radio-options {
+    flex-direction: row;
+  }
+  .next-btn,
+  .prev-btn {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+
+  /* Modal overlay full screen */
+  .modal-overlay {
+    padding: 0;
+    align-items:center;
+  }
+
+   /* .modal-overlay2 {
+    padding: 0;
+    align-items: flex-start;
+  } */
+
+  /* Form Step 1 Modal content full width */
+  .modal-content {
+    width: 460px;            /*  small side spacing */
+    max-width: 640px;       /*  limit max width */
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: 1rem;
+  }
+
+  /* Headings */
+  .modal-content h2,
+  .form-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Form Step 2 Modal content full width */
+  .modal-content2 {
+    width: 100%;
+    max-width: 100%;
+    height: 60vh;
+    max-height: 60vh;
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  /* Headings */
+  .modal-content2 h2,
+  .form-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Inputs & selects */
+  input,
+  select {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+
+  /* Name & password rows stack */
+  .name-row,
+  .password-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Gender group stacking */
+  .gender-group {
+    align-items: flex-start;
+  }
+
+  .radio-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+  }
+
+  /* Button groups */
+  .button-group,
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-group button,
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  /* Option buttons full width */
+  .btn-option,
+  .btn-option1 {
+    width: 100%;
+  }
+
+  /* Labels alignment */
+  .field-label {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .description {
+    margin-left: 0;
+    font-size: 13px;
+  }
+
+  /* OTP row stack */
+  .otpRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .otpInput {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .verifyBtn {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  /* Send OTP button fix */
+  .sendOtpBtn {
+    margin-left: 0;
+    width: 30%;
+  }
+
+  /* Close button */
+  .close-btn {
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+  }
+
+   .close-btn2 {
+    position: absolute;   /*  key change */
+    top: 15px;
+    right: 12px;
+    margin-left: 0;       /* remove desktop spacing */
+    font-size: 24px;
+  }
+
+  /* Loader width fix */
+  .overlay-loader {
+    width: 100vw;
+  }
+
+    .sendOtpBtn {
+    margin-top: 0px;
+    font-size: 14px;
+  }
+
+  /* Responsive layout for OTP row */
+  
+  .otpRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .verifyBtn {
+    width: 100%;
+  }
+  .contactInputWrapper {
+    max-width: 100%;
+  }
+
+  /* Mobile view adjustments */
+
+  .radio-options {
+    display: flex;
+    flex-direction: column; /* stack items vertically */
+    margin-right:210px ; /* remove left margin for vertical alignment */
+    margin-bottom: 5px;
+    margin-top: 30px;
+    align-items: flex-start;
+  }
+
+  .gender-group {
+    display: flex;
+    flex-direction: column;
+    
+  }
+
+  .gender-lable {
+    margin-bottom: 0px; /* space between label and radios */
+    margin-right: 220px;       /*reset right margin */
+  }
+
 }

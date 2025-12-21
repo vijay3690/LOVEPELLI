@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./registration.css";
 
 
-
 const employmentOptions = [
   "Government",
   "Public/Private Sector",
@@ -29,24 +28,27 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
    const navigate = useNavigate();
    const inputRefs = useRef([]);
    const [loading, setLoading] = useState(false);
-   const Base_api=import.meta.env.VITE_BASE_URL;  
+   const Base_api=import.meta.env.VITE_BASE_URL;
 
- const handleKeyDown = (e, index) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    
-    // Get only valid (rendered) refs
-    const validRefs = inputRefs.current.filter(ref => ref !== undefined && ref !== null);
-    
-    if (index < validRefs.length - 1) {
-      // Move to next valid field
-      validRefs[index + 1]?.focus();
-    } else {
-      // Last field - submit
-      document.getElementById("submitBtn")?.click();
-    }
+
+const handleKeyDown = (e, index) => {
+  if (e.key !== "Enter") return;
+
+  e.preventDefault();
+
+  // Filter only usable refs
+  const validRefs = inputRefs.current.filter(el => el);
+
+  const nextIndex = index + 1;
+
+  if (nextIndex < validRefs.length) {
+    validRefs[nextIndex].focus();
+  } else {
+    // Last field → auto-submit
+    document.getElementById("submitBtn")?.click();
   }
 };
+
 
 
    const handleChange = (e) => {
@@ -67,16 +69,16 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
  
 const safeFetch = async (url, setter, label, options = {}) => {
   try {
-    const res = await fetch(url, options); // 👈 now using options
+    const res = await fetch(url, options); //  now using options
     if (!res.ok) {
       throw new Error(`HTTP ${res.status} - ${res.statusText}`);
     }
     const data = await res.json();
     if (setter) setter(data); // only call setter if provided
-    return data; // 👈 return data so caller can use it
+    return data; //  return data so caller can use it
   } catch (err) {
     console.error(`Error ${label} from ${url}:`, err);
-    throw err; // 👈 rethrow so handleSubmit can catch it
+    throw err; //  rethrow so handleSubmit can catch it
   }
 };
 
@@ -274,8 +276,8 @@ useEffect(() => {
             <select
               name="educationId"
               value={UserData.educationId}
-              ref={el => inputRefs.current[0] = el}
-              onKeyDown={handleKeyDown}
+              ref={(el) => (inputRefs.current[0] = el)}
+              onKeyDown={(e) => handleKeyDown(e, 0)}
               onChange={(e) => {
                 const { name, value } = e.target;
                 setUserData((prev) => ({
@@ -493,7 +495,6 @@ useEffect(() => {
                     }));
                     }
               }
-             
              }}
           >
             <option value="">Select</option>
