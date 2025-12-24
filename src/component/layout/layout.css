@@ -17,3 +17,19 @@
   filter: none;                 /* make sure no blur() is applied */
   margin-top: 50px;
 }
+
+@media (max-width: 768px) {
+  .footer-line {
+    font-size: 11px;        /* smaller text fits in one line */
+    gap: 4px;
+    padding: 0 8px;         /* add little side padding */
+  }
+
+  .weddysoft-logo {
+    height: 20px;           /* smaller logo for narrow screens */
+  }
+
+  .footer__content {
+    padding-inline: 4px;
+  }
+}
