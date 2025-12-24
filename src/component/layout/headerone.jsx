@@ -100,7 +100,7 @@ function HeaderOne() {
       <div className="header__bottom">
         <div className="container">
           <nav className="navbar navbar-expand-lg">
-            <Link className="navbar-brand" to="/homefour">
+            <Link className="navbar-brand" to="/headerone">
               <img src="assets/images/logo/lovepelli_logo_big.png" alt="logo" />
             </Link>
             <button
@@ -118,7 +118,7 @@ function HeaderOne() {
               <div className="navbar-nav mainmenu">
                 <ul>
                   <li>
-                    <NavLink to="/homefour">Home</NavLink>
+                    <NavLink to="/headerone">Home</NavLink>
                   </li>
                   <li>
                     <NavLink to="/members">Matches</NavLink>
