@@ -1,0 +1,19 @@
+.footer-line {
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* center whole line; or flex-start */
+  gap: 6px;                 /* space between text and logo */
+  margin: 0;
+}
+
+.footer-line a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.weddysoft-logo {
+  display: block;               /* keep aspect ratio */
+  image-rendering: crisp-edges; /* try to keep sharp */
+  filter: none;                 /* make sure no blur() is applied */
+  margin-top: 50px;
+}
