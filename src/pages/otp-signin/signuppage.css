@@ -186,14 +186,16 @@
   position: absolute;
   top: 10px;    /* distance from top */
   right: 10px;  /* distance from right */
+  background: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: black;
+  color: white;
 }
 
 .close-btn1:hover {
   color: white;
+  transform: scale(1.1) rotate(90deg);
 }
 
 /* ============================
@@ -250,11 +252,8 @@
   /* Close button (top-right) */
    .close-btn1 {
     /* color: white; */
-    top: 12px;
+      top: 12px;
     right: 12px;
     font-size: 22px;
-  }
-  .close-btn1:hover {
-    color: #ddd;
   }
 }
