@@ -2279,7 +2279,7 @@ iframe {
   padding-block: 10px;
 }
 .footer__bottom {
-  padding-block: 40px;
+  padding-block: 0px;
 }
 .footer__bottom .footer__newsletter--social ul li a {
   border-radius: 100%;

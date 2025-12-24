@@ -2480,7 +2480,7 @@ iframe {
   padding-block: 10px;
 }
 .footer__bottom {
-  padding-block: 40px;
+  padding-block: 0px;
 }
 .footer__bottom .footer__newsletter--social ul li a {
   -webkit-border-radius: 100%;
@@ -6532,3 +6532,24 @@ a[class*=lightcase-icon-] {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* Company Logo Css Styles */
+.footer-line {
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* center whole line; or flex-start */
+  gap: 6px;                 /* space between text and logo */
+  margin: 0;
+}
+
+.footer-line a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.weddysoft-logo {
+  height: 28px;             /* adjust as needed */
+  width: auto;
+  display: block;
+}
+
