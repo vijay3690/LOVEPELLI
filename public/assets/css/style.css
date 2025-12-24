@@ -1727,7 +1727,7 @@ iframe {
   }
 }
 .header__bottom {
-  padding-block: 16.5px;
+ background-color: white;
 }
 .header.header-fixed .header__top {
   display: none !important;
@@ -2489,6 +2489,7 @@ iframe {
   -o-border-radius: 100%;
   border-radius: 100%;
 }
+
 .default-btn {
   --background: #c7edff;
   --text: #00afff;

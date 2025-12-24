@@ -1606,7 +1606,7 @@ iframe {
   }
 }
 .header__bottom {
-  padding-block: 16.5px;
+  background-color: white;
 }
 .header.header-fixed .header__top {
   display: none !important;
@@ -2256,6 +2256,7 @@ iframe {
 .footer__bottom .footer__newsletter--social ul li a {
   border-radius: 100%;
 }
+
 .default-btn {
   --background: #c7edff;
   --text: #00afff;
