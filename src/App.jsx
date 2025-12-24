@@ -15,7 +15,7 @@ import MembersPage from "./pages/members";
 import MembershipPage from "./pages/membership";
 import Policy from "./pages/policy";
 import HomePageFour from "./pages/homepages/homefour";
-import HomePage from "./pages/homepages/home";  // 👈 this will be your first open public home page
+import HomePage from "./pages/homepages/home";  //  this will be your first open public home page
 import Logout from "./pages/authentication/logout";
 import AuthPage from "./pages/otp-signin/authpage";
 import Register from "./pages/registration/register";
@@ -38,7 +38,7 @@ function App() {
         <Routes>
 
           {/* ---------- Public Routes ---------- */}
-          <Route path="/" element={<HomePage />} />  {/* 👈 Default public landing page */}
+          <Route path="/" element={<HomePage />} />  {/* Default public landing page */}
           <Route path="/login" element={<LogIn />} />
           <Route path="/authpage" element={<AuthPage />} />
           <Route path="/register" element={<Register />} />
