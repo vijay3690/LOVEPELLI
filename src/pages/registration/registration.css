@@ -413,7 +413,8 @@ select:focus {
 
 
 .close-btn:hover {
-  color: red;
+  color: #e6006e;
+    transform: scale(1.1) rotate(90deg);
 }
 
 .signup-container2 {
@@ -432,7 +433,8 @@ select:focus {
 }
 
 .close-btn2:hover {
-  color: red;
+  color: #e6006e;
+    transform: scale(1.1) rotate(90deg);
 }  
 
 /* Mobile OTP Button */
