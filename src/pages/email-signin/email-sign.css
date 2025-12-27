@@ -371,6 +371,22 @@
   font-weight: bold;
 }
 
+/* close button */
+.forgot-close-btn {
+  position: absolute;
+  top: 22px;    /* distance from top */
+  right: 22px;  /* distance from right */
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #444;
+  width: 10%;
+}
+
+.forgot-close-btn:hover {
+  color: red;
+} 
 
 /* loginEmail */
 
@@ -402,6 +418,19 @@
   background: transparent;
   border: none;
   padding: 0;
+}
+
+.Login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ee4292, #f11179);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 
@@ -461,63 +490,106 @@
 
 /* Mobilelogin */
 
-/* Container for the form */
-.otp-container {
-  max-width: 350px;
-  margin: 40px auto;
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.2); /* frosted glass */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* Overlay */
+.mlg-modal-overlay {
+  position: fixed;
+  inset: 0;                           /* top:0 right:0 bottom:0 left:0 */
+  background:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal card */
+.mlg-modal-content {
+  background: #fff;
   border-radius: 12px;
-  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); */
-  text-align: center;
-  color: #fff;
-  font-family: Arial, sans-serif;
-}
-
-/* Input fields */
-.otp-container input {
   width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  /* border: 1px solid rgba(255, 255, 255, 0.3); */
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color:black;
-  font-size: 16px;
-  /* outline: none; */
-  /* transition: all 0.3s ease; */
-  border: 1px solid black;
+  max-width: 420px;                   /* desktop/tablet */
+  margin: 0 16px;                     /* side space on small screens */
+  padding: 20px 20px 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  box-sizing: border-box;
 }
 
-.otp-container input:focus {
-  border-color: #fff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+/* Close button */
+.mlg-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+.mlg-close-btn:hover {
+  color: #d93025;
+}
+
+/* OTP container */
+.mlg-otp-container {
+  width: 100%;
+  padding-top: 10px;
+  text-align: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.mlg-otp-container h4 {
+  margin: 8px 0 16px;
+  font-size: 18px;
+  color: #1a2a4a;
+}
+
+/* Inputs */
+.mlg-otp-container input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.mlg-otp-container input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
 }
 
 /* Buttons */
-.otp-container button {
+.mlg-otp-container button {
   width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
+  margin-top: 12px;
+  padding: 10px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
-  font-size: 16px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg,#6a11cb,#2575fc);
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
 }
 
-.otp-container button:disabled {
-  opacity: 0.6;
+.mlg-otp-container button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.otp-container button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.mlg-otp-container button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Error / success text inside this modal */
+.mlg-otp-container p {
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 /* Error message */
@@ -528,3 +600,214 @@
 }
 
 
+/* ======================================
+   MOBILE-OPTIMIZED CSS
+   Breakpoint: 786px and below
+   ====================================== */
+
+@media (max-width: 786px) {
+  /* ---- CONTAINERS ---- */
+  .forgot-container,
+  .reset-container,
+  .reset-password-form,
+  .otp-container,
+  .modal-content {
+    max-width: 100%;
+    width: 90vw;
+    margin: 20px 5vw;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fff;
+  }
+
+  /* ---- HEADINGS ---- */
+  .forgot-container h2,
+  .reset-container h2,
+  .reset-password-form h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    line-height: 1.3;
+  }
+
+  /* ---- INPUT FIELDS ---- */
+  .forgot-input,
+  .reset-input,
+  .reset-password-form input[type="password"],
+  .reset-password-form input[type="text"],
+  .reset-password-form input,
+  .otp-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #fff;
+    color: #333;
+  }
+
+  .forgot-input:focus,
+  .reset-input:focus,
+  .reset-password-form input:focus,
+  .otp-container input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+
+  .is-invalid {
+    border-color: #d93025;
+    box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.25);
+  }
+
+  /* ---- BUTTONS ---- */
+  .forgot-button,
+  .reset-button,
+  .reset-password-form .reset-button,
+  .otp-container button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .forgot-button:hover:not(:disabled),
+  .reset-button:hover:not(:disabled),
+  .otp-container button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  }
+
+  .forgot-button:disabled,
+  .reset-button:disabled,
+  .otp-container button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ---- MESSAGES (Error & Success) ---- */
+  .error-msg,
+  .error,
+  .error-text,
+  .otp-container p {
+    color: #d93025;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0;
+    line-height: 1.4;
+  }
+
+  .success-msg,
+  .success {
+    color: #2e7d32;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0;
+    line-height: 1.4;
+  }
+
+  /* ---- PASSWORD TOGGLE ---- */
+  .form-group {
+    position: relative;
+    width: 100%;
+  }
+
+  .password-input {
+    padding-right: 45px;
+  }
+
+  .password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 70%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    z-index: 10;
+  }
+
+/* Mobile Login Modal Styles */
+  .mlg-modal-content {
+    margin: 0 12px;
+    padding: 18px 16px 20px;
+  }
+
+  .mlg-otp-container h4 {
+    font-size: 17px;
+  }
+
+  .mlg-otp-container input,
+  .mlg-otp-container button {
+    font-size: 14px;
+    padding: 9px 10px;
+  }
+  .mlg-close-btn:hover {
+  color: #d93025;
+}
+
+  /* ---- CHECKBOXES ---- */
+  .checkbox,
+  .reset-password-form .checkbox {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+  }
+
+  .reset-password-form label {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    white-space: normal;
+    cursor: pointer;
+    line-height: 1.4;
+    flex: 1;
+    text-align: left;
+  }
+
+  /* ---- CLOSE BUTTON ---- */
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 24px;
+    color: #666;
+  }
+
+  .close-btn:hover {
+    color: #d93025;
+  }
+
+  /* ---- OTP CONTAINER ---- */
+  .otp-container {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* ---- PASSWORD STRENGTH ---- */
+  .strength {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+}
