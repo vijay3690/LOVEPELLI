@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./email-sign.css";
 
@@ -11,6 +11,18 @@ function ForgotPassword() {
   const navigate = useNavigate();
   
   const Base_api=import.meta.env.VITE_BASE_URL;
+  const inputRefs = useRef([]);
+
+       const handleKeyDown = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // stop form submit
+      if (index < inputRefs.current.length - 1) {
+        inputRefs.current[index + 1].focus(); // move to next field
+      } else {
+        document.getElementById("submitBtn").click(); // submit button action
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,14 +81,23 @@ function ForgotPassword() {
     }
   };
 
+  const closeModal = () => {
+    navigate("/");
+  };
+
   return (
     <div className="forgot-container">
+        <button className="forgot-close-btn" onClick={closeModal}>
+          ✖
+        </button>
       <h2>Forgot Password</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
+          ref={el => inputRefs.current[0] = el}
+          onKeyDown={(e) => handleKeyDown(e, 0)}
           onChange={(e) => setEmail(e.target.value)}
           required
           className="forgot-input"
