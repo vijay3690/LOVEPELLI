@@ -127,7 +127,7 @@ function LoginEmail({ onClose }) {
             </p>
 
             <div className="text-center">
-              <button id="submitBtn" type="submit" className="default-btn" >
+              <button id="submitBtn" type="submit" className="Login-btn">
                                 Log In
               </button>
             </div>
