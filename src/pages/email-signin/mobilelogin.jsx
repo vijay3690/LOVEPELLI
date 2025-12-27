@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./email-sign.css";
 
@@ -11,7 +11,18 @@ function MobileLogin({ onClose }) {
 
   const Base_api=import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
+  const inputRefs = useRef([]);
 
+const handleKeyDown = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // stop form submit
+      if (index < inputRefs.current.length - 1) {
+        inputRefs.current[index + 1].focus(); // move to next field
+      } else {
+        document.getElementById("submitBtn").click(); // submit button action
+      }
+    }
+  };
   const handleChange = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
@@ -92,12 +103,12 @@ function MobileLogin({ onClose }) {
   };
 
   return (
-      <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
-        <div className="modal-content">
-          <button className="close-btn" onClick={closeModal} aria-label="Close dialog">
-            ✖
-          </button>
-   <div className="otp-container">
+      <div className="mlg-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
+        <div className="mlg-modal-content">
+              <button className="mlg-close-btn" onClick={closeModal} aria-label="Close dialog">
+                 ✖
+               </button>
+       <div className="mlg-otp-container">
           {step === "mobile" && (
             <div>
               <h4>Login With Mobile</h4>
@@ -105,6 +116,8 @@ function MobileLogin({ onClose }) {
                 type="text"
                 placeholder="Enter mobile number"
                 value={mobile}
+                  ref={el => inputRefs.current[0] = el}
+                 onKeyDown={(e) => handleKeyDown(e, 0)}
                 onChange={handleChange}
                 maxLength="10"
                 autoComplete="tel"
@@ -122,6 +135,8 @@ function MobileLogin({ onClose }) {
                 type="text"
                 placeholder="Enter OTP"
                 value={otp}
+                  ref={el => inputRefs.current[0] = el}
+                 onKeyDown={(e) => handleKeyDown(e, 0)}
                 onChange={(e) => setOtp(e.target.value)}
                 maxLength="6"
               />
