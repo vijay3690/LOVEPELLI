@@ -129,30 +129,6 @@ const clearError = (field) => {
   });
 };
 
-    const validatePasswords = (pwd, cpwd) => {
-    if (!pwd || !cpwd) {
-      setError("");
-      return;
-    }
-
-    if (pwd !== cpwd) {
-      setError("Passwords do not match");
-      onPasswordMatch(false);
-    } else {
-      setError("");
-      onPasswordMatch(true);
-    }
-  };
-
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-    validatePasswords(value, confirmPassword);
-  };
-
-  const handleConfirmChange = (value) => {
-    setConfirmPassword(value);
-    validatePasswords(password, value);
-  };
 
   //  Validation Function
   const validate = () => {
