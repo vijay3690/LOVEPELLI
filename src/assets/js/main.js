@@ -305,11 +305,11 @@
         var formMessages = $('.form-message');
         $(form).submit(function (e) {
             e.preventDefault();
-            var UserData = $(form).serialize();
+            var formData = $(form).serialize();
             $.ajax({
                 type: 'POST',
                 url: $(form).attr('action'),
-                data: UserData
+                data: formData
             })
             .done(function (response) {
                 $(formMessages).removeClass('error');

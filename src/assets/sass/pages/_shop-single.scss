@@ -50,14 +50,12 @@
                 line-height: 60px;
                 font-size: 15px;
                 text-align: center;
-                background: $white-color;
+                background: #F6F6F9;
                 @extend %black-color;
-                top: 50%;
+                bottom: 15px;
                 outline: none;
                 @include add-prefix(transition, (all .3s ease));
                 @include add-prefix(border-radius, (4px));
-				transform: translateY(-50%);
-				z-index: 9999;
                 &:hover {
                     color: $white-color;
                     background: $theme-color;

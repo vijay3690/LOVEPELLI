@@ -149,7 +149,6 @@
                         @extend %bg-title;
                         @extend %white-color;
                         @extend %text-center;
-                        @extend %c-pointer;
                         @include font-size(9px);
                         @include add-prefix(border-radius, (100%));
                         @include add-prefix(transition, (all .3s ease));
@@ -213,7 +212,7 @@
         @include breakpoint(lg) {
             margin-top: -60px;
             position: relative;
-            // z-index: 999;
+            z-index: 999;
         }
         .section__wrapper {
             background: $white-color !important;

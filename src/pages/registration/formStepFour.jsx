@@ -264,7 +264,7 @@ useEffect(() => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-         <button  className="close-btn" onClick={closeModal}>X</button>
+         <button  className="close-btn" onClick={closeModal}>✖</button>
         <h2 className="form-title">Professional Details</h2>
 
         {/* Education */}

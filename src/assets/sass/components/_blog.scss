@@ -216,7 +216,6 @@
                     text-align: center;
                     color: $black-color;
                     font-size: 20px;
-                    cursor: pointer;
                     transform: translateY(-50%);
                     @include transition($transition);
     
@@ -280,9 +279,6 @@
                     }
                 }
             }
-        }
-        .default-pagination {
-            justify-content: center !important;
         }
     }
 }
@@ -414,10 +410,6 @@
             @extend %pb-0;
         }
         .comment {
-            border-bottom: 1px solid $border-color;
-            &:last-child {
-                border-bottom: none;
-            }
             .com-thumb {
                 height: 50px;
                 width: 50px;
@@ -956,13 +948,7 @@
                                 // font-size: 18px;
                             }
                         }
-                        .rating-star {
-                            justify-content: flex-start !important;
-                            li {
-                                padding-block: 0;
-                                border-bottom: none;
-                            }
-                        }
+
                         p {
                             margin: 0;
                             i {
@@ -1175,13 +1161,6 @@
                             }
                         }
                     }
-                    &:hover {
-                        @include breakpoint(lg) {
-                            .shop-submenu {
-                                display: block !important;
-                            }
-                        }
-                    }
                     a {
                         @extend %d-block;
                         @extend %title-color;
@@ -1196,10 +1175,7 @@
                         @extend %m-0;
                         @extend %pt-15;
                         @extend %w-100;
-                        // display: none;
-                        position: static !important;
-                        border: none;
-                        transform: translate(0px, 0px) !important;
+                        display: none;
                         li {
                             padding: 5px 0;
                             padding-left: 15px;

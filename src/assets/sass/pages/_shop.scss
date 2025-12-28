@@ -107,7 +107,7 @@
                         left: 0;
                         @extend %w-100;
                         @extend %h-100;
-                        background: rgba($title-color, $alpha: .7);
+                        background: rgba($theme-color, $alpha: .7);
                         @extend %abs;
                         @include add-prefix(transform, (scale(0)));
                         @include transition($transition);
@@ -177,19 +177,13 @@
 			.product-content {
 				@extend %w-100;
 				text-align: left;
-				padding-top: 0;
-				padding-inline: 20px;
+				padding-left: 20px;
 				@include breakpoint(md) {
 					width: 65%;
 				}
 			}
 		}
     }
-	
-	.default-pagination {
-		justify-content: center !important;
-		margin-top: 40px;
-	}
 	.modal {
 		&.show {
 			display: block;

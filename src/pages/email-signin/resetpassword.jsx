@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 
@@ -14,7 +14,19 @@ function ResetPassword() {
   const [strength, setStrength] = useState("");
   const Base_api = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
+  const inputRefs = useRef([]);
 
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // stop form submit
+      if (index < inputRefs.current.length - 1) {
+        inputRefs.current[index + 1].focus(); // move to next field
+      } else {
+        document.getElementById("submitBtn").click(); // submit button action
+      }
+    }
+  };
   // Get token and email from URL search params
   const token = searchParams.get("token");
   const email = searchParams.get("email");
@@ -113,9 +125,15 @@ function ResetPassword() {
         return "#999";
     }
   };
+  const closeModal = () => {
+    navigate("/");
+  };
 
   return (
     <div className="reset-password-form">
+      <button className="forgot-close-btn" onClick={closeModal}>
+          ✖
+        </button>
       <h2>Reset Your Password</h2>
 
       {error && <p className="error">{error}</p>}
@@ -127,6 +145,8 @@ function ResetPassword() {
             type={showPassword ? "text" : "password"}
             placeholder="New password"
             value={password}
+            ref={el => inputRefs.current[0] = el}
+            onKeyDown={(e) => handleKeyDown(e, 0)}
             onChange={handlePasswordChange}
             required
             minLength={6}
@@ -145,6 +165,8 @@ function ResetPassword() {
             type={showPassword ? "text" : "password"}
             placeholder="Confirm new password"
             value={confirmPassword}
+                     ref={el => inputRefs.current[1] = el}
+                 onKeyDown={(e) => handleKeyDown(e, 1)}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             minLength={6}
@@ -155,6 +177,8 @@ function ResetPassword() {
             type="checkbox"
             id="showPassword"
             checked={showPassword}
+                     ref={el => inputRefs.current[2] = el}
+                 onKeyDown={(e) => handleKeyDown(e, 2)}
             onChange={() => setShowPassword(!showPassword)}
           />
           <label htmlFor="showPassword">Show Password</label>

@@ -1,6 +1,6 @@
 .story {
     .col {
-        &:nth-child(2n + 2) {
+        &:nth-child(2) {
             .story {
                 &__thumb {
                     span {
@@ -9,7 +9,7 @@
                 }
             }
         }
-        &:nth-child(3n + 1) {
+        &:nth-child(3) {
             .story {
                 &__thumb {
                     span {

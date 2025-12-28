@@ -19,26 +19,6 @@ iframe {
     @extend %w-100;
     border: none;
 }
-.product-list-item {
-    .productRating {
-        .rating-star {
-            justify-content: flex-start !important;
-            margin-bottom: 10px;
-        }
-    }
-}
-.gridActive .grid, .listActive .list {
-    color: $theme-color !important;
-}
-.DescActive .desc, .RevActive .rev {
-    background-color: $theme-color !important;
-}
-.nav-link:focus, .nav-link:hover {
-    color: $theme-color;
-}
-.modal.show {
-    display: block;
-}
 
 .mx-15-none {
     margin-inline: -15px;

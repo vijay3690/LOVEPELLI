@@ -146,7 +146,7 @@ const clearError = (field) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-       <button className="close-btn" onClick={closeModal}>X</button>
+       <button className="close-btn" onClick={closeModal}>✖</button>
 
         <h2>Personal Details</h2>
 

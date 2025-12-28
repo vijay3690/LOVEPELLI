@@ -39,16 +39,6 @@ body {
   @extend %font;
   font-size: 1rem;
   line-height: 1.5;
-  &.overlay {
-    @extend %p-rel;
-    &::after {
-      @extend %pos-center;
-      @extend %w-100;
-      @extend %h-100;
-      z-index: 111;
-      background-color: rgba($title-color, $alpha: .8);
-    }
-  }
 }
 
 /**
@@ -201,7 +191,6 @@ button,
 input,
 optgroup,
 select,
-.nav-link,
 textarea {
   font-family: inherit;
   /* 1 */
