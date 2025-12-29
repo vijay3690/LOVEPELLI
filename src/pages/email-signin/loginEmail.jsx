@@ -78,7 +78,7 @@ function LoginEmail({ onClose }) {
 
           <form onSubmit={handleLogin} aria-describedby="login-desc" autoComplete="on">
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label className="elg-email-label" htmlFor="email">Email:</label>
               <input
                 id="email"
                 name="email"
@@ -94,7 +94,7 @@ function LoginEmail({ onClose }) {
             </div>
 
             <div className="form-group password-group">
-                    <label htmlFor="password">Password</label>
+                    <label className="elg-email-label" htmlFor="password">Password:</label>
                     <input
                       id="password"
                       name="password"

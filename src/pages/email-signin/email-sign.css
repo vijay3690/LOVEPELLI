@@ -432,7 +432,13 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
+.elg-email-label{
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  align-items: flex-start;
+}
 
 
 /* popup modal */
@@ -810,4 +816,11 @@
     font-weight: bold;
     margin-top: 5px;
   }
+  .elg-email-label{
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
 }

@@ -1,6 +1,7 @@
 import React ,{useEffect,useState,useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import "./registration.css";
+  
 
 
 const employmentOptions = [
@@ -97,7 +98,7 @@ if(validateForm()) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          body: JSON.stringify({"createUserDto": {
             firstName: UserData.firstName,
             lastName: UserData.lastName,
             gender: UserData.gender,
@@ -105,6 +106,7 @@ if(validateForm()) {
             email: UserData.email,
             password: UserData.password,
             contactNumber: UserData.contactNumber,
+          }
           }),
         }
       );
@@ -123,7 +125,7 @@ if(validateForm()) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          body: JSON.stringify({"createuserProfileDto": {
             userId: userId,
             religionId: UserData.religionId,
             casteId: UserData.casteId,
@@ -131,6 +133,7 @@ if(validateForm()) {
             weightId: UserData.weightId,
             heightId: UserData.heightId,
             educationId: UserData.educationId,
+            incomeId: UserData.incomeId ==0 ? null : UserData.incomeId,
             occupationId: UserData.occupationId ==0 ? null: UserData.occupationId,
             educationSubStreamId: UserData.educationSubStreamId ==0 ? null : UserData.educationSubStreamId,
             cityId: UserData.cityId ==0? null : UserData.cityId,
@@ -141,22 +144,17 @@ if(validateForm()) {
             divisionId: UserData.divisionId == 0 ? null : UserData.divisionId,
             gothramId: UserData.gothramId == 0 ? null : UserData.gothramId,
             subCasteId: UserData.subCasteId == 0 ? null : UserData.subCasteId,
+            subCasteName: UserData.subCasteName,
             gothramName: UserData.gothramName,
             professionalDetailId: UserData.professionalDetailId,
             Citizenship: UserData.Citizenship,
             professionalDetailDto: {
-              educationId: UserData.educationId,
               employedIn: UserData.employedIn,
-              educationSubStreamId: UserData.educationSubStreamId,
-              occupationId: UserData.occupationId ==0 ? null: UserData.occupationId,
               currency: UserData.currency,
               incomeValue: UserData.incomeID,
-              countryId: UserData.countryId,
-              stateId: UserData.stateId ==0 ? null : UserData.stateId,
-              cityId: UserData.cityId ==0? null : UserData.cityId ,
             },
             personalDetailId: UserData.personalDetailId,
-            personalDetailsDto: {
+            personalDetailDto: {
               maritalStatus: UserData.maritalStatus,
               noOfChildren: UserData.noOfChildren,
               livingWithMe: true,
@@ -165,10 +163,17 @@ if(validateForm()) {
               familyType: UserData.familyType,
               anyDisability: true,
             },
+
+           hobbiesDto: {
+  hobbiesandInterests: UserData.hobbiesandInterests ?? "",
+  music: UserData.music ?? "",
+  movieAndTvShows: UserData.movieAndTvShows ?? "",
+  reading: UserData.reading ?? "",
+  sportsAndFitness: UserData.sportsAndFitness ?? "",
+  spokenLanguages: UserData.spokenLanguages ?? "",
+},
             profilePicture: UserData.profilePicture,
-            eatingHabits: UserData.eatingHabits,
-            smokingHabits: UserData.smokingHabits,
-            drinkingHabits: UserData.drinkingHabits,
+          }
           }),
         }
       );
@@ -264,7 +269,7 @@ useEffect(() => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-         <button  className="close-btn" onClick={closeModal}>✖</button>
+         <button  className="close-btn" onClick={closeModal}>X</button>
         <h2 className="form-title">Professional Details</h2>
 
         {/* Education */}
