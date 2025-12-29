@@ -95,6 +95,8 @@
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: #555;
+  text-align: left;
+
 }
 
 /* Inputs & Selects */
@@ -749,7 +751,7 @@ select:focus {
 
   /* Send OTP button fix */
   .sendOtpBtn {
-    margin-left: 0;
+   margin-left: 230px;
     width: 30%;
   }
 
