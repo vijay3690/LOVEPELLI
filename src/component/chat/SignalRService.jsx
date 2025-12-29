@@ -230,19 +230,33 @@ export const SignalRProvider = ({ children }) => {
   }, []);
 
   // Register status change handler (for online/offline updates)
-  const registerStatusHandler = useCallback((handlerKey, handler) => {
-    if (!statusHandlersRef.current[handlerKey]) {
-      statusHandlersRef.current[handlerKey] = [];
-    }
-    statusHandlersRef.current[handlerKey].push(handler);
+  const registerStatusHandler = useCallback(
+    (handlerKey, handler) => {
+      if (!statusHandlersRef.current[handlerKey]) {
+        statusHandlersRef.current[handlerKey] = [];
+      }
+      statusHandlersRef.current[handlerKey].push(handler);
 
-    // Return unregister function
-    return () => {
-      statusHandlersRef.current[handlerKey] = statusHandlersRef.current[
-        handlerKey
-      ].filter((h) => h !== handler);
-    };
-  }, []);
+      // Immediately notify the newly registered handler about currently online users
+      try {
+        if (onlineUsers && onlineUsers.size > 0) {
+          onlineUsers.forEach((userId) => {
+            handler({ userId, status: "online" });
+          });
+        }
+      } catch (err) {
+        console.error("Error notifying status handler of current online users:", err);
+      }
+
+      // Return unregister function
+      return () => {
+        statusHandlersRef.current[handlerKey] = statusHandlersRef.current[
+          handlerKey
+        ].filter((h) => h !== handler);
+      };
+    },
+    [onlineUsers]
+  );
 
   // Register typing handler (for typing notifications)
   const registerTypingHandler = useCallback((handlerKey, handler) => {
