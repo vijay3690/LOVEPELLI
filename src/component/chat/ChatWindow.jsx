@@ -182,13 +182,26 @@ const ChatWindow = ({
 
     // Register status handler for this user
     const handleStatusChange = (statusData) => {
-      if (statusData.userId === targetUserId) {
+      // Convert both to strings for safe comparison
+      if (String(statusData.userId) === String(targetUserId)) {
         console.log(
           "User status changed:",
           statusData.userId,
-          statusData.status
+          statusData.status,
+          "Type of status:",
+          typeof statusData.status
         );
-        setUserOnlineStatus(statusData.status === "online");
+        
+        // Handle both string and boolean status values
+        let isOnline = false;
+        if (statusData.status === "online" || statusData.status === true) {
+          isOnline = true;
+        } else {
+          isOnline = false;
+        }
+        
+        console.log("Setting online status to:", isOnline);
+        setUserOnlineStatus(isOnline);
       }
     };
 
