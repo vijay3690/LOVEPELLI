@@ -254,7 +254,7 @@ const clearError = (field) => {
         )}
 
         {/* Height */}
-             <label>
+             <label className="field-label">
           Height:<span className="required">*</span>
         </label>
        <select
@@ -278,7 +278,7 @@ const clearError = (field) => {
 )}
 
         {/* Family Status */}
-           <label>
+           <label className="field-label">
           Family Status:<span className="required">*</span>
         </label>
         <div className="option-group">
@@ -301,7 +301,7 @@ const clearError = (field) => {
 )}
 
         {/* Family Type */}
-              <label>
+              <label className="field-label">
           Family Type:<span className="required">*</span>
         </label>
         <div className="option-group">
@@ -324,7 +324,7 @@ const clearError = (field) => {
             )}
 
         {/* Any Disability */}
-        <label>
+        <label className="field-label">
           Any Disability:<span className="required">*</span>
         </label>
         <div className="option-group">
