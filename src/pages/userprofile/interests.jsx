@@ -19,7 +19,7 @@ const Interests = () => (
                     <div className="navbar-nav mainmenu">
                         <ul>
                             <li className="menu-item-has-children"></li>
-                            <li><NavLink to="/homefour">Home</NavLink></li>
+                            <li><NavLink to="/member-single">Home</NavLink></li>
                             <li className="menu-item-has-children"></li>
                             <li><NavLink to="/members">Matches</NavLink></li>
                             <li className="menu-item-has-children">

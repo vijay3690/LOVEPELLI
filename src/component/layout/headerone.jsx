@@ -118,7 +118,7 @@ function HeaderOne() {
               <div className="navbar-nav mainmenu">
                 <ul>
                   <li>
-                    <NavLink to="/headerone">Home</NavLink>
+                    <NavLink to="/member-single">Home</NavLink>
                   </li>
                   <li>
                     <NavLink to="/members">Matches</NavLink>
