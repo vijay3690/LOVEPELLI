@@ -86,12 +86,16 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="forgot-container">
-        <button className="forgot-close-btn" onClick={closeModal}>
+    <div className="modal-overlay">
+      <div className="modal-content">
+      <div className="modal-header">
+        <h2 className="title">Forgot Password</h2>
+        <button className="forgot-close-btn close-btn" onClick={closeModal}>
           ✖
         </button>
-      <h2>Forgot Password</h2>
+      </div>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
         <input
           type="email"
           placeholder="Enter your email"
@@ -102,6 +106,9 @@ function ForgotPassword() {
           required
           className="forgot-input"
         />
+        </div>
+
+        <div className="modal-footer">
 
         <button
           type="submit"
@@ -110,10 +117,12 @@ function ForgotPassword() {
         >
           {loading ? "Sending..." : "Send Reset Link"}
         </button>
+        </div>
       </form>
 
       {error && <p className="error-msg">{error}</p>}
       {msg && <p className="success-msg">{msg}</p>}
+      </div>
     </div>
   );
 }

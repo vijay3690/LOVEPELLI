@@ -146,9 +146,10 @@ const clearError = (field) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+        <div className="modal-header">
+          <h2 className="title">Personal Details</h2>
        <button className="close-btn" onClick={closeModal}>✖</button>
-
-        <h2>Personal Details</h2>
+        </div>
 
               {/* Marital Status */}
    <div className="field-group">
@@ -156,7 +157,7 @@ const clearError = (field) => {
     Marital Status:<span className="required">*</span>
   </label>
 
-  <div className="button-group">
+  <div className="option-group">
 {maritalOptions.map((option) => {
   const localIndex = currentIndex++;
 
@@ -164,7 +165,7 @@ const clearError = (field) => {
   <button
   key={option}
   type="button"
-  className={`btn-option ${maritalStatus === option ? "active" : ""}`}
+  className={maritalStatus === option ? "selected" : ""}
   ref={(el) => (inputRefs.current[localIndex] = el)}
   onKeyDown={(e) => handleKeyDown(e, localIndex, "button", maritalOptions.length)}
   onClick={() => {
@@ -193,7 +194,7 @@ const clearError = (field) => {
             <label className="field-label">
               No. of Children:<span className="required">*</span>
             </label>
-            <div className="button-group">
+            <div className="option-group">
           {childrenOptions.map((option) => {
            const localIndex = currentIndex++;
 
@@ -201,7 +202,7 @@ const clearError = (field) => {
     <button
       key={option}
       type="button"
-      className={`btn-option1 ${childrenCount === option ? "active" : ""}`}
+      className={childrenCount === option ? "selected" : ""}
       ref={(el) => (inputRefs.current[localIndex] = el)}
       onKeyDown={(e) => handleKeyDown(e, localIndex, "button", childrenOptions.length)}
       onClick={() => {
@@ -227,14 +228,14 @@ const clearError = (field) => {
             <label className="field-label">
               Children Living Status:<span className="required">*</span>
             </label>
-            <div className="button-group">
+            <div className="option-group">
               {livingOptions.map((option) => {
                   const localIndex = currentIndex++;
                 return (
                 <button
                   key={option}
                   type="button"
-                  className={`btn-option ${childrenLiving === option ? "active" : ""}`}
+                  className={childrenLiving === option ? "selected" : ""}
                  ref={(el) => (inputRefs.current[localIndex] = el)}
                   onKeyDown={(e) => handleKeyDown(e, localIndex, "button", livingOptions.length)}
                   onClick={() => {
@@ -254,6 +255,7 @@ const clearError = (field) => {
         )}
 
         {/* Height */}
+        <div className="field-group">
              <label className="field-label">
           Height:<span className="required">*</span>
         </label>
@@ -276,8 +278,9 @@ const clearError = (field) => {
 {errors.heightId && !UserData.heightId && (
   <p className="error-text">{errors.heightId}</p>
 )}
-
+</div>
         {/* Family Status */}
+        <div className="field-group">
            <label className="field-label">
           Family Status:<span className="required">*</span>
         </label>
@@ -299,8 +302,10 @@ const clearError = (field) => {
 {errors.familyStatus && !UserData.familyStatus && (
   <p className="error-text">{errors.familyStatus}</p>
 )}
+</div>
 
         {/* Family Type */}
+        <div className="field-group">
               <label className="field-label">
           Family Type:<span className="required">*</span>
         </label>
@@ -322,8 +327,9 @@ const clearError = (field) => {
             {errors.familyType && !UserData.familyType && (
               <p className="error-text">{errors.familyType}</p>
             )}
-
+</div>
         {/* Any Disability */}
+        <div className="field-group">
         <label className="field-label">
           Any Disability:<span className="required">*</span>
         </label>
@@ -345,9 +351,9 @@ const clearError = (field) => {
             {errors.disability && !UserData.disability && (
               <p className="error-text">{errors.disability}</p>
             )}
-
+</div>
         {/* Navigation Buttons */}
-         <div className="button-group">
+         <div className="button-group modal-footer">
           <button type="button" className="prev-btn" onClick={prevStep}>
             Previous
           </button>
