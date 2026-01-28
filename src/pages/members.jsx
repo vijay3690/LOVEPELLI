@@ -12,19 +12,28 @@ import { fetchAllMembers } from "../data-services/members-data-service";
 import ChatMembersList from "../component/chat/ChatMembersList";
 import ChatWindowContainer from "../component/chat/ChatWindowContainer";
 import { SignalRProvider } from "../component/chat/SignalRService";
+
+
 import "./members.css";
 
 const MembersPage = () => {
-  const [allMembers, setAllMembers] = useState("");
+  const [allUserProfiles, setAllUserProfiles] = useState([]);
 
   useEffect(() => {
     const fetchMembers = async () => {
+      const data = await fetchAllMembers();
+      console.log("API RESPONSE", data);
       try {
-        const data = await fetchAllMembers();
-        setAllMembers(data); // set response data in state
+        // Extract only what Members page needs
+      const members = data.map(user => ({
+        userId: user.userId,
+        fullName: `${user.firstName ?? ""} ${user.lastName ?? ""}`
+      }));
+        setAllUserProfiles(members);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
+
     };
 
     fetchMembers();
@@ -49,7 +58,7 @@ const MembersPage = () => {
               />
             </div>
             <div className="members-header-right">
-              <ChatMembersList members={allMembers} onSelectMember={() => {}} />
+              <ChatMembersList members={allUserProfiles} onSelectMember={() => {}} />
             </div>
           </div>
 
@@ -76,19 +85,25 @@ const MembersPage = () => {
                     </div>
                   </div>
                   <div className="row g-0 justify-content-center mx-12-none">
-                    {MEMBERCONTENTLIST.map((val, i) => (
-                      <div className="member__item" key={i}>
+                    {allUserProfiles.map((member) => (
+                      <div className="member__item" key={member.userId}>
                         <div className="member__inner">
+                          
                           <div className="member__thumb">
-                            <img src={`${val.imgUrl}`} alt={`${val.imgAlt}`} />
-                            <span className={val.className}></span>
+                            {/* SAME IMAGE FOR ALL */}
+                            <img
+                             src ='/assets/images/member/home2/02.jpg' alt="Member"
+                            />
+                            <span className="member__activity"></span>
                           </div>
+
                           <div className="member__content">
-                            <Link to="/member-single">
-                              <h5>{val.title}</h5>
+                            <Link to={`/member-single/${member.userId}`}>
+                              <h5>{member.fullName}</h5>
                             </Link>
-                            <p>{val.activity}</p>
+                            <p>Active</p>
                           </div>
+
                         </div>
                       </div>
                     ))}

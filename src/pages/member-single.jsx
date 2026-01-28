@@ -1,5 +1,5 @@
-import React, { Fragment, useState} from "react";
-import { Link } from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from "react";
+import { Link,useNavigate, useParams  } from 'react-router-dom';
 import Footer from "../component/layout/footer";
 import PageHeader from "../component/layout/pageheader";
 import axios from "axios";
@@ -10,33 +10,183 @@ import HeaderOne from "../component/layout/headerone";
 
 
 const MemberDetails = () => {
+    const {profileId} = useParams();
 
-      const [profile, setProfile] = useState({
-    address: "",
-    age: "",
-    dateOfBirth: "",
-    maritalStatus: "",
-    // Add other fields as needed
- }); //  to store API data
+  const navigate = useNavigate();
+  const { id: routeId } = useParams(); // if you want profile id from route
+  const Base_api = import.meta.env.VITE_BASE_URL;
 
- const Base_api = import.meta.env.VITE_BASE_URL;
- 
-  const handleProfileClick = async () => {
+  // main persisted profile state (view)
+  const [profile, setProfile] = useState(null);
+  // form state used while editing
+  const [form, setForm] = useState(null);
+  const [motherTongues, setMotherTongues] = useState([]);
+  //const [countryId, setCountryId] = useState([]);
+  const [loading, setLoading] = useState(false); // for fetching
+  const [saving, setSaving] = useState(false);   // for saving
+  const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+
+
+  // fetch by route id or fallback to 1 (your earlier behavior)
+
+  useEffect(() => {
+  const fetchMotherTongues = async () => {
     try {
-      // Example API call
-      const response = await axios.get(`${Base_api}/api/UserProfile/30137`);
-      console.log("Profile Data:", response.data);
-      setProfile([response.data]); //  Store the fetched profile data
-      alert("Profile data fetched successfully!");
-      alert(JSON.stringify(response.data));
-      console.log("Fetched Profile Data:", response.data);
-      console.log("Profile State:", profile);
-    } catch (error) {
-      console.error("Error fetching profile data:", error);
-      alert("Failed to fetch profile data!");
-    } 
+      const res = await axios.get(`${Base_api}/api/BasicDetails/motherTongues`);
+      //const countriesRes = await axios.get(`${Base_api}/api/BasicDetails/countries`);
+      setMotherTongues(res.data);
+      //setCountryId(countriesRes.data);
+    } catch (err) {
+      console.error("Error loading mother tongue API", err);
+    }
   };
 
+  fetchMotherTongues();
+}, []);
+  useEffect(() => {
+    fetchProfile(profileId);
+  }, [profileId]);
+
+  const fetchProfile = async (pid) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get(`${Base_api}/api/UserProfile/${pid}`);
+      setProfile(res.data);
+      setForm(res.data); // keep a copy for editing
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+ 
+  
+    // helper to get ISO yyyy-mm-dd string from Date
+    const toDateInputValue = (d) => {
+    const pad = (n) => `${n}`.padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    };
+
+    // compute min/max for date input (example: allowed age 18..70)
+    const today = new Date();
+    const maxDate = toDateInputValue(new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())); // latest DOB allowed
+    const minDate = toDateInputValue(new Date(today.getFullYear() - 70, today.getMonth(), today.getDate())); // earliest DOB allowed
+
+
+  // helper to set nested values on form state using path like 'basicInformation.firstName'
+  const setNestedValue = (path, value) => {
+    setForm((prev) => {
+      if (!prev) return prev;
+      const keys = path.split(".");
+      const copy = JSON.parse(JSON.stringify(prev)); // simple deep clone
+      let cur = copy;
+      for (let i = 0; i < keys.length - 1; i++) {
+        const k = keys[i];
+        if (cur[k] === undefined || cur[k] === null) cur[k] = {};
+        cur = cur[k];
+      }
+      cur[keys[keys.length - 1]] = value;
+      return copy;
+    });
+  };
+
+  const handleEnterEdit = () => {
+    // make sure we have the latest profile snapshot in form
+    setForm(profile ? JSON.parse(JSON.stringify(profile)) : null);
+    setEditMode(true);
+  };
+
+  const handleCancel = () => {
+    // revert changes
+    setForm(profile ? JSON.parse(JSON.stringify(profile)) : null);
+    setEditMode(false);
+    setError(null);
+  };
+
+    const validateForm = () => {
+    // Validate first name
+
+      if (!form || !form.basicInformation) {
+    setError("Something went wrong. Basic information not found.");
+    return false;
+  }
+    if (!form?.basicInformation?.firstName?.trim()==="") {
+        setError("First name is required");
+        return false;
+    }
+
+    // Validate DOB
+    const dob = form?.basicInformation?.age; // "yyyy-mm-dd"
+    if (!dob) {
+        setError("Date of Birth is required");
+        return false;
+    }
+
+    // Validate DOB is a legal date
+    const parsed = new Date(dob);
+    if (isNaN(parsed.getTime())) {
+        setError("Invalid Date of Birth format");
+        return false;
+    }
+
+    // Optional: Validate age range (example: 18–70 yrs)
+    const today = new Date();
+    const age =
+        today.getFullYear() -
+        parsed.getFullYear() -
+        (today < new Date(today.getFullYear(), parsed.getMonth(), parsed.getDate()) ? 1 : 0);
+
+    if (age < 18 || age > 70) {
+        setError("Age must be between 18 and 70 years");
+        return false;
+    }
+
+    setError(null);
+    return true;
+    };
+
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
+    navigate("/members");
+    setSaving(true);
+    setError(null);
+    try {
+
+        const payload = JSON.parse(JSON.stringify(form)); // clone
+
+        const dobValue = payload?.basicInformation?.age; // e.g. "1998-05-27"
+        // payload.basicInformation.profileId = 1;
+        // payload.basicInformation.profileForDataId = 1;
+        if (dobValue) {
+        // Create an ISO string (midnight UTC) - backend DateTime.Parse can read this.
+        // Using new Date(dobValue) is safe when dobValue is yyyy-mm-dd.
+        payload.basicInformation.age = new Date(dobValue).toISOString();
+        } else {
+        payload.basicInformation.age = null; // or leave undefined if optional
+        }
+
+
+      // use PUT or PATCH depending on backend contract
+      const res = await axios.put(`${Base_api}/api/UserProfile/${profileId}`, payload);
+      setProfile(res.data); // update view with saved data (assumes API returns updated)
+      setForm(res.data);
+      setEditMode(false);
+    } catch (err) {
+      console.error("Save failed", err);
+      // attempt to show message from server
+      setError(err?.response?.data?.message ?? "Failed to save profile");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Render guard
+  if (loading && !profile) return <p>Loading profile...</p>;
+  if (!profile && !loading) return <p>No profile found.</p>;
 
      { 
         return (
@@ -54,7 +204,7 @@ const MemberDetails = () => {
                                             <button className="nav-link active" id="gt1-tab" data-bs-toggle="tab" data-bs-target="#gt1" type="button" role="tab" aria-controls="gt1" aria-selected="true"><i className="fa-solid fa-house"></i> Activity</button>
                                         </li>
                                         <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="gt2-tab" data-bs-toggle="tab" data-bs-target="#gt2" onClick={handleProfileClick} type="button" role="tab" aria-controls="gt2" aria-selected="false"><i className="fa-solid fa-users"></i> Profile <span>30</span></button>
+                                            <button className="nav-link" id="gt2-tab" data-bs-toggle="tab" data-bs-target="#gt2" onClick="" type="button" role="tab" aria-controls="gt2" aria-selected="false"><i className="fa-solid fa-users"></i> Profile <span>30</span></button>
                                         </li>
                                     
                                         <li className="nav-item" role="presentation">
@@ -345,170 +495,260 @@ const MemberDetails = () => {
 
                                             <div className="tab-pane fade" id="gt2" role="tabpanel" aria-labelledby="gt2-tab">
                                                 <div className="info">
-                                                    <div className="info-card mb-4">
-                                                        <div className="info-card-title">
-                                                            <h6>Personal Information</h6>
-                                                        </div>
-                                                        <div className="info-card-content">
-                                                            <ul className="info-list">
-                                                                <li>
-                                                                    <p className="info-name">Name</p>
-                                                                    <p className="info-details">{profile.name}</p>
-                                                                </li>
-                                                               <li>
-  <p className="info-name">Age</p>
-  <p className="info-details">{profile.age}</p>
+                                                    
+
+ <div className="info-card mb-4">
+        <div className="info-card-title d-flex justify-content-between align-items-center">
+          <h6>Basic Information</h6>
+        </div>
+
+        <div className="info-card-content">
+            <ul className="info-list">
+              <li>
+                <p className="info-name">Name</p>
+                <p className="info-details">
+                  {profile?.basicInformation?.firstName ?? ""} {profile?.basicInformation?.lastName ?? ""}
+                </p>
+              </li>
+
+              <li>
+                <p className="info-name">Age</p>
+                <p className="info-details">{profile?.basicInformation?.age ?? ""}</p>
+              </li>
+
+              <li>
+                <p className="info-name">Height</p>
+                <p className="info-details">{profile?.basicInformation?.heightValue ?? ""}</p>
+              </li>
+              
+              <li>
+                <p className="info-name">Weight</p>
+                <p className="info-details">{profile?.basicInformation?.weightId ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">profileForName</p>
+                <p className="info-details">{profile?.basicInformation?.profileForName ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Any Disability</p>
+                <p className="info-details">{profile?.basicInformation?.anyDisability ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Mother Tongue</p>
+                <p className="info-details">{profile?.basicInformation?.motherTongueName ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Marital Status</p>
+                <p className="info-details">{profile?.basicInformation?.maritalStatus ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Food Habits</p>
+                <p className="info-details">{profile?.basicInformation?.foodHabits ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Smoking Habits</p>
+                <p className="info-details">{profile?.basicInformation?.smokingHabits ?? ""}</p>
+              </li>
+               <li>
+                <p className="info-name">Drinking Habits</p>
+                <p className="info-details">{profile?.basicInformation?.drinkingHabits ?? ""}</p>
+              </li>
+              
+
+
+
+              {/* add rest of fields similarly */}
+            </ul>
+           
+        </div>
+      </div>
+
+
+<div className="info-card mb-4">
+        <div className="info-card-title d-flex justify-content-between align-items-center">
+    <h6>Groom's Location</h6>
+        </div>        
+   <div className="info-card-content">
+    <ul className="info-list">
+<li>
+  <p className="info-name">CountryName</p>
+  <p className="info-details">{profile?.groomsLocation?.countryName?? ""}</p>
 </li>
 <li>
-  <p className="info-name">Height</p>
-  <p className="info-details">{profile.height}</p>
+  <p className="info-name">State Name</p>
+  <p className="info-details">{profile?.groomsLocation?.stateName?? ""}</p>
 </li>
 <li>
-  <p className="info-name">Weight</p>
-  <p className="info-details">{profile.weight}</p>
+  <p className="info-name">City Name</p>
+  <p className="info-details">{profile?.groomsLocation?.cityName?? ""}</p>
 </li>
 <li>
-  <p className="info-name">Body Type</p>
-  <p className="info-details">{profile.bodyType}</p>
+  <p className="info-name">Citizenship</p>
+  <p className="info-details">{profile?.groomsLocation?.citizenship?? ""}</p>
+</li>
+</ul>
+        </div>
+      </div>
+      
+<div className="info-card mb-4">
+        <div className="info-card-title d-flex justify-content-between align-items-center">
+    <h6>Family Details</h6>
+    </div>
+   <div className="info-card-content">
+    {error && <div className="alert alert-danger">{error}</div>}
+        {/* show either view or form */}
+    
+    <ul className="info-list">
+<li>
+  <p className="info-name">Family Values</p>
+  <p className="info-details">{profile?.familydetails?.familyValues?? ""}</p>
+</li>
+
+<li>
+  <p className="info-name">Family Type</p>
+  <p className="info-details">{profile?.familydetails?.familyType?? ""}</p>
+</li>
+<li>
+  <p className="info-name">Number Of Children</p>
+  <p className="info-details">{profile?.familydetails?.numberOfChildren?? ""}</p>
+</li>
+<li>
+  <p className="info-name">Living With me</p>
+  <p className="info-details">{profile?.familydetails?.livingWithMe?? ""}</p>
+</li>
+</ul>
+     
+        </div>
+      </div>
+
+<div className="info-card mb-4">
+        <div className="info-card-title d-flex justify-content-between align-items-center">
+    <h6>Hobbies</h6>
+       
+    </div>
+   <div className="info-card-content">
+    {error && <div className="alert alert-danger">{error}</div>}
+       
+    <ul className="info-list">
+<li>
+  <p className="info-name">Hobbies and Intrest</p>
+  <p className="info-details">{profile?.hobbies?.hobbiesandIntrest?? ""}</p>
+</li>
+
+<li>
+  <p className="info-name">Movies And Tv Shows</p>
+  <p className="info-details">{profile?.hobbies?.movieAndTvShows?? ""}</p>
+</li>
+<li>
+  <p className="info-name">Music</p>
+  <p className="info-details">{profile?.hobbies?.music?? ""}</p>
+</li>
+<li>
+  <p className="info-name">Reading</p>
+  <p className="info-details">{profile?.hobbies?.reading?? ""}</p>
 </li>
 <li>
   <p className="info-name">Spoken Languages</p>
-  <p className="info-details">{profile.spokenLanguages}</p>
+  <p className="info-details">{profile?.hobbies?.spokenLanguages?? ""}</p>
 </li>
 <li>
-  <p className="info-name">Profile Created By</p>
-  <p className="info-details">{profile.profileCreatedBy}</p>
-</li>
-<li>
-  <p className="info-name">Marital Status</p>
-  <p className="info-details">{profile.maritalStatus}</p>
-</li>
-<li>
-  <p className="info-name">Lives In</p>
-  <p className="info-details">{profile.livesIn}</p>
-</li>
-<li>
-  <p className="info-name">Eating Habits</p>
-  <p className="info-details">{profile.eatingHabits}</p>
-</li>
-<li>
-  <p className="info-name">Religion</p>
-  <p className="info-details">{profile.religion}</p>
-</li>
-<li>
-  <p className="info-name">Caste</p>
-  <p className="info-details">{profile.caste}</p>
-</li>
-<li>
-  <p className="info-name">Subcaste</p>
-  <p className="info-details">{profile.subcaste}</p>
-</li>
-<li>
-  <p className="info-name">Date Of Birth</p>
-  <p className="info-details">{profile.dateOfBirth}</p>
-</li>
-<li>
-  <p className="info-name">Time Of Birth</p>
-  <p className="info-details">{profile.timeOfBirth}</p>
-</li>
-<li>
-  <p className="info-name">Star</p>
-  <p className="info-details">{profile.star}</p>
-</li>
-<li>
-  <p className="info-name">Raasi</p>
-  <p className="info-details">{profile.raasi}</p>
-</li>
-<li>
-  <p className="info-name">Place Of Birth</p>
-  <p className="info-details">{profile.placeOfBirth}</p>
-</li>
-<li>
-  <p className="info-name">Employment</p>
-  <p className="info-details">{profile.employment}</p>
-</li>
-<li>
-  <p className="info-name">Income</p>
-  <p className="info-details">{profile.income}</p>
-</li>
-<li>
-  <p className="info-name">Education</p>
-  <p className="info-details">{profile.education}</p>
-</li>
-<li>
-  <p className="info-name">Occupation</p>
-  <p className="info-details">{profile.occupation}</p>
+  <p className="info-name">Sports And Fitness</p>
+  <p className="info-details">{profile?.hobbies?.sportsAndFitness?? ""}</p>
 </li>
 </ul>
- </div>
-</div>
-                                                     <div className="info-card mb-4">
-                                                        <div className="info-card-title">
-                                                            <h6>Family Info</h6>
-                                                        </div>
-                                                        <div className="info-card-content">
-                                                            <ul className="info-list">
-                                                               <li>
-                                                                    <p className="info-name">Father</p>
-                                                                    <p className="info-details">{profile.father}</p>
+ 
+        </div>
+      </div>
+
+       
+                                                      <div className="info-card mb-4">
+                                                      <div className="info-card-title d-flex justify-content-between align-items-center">
+
+                                                              <h6>Professional Information</h6>
+                                                                    </div>
+                                                                    <div className="info-card-content">
+                                                                    
+                                                                   
+                                                                     <ul className="info-list">
+                                                                     <li>
+                                                                    <p className="info-name">Education Level</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.educationLevel??""}</p>
+                                                                    </li>
+                                                                     <p className="info-name">Education Substream</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.educationSubstream??""}</p>
+                                                                    <li>
+                                                                    <p className="info-name">Employee Status</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.employedIn??""}</p>
                                                                     </li>
                                                                     <li>
-                                                                    <p className="info-name">Mother</p>
-                                                                    <p className="info-details">{profile.mother}</p>
+                                                                    <p className="info-name">Occupation Name</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.occupationName??""}</p>
                                                                     </li>
                                                                     <li>
-                                                                    <p className="info-name">Brothers</p>
-                                                                    <p className="info-details">{profile.brothers}</p>
+                                                                    <p className="info-name">College Name</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.collegeName??""}</p>
                                                                     </li>
                                                                     <li>
-                                                                    <p className="info-name">Sisters</p>
-                                                                    <p className="info-details">{profile.sisters}</p>
-                                                                    </li>
-                                                                    <li>
-                                                                    <p className="info-name">Family Location</p>
-                                                                    <p className="info-details">{profile.familyLocation}</p>
+                                                                    <p className="info-name">Organization Name</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.organizationName??""}</p>
+                                                                </li>
+                                                                 <li>
+                                                                    <p className="info-name">Income Value</p>
+                                                                    <p className="info-details">{profile?.professionalInformation?.incomeValue??""}</p>
                                                                 </li>
                                                             </ul>
-                                                        </div>
-                                                    </div>
-
+                                                  
+                                                           </div>
+                                                           </div>
+                                                 
+                                                   
                                                     <div className="info-card mb-4">
-                                                        <div className="info-card-title">
-                                                            <h6>Myself Summary</h6>
+                                                    <div className="info-card-title d-flex justify-content-between align-items-center">
+                                                            <h6>religionInformation</h6>
+                                                                
                                                         </div>
                                                         <div className="info-card-content">
-                                                            <p>Collaboratively innovate compelling mindshare after prospective partnership Competently sereiz long-term high-impact internal or "organic" sources vias user friendly strategic themesr areas creat Dramatically coordinate premium partnerships rather than standards compliant technologies ernd Dramaticaly matrix ethical collaboration and idea-sharing through opensour methodolog and Intrinsicly grow collaborative platforms vis-a-vis effective scenarios. The energistically strategize cost effective ideas before the worke unde.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="info-card mb-4">
-                                                        <div className="info-card-title">
-                                                            <h6>Lifestyle</h6>
-                                                        </div>
-                                                        <div className="info-card-content">
+                                                              
                                                             <ul className="info-list">
                                                                 <li>
-                                                                    <p className="info-name">Interest</p>
-                                                                    <p className="info-details">Dogs,Cats</p>
+                                                                    <p className="info-name">religionName</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.religionName??""}</p>
+                                                                </li>
+                                                                 <li>
+                                                                    <p className="info-name">casteName</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.casteName??""}</p>
                                                                 </li>
                                                                 <li>
-                                                                    <p className="info-name">Favorite vocations</p>
-                                                                    <p className="info-details">Maldives, Bangladesh</p>
+                                                                    <p className="info-name">Division Name</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.divisionName??""}</p>
                                                                 </li>
-                                                                <li>
-                                                                    <p className="info-name">Looking for</p>
-                                                                    <p className="info-details">Serious Relationshiop,Affair</p>
+                                                                 <li>
+                                                                    <p className="info-name">subCaste Name</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.subCasteName??""}</p>
                                                                 </li>
-                                                                <li>
-                                                                    <p className="info-name">Smoking</p>
-                                                                    <p className="info-details">Casual Smoker</p>
+                                                                 <li>
+                                                                    <p className="info-name">raasi Name</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.raasiName??""}</p>
                                                                 </li>
-                                                                <li>
-                                                                    <p className="info-name">Language</p>
-                                                                    <p className="info-details">English, French, Italian</p>
+                                                                 <li>
+                                                                    <p className="info-name">star Name</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.starName??""}</p>
+                                                                </li>
+                                                                 <li>
+                                                                    <p className="info-name">zodiac Name</p>
+                                                                    <p className="info-details">{profile?.religionIformation?.zodiacName??""}</p>
                                                                 </li>
                                                             </ul>
-
-                                                        </div>
+                                                           
+                      </div>
+                     </div>
+                     <div className="info-card mb-4">
+                     <div className="info-card-title">
+                     <h6>Myself Summary</h6>
+                     </div>
+                    <div className="info-card-content">
+                    <p>Collaboratively innovate compelling mindshare after prospective partnership Competently sereiz long-term high-impact internal or "organic" sources vias user friendly strategic themesr areas creat Dramatically coordinate premium partnerships rather than standards compliant technologies ernd Dramaticaly matrix ethical collaboration and idea-sharing through opensour methodolog and Intrinsicly grow collaborative platforms vis-a-vis effective scenarios. The energistically strategize cost effective ideas before the worke unde.</p>
+                    </div>
                                                     </div>
                                                         <div className="info-card mb-4">
                                                         <div className="info-card-title">
@@ -1117,6 +1357,9 @@ const MemberDetails = () => {
                                 </div>
                                 <div className="col-xl-3 order-xl-2">
                                     <div className="group__bottom--right">
+                                        {/* <ModalSearch /> */}
+                                        {/* <ActiveMember /> */}
+                                        {/* <ActiveGroup /> */}
                                     </div>
                                 </div>
                             </div>
