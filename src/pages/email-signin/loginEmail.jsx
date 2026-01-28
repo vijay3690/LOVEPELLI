@@ -65,6 +65,8 @@ function LoginEmail({ onClose }) {
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <div className="modal-content">
+        <div className="modal-header">
+          <h2 id="login-title" className="title">Welcome to LovePelli</h2>
         <button
           className="close-btn"
           onClick={closeModal}
@@ -72,9 +74,9 @@ function LoginEmail({ onClose }) {
         >
           ✖
         </button>
+        </div>
 
         <div className="log-reg-inner">
-          <h2 id="login-title" className="title">Welcome to LovePelli</h2>
 
           <form onSubmit={handleLogin} aria-describedby="login-desc" autoComplete="on">
             <div className="form-group">

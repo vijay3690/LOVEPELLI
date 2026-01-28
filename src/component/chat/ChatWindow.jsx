@@ -134,33 +134,35 @@ const ChatWindow = ({
     }
 
     // Register message handler for this user
-    const handleMessage = (chatMessage) => {
-      console.log("Message handler called with:", chatMessage);
+   const handleMessage = (chatMessage) => {
+     console.log("Message handler called with:", chatMessage);
       console.log("Current targetUserId:", targetUserId);
       console.log("Message fromUserId:", chatMessage?.fromUserId);
       console.log("Message toUserId:", chatMessage?.toUserId);
       console.log("Message content property:", chatMessage?.message);
 
       // Get the message content (try multiple property names for compatibility)
-      const messageContent =
-        chatMessage?.message || chatMessage?.content || chatMessage?.text;
+  const messageContent =
+    chatMessage?.message || chatMessage?.content || chatMessage?.text;
 
-      // Only add message if content is not empty and it's from/to this user
+  // Only add message if content is not empty and it's from/to this user
       if (messageContent && messageContent.trim()) {
         const newMessage = {
-          id: Date.now(),
-          senderId: chatMessage.fromUserId,
-          senderName: chatMessage.senderName || "User",
-          content: messageContent,
-          timestamp: chatMessage.sentAt || new Date().toISOString(),
-        };
-        console.log("Adding message to state:", newMessage);
+        id: Date.now(),
+        senderId: chatMessage.fromUserId,
+        senderName: chatMessage.senderName || "User",
+        content: messageContent,
+        timestamp: chatMessage.sentAt || new Date().toISOString(),
+      };
+    console.log("Adding message to state:", newMessage);
         setMessages((prev) => [...prev, newMessage]);
       } else {
         console.log("Message filtered out - empty or missing content");
         console.log("Message object keys:", Object.keys(chatMessage || {}));
       }
     };
+
+
 
     // Register typing handler for this user
     const handleTyping = (typingData) => {
@@ -264,7 +266,7 @@ const ChatWindow = ({
   const getAvatarUrl = (user) => {
     return (
       user?.imgUrl ||
-      `https://ui-avatars.com/api/?name=${user?.firstName}+${user?.lastName}&background=random`
+      `https://ui-avatars.com/api/?name=${user?.fullName}&background=random`
     );
   };
 
@@ -306,11 +308,11 @@ const ChatWindow = ({
               <div className="chat-window-header-info">
                 <img
                   src={getAvatarUrl(targetUser)}
-                  alt={targetUser.firstName}
+                  alt={targetUser.fullName}
                   className="chat-window-header-avatar"
                 />
                 <div className="chat-window-header-text">
-                  <h6>{`${targetUser.firstName} ${targetUser.lastName}`}</h6>
+                  <h6>{targetUser.fullName}</h6>
                   <span
                     className={`chat-window-status ${
                       userOnlineStatus ? "online" : "offline"
@@ -390,7 +392,7 @@ const ChatWindow = ({
                   {targetUser && (
                     <img
                       src={getAvatarUrl(targetUser)}
-                      alt={targetUser.firstName}
+                      alt={targetUser.fullName}
                       className="chat-window-message-avatar"
                     />
                   )}

@@ -53,6 +53,8 @@ const ChatMembersList = ({ members, onSelectMember }) => {
   }, []);
 
   const handleMemberClick = (member) => {
+     // DEBUG: Log the member object before opening chat
+    console.log("Member clicked:", member);
     // Open chat window for this member
     openChatWindow(member);
 
@@ -72,7 +74,7 @@ const ChatMembersList = ({ members, onSelectMember }) => {
   const getAvatarUrl = (member) => {
     return (
       member.imgUrl ||
-      `https://ui-avatars.com/api/?name=${member.firstName}+${member.lastName}&background=random`
+      `https://ui-avatars.com/api/?name=${member.fullName}&background=random`
     );
   };
 
@@ -107,12 +109,12 @@ const ChatMembersList = ({ members, onSelectMember }) => {
                 <div className="chat-member-avatar">
                   <img
                     src={getAvatarUrl(member)}
-                    alt={`${member.firstName} ${member.lastName}`}
+                    alt={`${member.fullName}`}
                   />
                   <span className={getStatusClass(member)}></span>
                 </div>
                 <div className="chat-member-info">
-                  <h6>{`${member.firstName} ${member.lastName}`}</h6>
+                  <h6>{member.fullName}</h6>
                   <p>{member.email || "No email"}</p>
                 </div>
                 {hasActiveChatSession(member.userId) && (

@@ -11,6 +11,7 @@ const ChatWindowContainer = () => {
 
   // Add or bring to focus a chat window
   const addChatWindow = useCallback((member) => {
+    
     setOpenChats((prev) => {
       // Check if chat window already exists
       const exists = prev.find((chat) => chat.userId === member.userId);
