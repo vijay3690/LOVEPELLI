@@ -5,37 +5,37 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: 80%;
   background-color: white; /* Clean white background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: 20px 22px;
 }
 .modal-overlay2 {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   background-color: white; /* Clean white background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: 20px 22px;
 }
 /* Form Step 1 */
 /* Modal Box */
 .modal-content {
   background: #ffffff;
   border-radius: 12px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 600px; /* Consistent size */
-  max-height: 90vh;
+  padding: 20px 22px;
+  width: 80%;
+  max-width: 400px; /* Consistent size */
+  max-height: 100vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -53,18 +53,18 @@
 
 /* Form Step 1 */
 /* Modal Box */
-.modal-content2 {
+/* .modal-content2 {
   background: #ffffff;
   border-radius: 12px;
   padding: 2rem;
-  width: 100%;
-  max-width: 500px; /* Consistent size */
-  max-height: 90vh;
+  width: 80%;
+  max-width: 400px; Consistent size */
+  /* max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', Arial, sans-serif;
   animation: slideIn 0.3s ease-out;
-}
+} */
 /* Headings */
 .modal-content2 h2,
 .form-title {
@@ -88,28 +88,63 @@
 }
 
 
-
 /* Labels */
 .labels {
   display: block;
-  margin-bottom: 0.5rem;
   font-weight: 500;
   color: #555;
   text-align: left;
-
+  font-size: 13px;
+  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
 /* Inputs & Selects */
-input,
+ input,
 select {
   display: block;
   width: 100%;
-  padding: 0.65rem;
   margin-bottom: 1rem;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-sizing: border-box;
+   box-sizing: border-box;
+  height: 30px;              
+  padding: 6px 12px;         
+  font-size: 13px;
+  border-radius: 6px;
+} 
+.step1 input {
+  display: block;
+  width: 90%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  height: 30px;              /* 🔥 THIS is key */
+  padding: 6px 12px;         /* Reduce padding */
+  font-size: 13px;
+  border-radius: 6px;
+}
+.step1 input {
+  display: block;
+  width: 70%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  height: 30px;              /* 🔥 THIS is key */
+  padding: 6px 12px;         /* Reduce padding */
+  font-size: 13px;
+  border-radius: 6px;
+}
+.stepcontactinput {
+  display: block;
+  width: 165px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  height: 30px;              /* 🔥 THIS is key */
+  padding: 6px 12px;         /* Reduce padding */
+  font-size: 13px;
+  border-radius: 6px;
 }
 
 input[type="radio"] {
@@ -201,6 +236,7 @@ select:focus {
 
 
 
+
 /* formStep 1 */
 
 .gender-group {
@@ -233,12 +269,13 @@ select:focus {
   flex-direction: column;
 }
 
-.name-box input {
+/* .name-box input {
+
   width: 100%;
-  padding: 8px;
+  padding: 6px 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
+} */
 
 .password-row {
   display: flex;
@@ -250,13 +287,13 @@ select:focus {
   display: flex;
   flex-direction: column;
 }
-
+/* 
 .password-box input {
   width: 100%;
-  padding: 0.65rem;
+  padding: 6px 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
+} */
 
 .password-container {
   position: relative;
@@ -512,10 +549,11 @@ select:focus {
   align-items: center;
   max-width: 400px;
   width: 100%;
+  padding: 6px 12px;
 }
 
 /* Input styles */
-.contactInput,
+/* .contactInput, */
 .otpInput {
   width: 100%;
   font-size: 1rem;
@@ -539,8 +577,8 @@ select:focus {
   border: none;
   background: white;
   color: #e6006e;
-  font-size: 14px;
-  margin-left: 350PX;
+  font-size: 12px;
+  margin-left: 270PX;
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
@@ -757,8 +795,8 @@ select:focus {
 
   /* Close button */
   .close-btn {
-    top: 12px;
-    right: 12px;
+    top: 8px;
+    right: 8px;
     font-size: 22px;
   }
 
