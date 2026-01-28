@@ -235,10 +235,13 @@ const handleNext = async () => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+        <div className="modal-header">
+                  <h2 className="title">Basic Details</h2>
+
         <button className="close-btn" onClick={closeModal}>
           ✖
         </button>
-        <h2>Basic Details</h2>
+        </div>
 
         {/* First + Last Name */}
         <div className="name-row">

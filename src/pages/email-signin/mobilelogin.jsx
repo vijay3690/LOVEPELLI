@@ -38,7 +38,7 @@ const handleKeyDown = (e, index) => {
 
   const sendOtp = async () => {
     setError("");
-    setMessage("");
+    setMessage(""); 
     if (!/^[6-9]\d{9}$/.test(mobile)) {
       setError("Please enter a valid 10-digit mobile number before requesting OTP.");
       return;

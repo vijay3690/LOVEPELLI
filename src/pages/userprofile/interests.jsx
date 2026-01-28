@@ -1,5 +1,5 @@
 import React from "react";
-import { Link,NavLink, useNavigate } from 'react-router-dom';
+import { Link,NavLink} from 'react-router-dom';
 import { profilesData } from "./userprofile"; // adjust path as needed
 import "./userprofile.css"; // make sure your css file matches classNames
 // import Footer from "../component/layout/footer";
@@ -31,7 +31,7 @@ const Interests = () => (
                         </ul>
                     </div>
                     <ul className="button-group">
-                        <li><Link to="/logout" className="default-btn login"><span>LOGOUT</span> </Link></li>
+                        <li><Link to="/logout" className="default-btn-login"><span>LOGOUT</span> </Link></li>
                     </ul>
                 </div>
             </nav>

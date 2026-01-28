@@ -30,7 +30,7 @@
 }
 
 .forgot-input:focus {
-  border-color: #007bff;
+  border-color: #ff007a;
   outline: none;
 }
 
@@ -42,7 +42,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #ff007a;
   color: #fff;
   transition: background-color 0.3s;
 }
@@ -53,7 +53,7 @@
 }
 
 .forgot-button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #e6006e;
 }
 
 /* Messages */
@@ -110,7 +110,7 @@
 
 .forgot-button {
   width: 100%;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #ee4292, #f11179);
   color: white;
   padding: 12px;
   font-size: 16px;
@@ -121,7 +121,7 @@
 }
 
 .forgot-button:hover {
-  background-color: #0056b3;
+  background-color: #f11179;
 }
 
 .error-msg {
@@ -628,6 +628,7 @@
     text-align: center;
     font-family: "Segoe UI", Arial, sans-serif;
     background: #fff;
+    max-height: fit-content;
   }
 
   /* ---- HEADINGS ---- */
@@ -641,7 +642,6 @@
   }
 
   /* ---- INPUT FIELDS ---- */
-  .forgot-input,
   .reset-input,
   .reset-password-form input[type="password"],
   .reset-password-form input[type="text"],
@@ -673,7 +673,6 @@
   }
 
   /* ---- BUTTONS ---- */
-  .forgot-button,
   .reset-button,
   .reset-password-form .reset-button,
   .otp-container button {
@@ -823,4 +822,43 @@
   color: #333;
   text-align: left;
 }
+}
+
+.modal-overlay .modal-header {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+.modal-overlay .modal-header h2.title {
+  margin: 0; 
+}
+.modal-overlay .modal-header button.close-btn {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+
+.modal-overlay .f-pass {
+  text-align: right;
+  font-size: 14px;
+}
+
+.modal-overlay .or-signup {
+  text-align: right;
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+.modal-overlay .form-group {
+  max-width: 100%;
+  text-align: left;
+}
+
+.modal-overlay .modal-footer {
+  border-top: 1px solid #eee;
+  padding-top: 16px;
 }

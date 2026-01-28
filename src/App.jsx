@@ -26,6 +26,8 @@ import ResetPassword from "./pages/email-signin/resetpassword";
 import MobileLogin from "./pages/email-signin/mobilelogin";
 import Interests from "./pages/userprofile/interests";
 import Notification from "./pages/userprofile/notifications";
+import EditProfile from "./pages/userprofile/EditProfile.jsx";
+
 
 
 
@@ -38,7 +40,7 @@ function App() {
         <Routes>
 
           {/* ---------- Public Routes ---------- */}
-          <Route path="/" element={<HomePage />} />  {/* Default public landing page */}
+          <Route path="/" element={<HomePage />} />  {/*  Default public landing page */}
           <Route path="/login" element={<LogIn />} />
           <Route path="/authpage" element={<AuthPage />} />
           <Route path="/register" element={<Register />} />
@@ -47,6 +49,7 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/mobilelogin" element={<MobileLogin />} />
+           {/* <Route path="/member-single/:profileId" element={<MemberDetails />} /> */}
 
           {/* ---------- Protected Routes ---------- */}
           <Route path="/homefour" element={<ProtectedRoute><HomePageFour /></ProtectedRoute>} />
@@ -58,11 +61,14 @@ function App() {
           <Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
           <Route path="/activity" element={<ProtectedRoute><ActivityPage /></ProtectedRoute>} />
           <Route path="/contact" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
-          <Route path="/member-single" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
+          <Route path="/member-single/" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
           <Route path="/policy" element={<ProtectedRoute><Policy /></ProtectedRoute>} />
           <Route path="/errorpage" element={<ErrorPage />} />
           <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
+          <Route path="/editprofile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+         <Route path="/member-single/:profileId" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} /> 
+
 
 
           {/* ---------- Catch-All Route ---------- */}

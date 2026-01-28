@@ -1606,7 +1606,7 @@ iframe {
   }
 }
 .header__bottom {
-  background-color: white;
+  /* padding-block: 16.5px; */
 }
 .header.header-fixed .header__top {
   display: none !important;
@@ -2251,12 +2251,11 @@ iframe {
   padding-block: 10px;
 }
 .footer__bottom {
-  padding-block: 0px;
+  padding-block: 20px;
 }
 .footer__bottom .footer__newsletter--social ul li a {
   border-radius: 100%;
 }
-
 .default-btn {
   --background: #c7edff;
   --text: #00afff;
@@ -2305,6 +2304,7 @@ iframe {
 }
 .default-btn.style-2 {
   background: #f24570;
+  text-align: center;
 }
 .about__inner {
   padding: 60px 30px;

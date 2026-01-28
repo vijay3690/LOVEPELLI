@@ -221,13 +221,16 @@ useEffect(() => {
 // UI Rendering
 
   return (
-    <div className="modal-overlay2">
-      <div className="modal-content2">
-                  {/* Close Button */}
-        <button className="close-btn2" onClick={closeModal}>✖</button>
-        <h2>Basic Details</h2>
+    <div className="modal-overlay">
+      <div className="modal-content">
+                  
+                  <div className="modal-header">
+                    <h2 className="title">Basic Details</h2>
+        <button className="close-btn" onClick={closeModal}>✖</button>
+        
+        </div>
              {/* DOB */}
-<div className="dob-group">
+<div className="dob-group form-group">
   <label>
     Date of Birth:<span className="required">*</span>
   </label>
@@ -266,6 +269,7 @@ useEffect(() => {
 
 
             {/* Religion */}
+            <div className="form-group">
 <label>
   Religion:<span className="required">*</span>
 </label>
@@ -295,8 +299,10 @@ useEffect(() => {
 {errors.religionId && !UserData.religionId && (
   <p className="error-text">{errors.religionId}</p>
 )}
+</div>
 
            {/* Caste */}
+            <div className="form-group">
         <label>
   Caste:<span className="required">*</span>
 </label>
@@ -326,11 +332,11 @@ useEffect(() => {
 {errors.casteId && !UserData.casteId && (
   <p className="error-text">{errors.casteId}</p>
 )}
-
+</div>
 
   {/* Hindu → SubCaste */}
 {religionName === "Hindu" && isSelectedCasteIdHaveSubCastes && (
-  <>
+   <div className="form-group">
             <label>
               Sub-Caste:<span className="required">*</span>
             </label>
@@ -349,13 +355,13 @@ useEffect(() => {
               ))}
             </select>
             {errors.subCasteId && <p className="error-text">{errors.subCasteId}</p>}
-          </>
+          </div>
         )
       }
 
 {/* Other Religions → free text SubCaste */}
          { religionName != "Hindu" || !isSelectedCasteIdHaveSubCastes && religionName != "Christian" &&   (
-          <>
+           <div className="form-group">
            <label>Sub-Caste:</label>
             <input
               type="text"
@@ -366,13 +372,13 @@ useEffect(() => {
               placeholder="Optional"
               onChange={handleChange}
             />
-          </>
+          </div>
         )}
 
 
       {/* Christian → Division */}
         {religionName === "Christian" && (
-          <>
+           <div className="form-group">
             <label>
               Division:<span className="required">*</span>
             </label>
@@ -391,12 +397,12 @@ useEffect(() => {
               ))}
             </select>
             {errors.divisionId && <p className="error-text">{errors.divisionId}</p>}
-          </>
+          </div>
         )}
         
       {/* Gothram */}
        {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
-          <>
+           <div className="form-group">
             <label>Gothram:</label>
             <input
               type="text"
@@ -406,12 +412,12 @@ useEffect(() => {
               onKeyDown={handleKeyDown} 
               onChange={handleChange}
             />
-          </>
+          </div>
         )}
 
        {/* Dosham */}
         {religionName && religionName !== "Christian" && religionName !== "Muslim" && (
-          <>
+           <div className="form-group">
             <label>Dosham:</label>
             <input
               type="text"
@@ -421,10 +427,11 @@ useEffect(() => {
               onKeyDown={handleKeyDown} 
               onChange={handleChange}
             />
-          </>
+          </div>
         )}
 
        {/* Mother Tongue */}
+        <div className="form-group">
         <label>
           Mother Tongue:<span className="required">*</span>
         </label>
@@ -446,7 +453,7 @@ useEffect(() => {
         {errors.motherTongueId && !UserData.motherTongueId && (
           <p className="error-text">{errors.motherTongueId}</p>
         )}
-        
+        </div>
         {/* Buttons */}
         <div className="button-group">
          <button type="button" className="prev-btn" onClick={handlePrev}>
