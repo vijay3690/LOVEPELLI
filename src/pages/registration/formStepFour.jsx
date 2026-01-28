@@ -269,9 +269,10 @@ useEffect(() => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-         <button  className="close-btn" onClick={closeModal}>X</button>
-        <h2 className="form-title">Professional Details</h2>
-
+        <div className="modal-header">
+        <h2 className="form-title title">Professional Details</h2>
+         <button  className="close-btn" onClick={closeModal}>✖</button>
+</div>
         {/* Education */}
         <div className="form-group">
           <label>
@@ -588,7 +589,7 @@ useEffect(() => {
         )}
 
        {/* Buttons */}
-        <div className="form-actions">
+        <div className="form-actions modal-footer">
           <button className="btn secondary" onClick={prevStep}>
             Previous
           </button>
