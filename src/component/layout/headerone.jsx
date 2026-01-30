@@ -3,7 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { HEADER_INFOLIST, HEADER_SOCIALLIST } from "./layoutconsts";
 import Notifications from "../../pages/userprofile/notifications";
 import "../../pages/userprofile/userprofile.css";
-import { Bold } from "lucide-react";
+import { getUserFromToken } from "../../Utils/JwtHelper";
+import { useNavigate } from "react-router-dom";
 
 function HeaderOne() {
   const [close, setClose] = useState(false);
@@ -12,6 +13,8 @@ function HeaderOne() {
   const dropdownRef = useRef(null);
   const userRef = useRef(null);
   const userDropdownRef = useRef(null);
+  const user = getUserFromToken();
+  const navigate = useNavigate();
 
   // Scroll effect for header
   useEffect(() => {
@@ -100,7 +103,7 @@ function HeaderOne() {
       <div className="header__bottom">
         <div className="container">
           <nav className="navbar navbar-expand-lg">
-            <Link className="navbar-brand" to="/headerone">
+            <Link className="navbar-brand" to="/homefour">
               <img src="assets/images/logo/lovepelli_logo_big.png" alt="logo" />
             </Link>
             <button
@@ -147,7 +150,7 @@ function HeaderOne() {
                       onClick={() => setClose(v => !v)}
                       aria-label="Notifications"
                     >
-                      <span role="img" aria-label="bell" style={{ fontSize: 16, color: "#21254f" }}>
+                      <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
                         Notifications 🔔
                       </span>
                     </button>
@@ -182,7 +185,9 @@ function HeaderOne() {
                     {showUserDropdown && (
                       <div ref={userDropdownRef} className="user-dropdown-wrapper">
                         <div className="profile-dropdown-container">
-                          <div className="profile-header">Vijaydeep</div>
+                          <div className="profile-header">
+                                  {user?.name || "User"}
+                                </div>
                           <div className="profile-sub">
                             <span role="img" aria-label="telugu">🌐</span> LovePelli Matrimony
                           </div>
@@ -205,7 +210,11 @@ function HeaderOne() {
                           </div>
 
                           <ul className="profile-list">
-                            <li className="profile-list-item">
+                           <li
+                              className="profile-list-item"
+                              onClick={() => navigate("/editprofile")}
+                              style={{ cursor: "pointer" }}
+                            >
                               <span className="profile-icon">📝</span>
                               Edit profile
                             </li>
