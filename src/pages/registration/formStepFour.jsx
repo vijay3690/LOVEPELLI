@@ -242,6 +242,18 @@ useEffect(() => {
   }
   }, [UserData.stateId,isIndiaSelected]);
 
+  // Keep local flags in sync when UserData is populated (e.g., navigating back to this step)
+  useEffect(() => {
+    if (UserData && UserData.countryId) {
+      const isIndia = Number(UserData.countryId) === 98;
+      setIsIndiaSelected(isIndia);
+      setCountryId(String(UserData.countryId));
+    } else {
+      setIsIndiaSelected(false);
+      setCountryId("");
+    }
+  }, [UserData.countryId]);
+
   const validateForm = () => {
     let newErrors = {};
  
@@ -569,7 +581,7 @@ useEffect(() => {
       }
 
         {/*Citizenship */}
-        {countryId != 98 && (
+        {UserData.countryId && Number(UserData.countryId) !== 98 && (
           <>
         <div className='form-group'>
           <label htmlFor='Citizenship'></label>
