@@ -288,9 +288,8 @@ const handleNext = async () => {
         Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <select
+      <select
           name="countryCode"
-           className="step input"
           value={UserData.countryCode}   //  now always controlled
           ref={el => inputRefs.current[2] = el}
           onKeyDown={(e) => handleKeyDown(e, 2)}
