@@ -41,7 +41,7 @@ class HeaderFour extends Component {
                  <div className="header__bottom">
                     <div className="container">
                         <nav className="navbar navbar-expand-lg">
-                            <Link className="navbar-brand" to="/headerone"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
+                            <Link className="navbar-brand" to="/homefour"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
                             <button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                                 aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ class HeaderFour extends Component {
                                 <div className="navbar-nav mainmenu">
                                     <ul>
                                         <li className="menu-item-has-children"></li>
-                                        <li><NavLink to="/headerone">Home</NavLink></li>
+                                        <li><NavLink to="/homefour">Home</NavLink></li>
                                         <li className="menu-item-has-children"></li>
                                         <li><NavLink to="/membership">Membership</NavLink></li>
                                          <li className="menu-item-has-children">

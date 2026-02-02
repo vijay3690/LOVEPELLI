@@ -27,6 +27,7 @@ import MobileLogin from "./pages/email-signin/mobilelogin";
 import Interests from "./pages/userprofile/interests";
 import Notification from "./pages/userprofile/notifications";
 import EditProfile from "./pages/userprofile/EditProfile.jsx";
+import PartnerPreferences from "./pages/partnerpreference/partnerpreferences.jsx";
 
 
 
@@ -67,6 +68,7 @@ function App() {
           <Route path="/interests" element={<ProtectedRoute><Interests /></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
           <Route path="/editprofile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+          <Route path="/partnerpreferences" element={<ProtectedRoute><PartnerPreferences /></ProtectedRoute>} />
          <Route path="/member-single/:profileId" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} /> 
 
 

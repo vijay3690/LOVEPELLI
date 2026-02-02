@@ -47,7 +47,7 @@ if (header) {
                <div className="header__bottom">
                     <div className="container">
                         <nav className="navbar navbar-expand-lg">
-                            <Link className="navbar-brand" to="/headerone"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
+                            <Link className="navbar-brand" to="/"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
                             <button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                                 aria-label="Toggle navigation">

@@ -1,5 +1,5 @@
 import { Component } from "react";
-import AuthPage from "../otp-signin/authpage";
+import SignUp from "../otp-signin/authpage";
 
 
 class LogIn extends Component {
@@ -19,6 +19,7 @@ class LogIn extends Component {
                             <div className="col-lg-8 col-7">
                             </div>
                             <div className="col-lg-4 col-5">
+                               
                             </div>
                         </div>
                     </div>
@@ -32,7 +33,7 @@ class LogIn extends Component {
                                 <div className="main-content inloginp">
                                     <form action="#">
                                         <div className = "or-content">
-                                           <AuthPage/>
+                                           <SignUp/>
                                         </div>
                                     </form>
                                 </div>

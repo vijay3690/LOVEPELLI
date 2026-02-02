@@ -324,7 +324,9 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 16px;
   color: #232323;
-  margin: 20px auto;
+  margin: 20px 0px 0px 3000px;
+  margin-left: 800px;
+  display: sticky;
 }
 .profile-header {
   text-align: center;
@@ -430,8 +432,7 @@ body {
   top: 50%;
   right: 0;
   margin-top: 10px;
-  /* z-index: 1000; */
-  animation: fadeIn 0.2s ease-in-out;
+  /* animation: fadeIn 0.2s ease-in-out; */
 }
 
 @keyframes fadeIn {
