@@ -283,7 +283,7 @@ const handleNext = async () => {
         Contact Number <span className="required">*</span>
       </label>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <select
+      <select
           name="countryCode"
           value={UserData.countryCode}   //  now always controlled
           ref={el => inputRefs.current[2] = el}

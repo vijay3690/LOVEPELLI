@@ -74,7 +74,7 @@ function App() {
 
 
           {/* ---------- Catch-All Route ---------- */}
-          <Route path="*" element={<Navigate to="/" replace />} /> {/* 👈 redirect unknown routes to homepage */}
+          <Route path="*" element={<Navigate to="/" replace />} /> {/*  redirect unknown routes to homepage */}
         </Routes>
       </BrowserRouter>
     </div>

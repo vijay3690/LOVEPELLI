@@ -580,7 +580,7 @@ useEffect(() => {
         )
       }
 
-      {/*Citizenship */}
+        {/*Citizenship */}
         {UserData.countryId && Number(UserData.countryId) !== 98 && (
           <>
         <div className='form-group'>
