@@ -2,8 +2,8 @@ html { scroll-behavior: smooth; }
 
 .pp-container {
   display: flex;
-  background: #f5f6f7;
-  min-height: 100vh;
+  background: white;
+  min-height: 80vh;
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -97,6 +97,10 @@ html { scroll-behavior: smooth; }
   font-size: 16px;
   margin-bottom: 15px;
   color: #333;
+}
+
+.looking {
+  margin-bottom: 50px;
 }
 
 @keyframes fadeInUp {
