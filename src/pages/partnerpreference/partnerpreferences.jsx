@@ -16,6 +16,7 @@ const [close, setClose] = useState(false);
   const dropdownRef = useRef(null);
   const userRef = useRef(null);
   const userDropdownRef = useRef(null);
+  const ppRef = useRef(null);
   const user = getUserFromToken();
   const navigate = useNavigate();
 
@@ -74,11 +75,47 @@ const [close, setClose] = useState(false);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showUserDropdown]);
 
+  // Make only .pp-container scrollable: size it to viewport minus header
+  useEffect(() => {
+    function setPpHeight() {
+      const headers = Array.from(document.querySelectorAll('.header, .header__bottom'));
+      const headerHeight = headers.reduce((sum, el) => sum + (el ? el.offsetHeight : 0), 0);
+
+      // Determine if any header is fixed (has class or computed style)
+      const headerIsFixed = headers.some(el => {
+        if (!el) return false;
+        if (el.classList && el.classList.contains('header-fixed')) return true;
+        const pos = window.getComputedStyle(el).position;
+        return pos === 'fixed' || pos === 'sticky';
+      });
+
+      if (ppRef.current) {
+        ppRef.current.style.height = `${window.innerHeight - headerHeight}px`;
+        // If header is fixed, add top margin so content is not overlapped
+        ppRef.current.style.marginTop = headerIsFixed ? `${headerHeight}px` : '0px';
+      }
+    }
+
+    // Prevent body/window scrolling while on this page
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // Recalculate on resize and scroll (header class may change on scroll)
+    setPpHeight();
+    window.addEventListener('resize', setPpHeight);
+    window.addEventListener('scroll', setPpHeight, { passive: true });
+    return () => {
+      window.removeEventListener('resize', setPpHeight);
+      window.removeEventListener('scroll', setPpHeight);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, []);
+
 
 
   return (
     <>
-    <div className="partner-preferences-wrapper header-area header-sticky">
+    <div class="header__bottom">
         <div className="container">
           <nav className="navbar navbar-expand-lg">
             <Link className="navbar-brand" to="/homefour">
@@ -235,8 +272,8 @@ const [close, setClose] = useState(false);
           </nav>
         </div>
       </div>
-    <div className="pp-container">
-      <Sidebar />
+    <div ref={ppRef} className="pp-container" style={{ overflowY: 'auto' }}> 
+     <Sidebar ppRef={ppRef} />
 
       <div className="pp-content">
         <h2>Partner Preferences</h2>
