@@ -3,20 +3,43 @@ import "./Modal.css";
 
 const EditPreferenceModal = ({ open, onClose, title, value = "", onSave, saving = false }) => {
   const [inputValue, setInputValue] = useState(value ?? "");
+  const [options, setOptions] = useState([]);
+  const [optionsLoading, setOptionsLoading] = useState(false);
+  const [optionsError, setOptionsError] = useState(null);
   const inputRef = useRef(null);
+  const Base_api = import.meta.env.VITE_BASE_URL;
 
   // Keep local state in sync if parent updates the value
   useEffect(() => {
     setInputValue(value ?? "");
   }, [value]);
 
-  // Focus input when modal opens
+  // Fetch dropdown options from API when modal opens
   useEffect(() => {
     if (open) {
-      // slight delay ensures element is mounted
-      setTimeout(() => inputRef.current?.focus(), 0);
+      fetchOptions();
     }
   }, [open]);
+
+  const fetchOptions = async () => {
+    setOptionsLoading(true);
+    setOptionsError(null);
+    try {
+      const res = await fetch(`${Base_api}/api/edit_preferences`);
+      if (!res.ok) throw new Error("Failed to fetch options");
+      const data = await res.json();
+      
+      // Adjust these field names based on your API response
+      // If response is [{id: 1, label: 'Option1'}, ...], keep as is
+      // If response is [{id: 1, name: 'Option1'}, ...], change 'label' to 'name'
+      setOptions(Array.isArray(data) ? data : data.options || []);
+    } catch (err) {
+      console.error("Error fetching options:", err);
+      setOptionsError(err.message);
+    } finally {
+      setOptionsLoading(false);
+    }
+  };
 
   if (!open) return null;
 
@@ -45,13 +68,24 @@ const EditPreferenceModal = ({ open, onClose, title, value = "", onSave, saving 
       >
         <h3>{title}</h3>
 
-        <input
+        {optionsError && <p style={{ color: "red", fontSize: "12px" }}>{optionsError}</p>}
+
+        <select
           ref={inputRef}
           className="modal-input"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          disabled={saving}
-        />
+          disabled={saving || optionsLoading}
+        >
+          <option value="">
+            {optionsLoading ? "Loading options..." : "Select an option"}
+          </option>
+          {options.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.label || option.name}
+            </option>
+          ))}
+        </select>
 
         <div className="modal-actions">
           <button className="btn cancel" onClick={onClose} disabled={saving}>
