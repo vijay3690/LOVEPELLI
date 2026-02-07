@@ -24,7 +24,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [timer, setTimer] = useState(0);
   const [time, setTime] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const inputRefs = useRef([]);  
 
   const Base_api=import.meta.env.VITE_BASE_URL;
@@ -227,9 +227,6 @@ const handleNext = async () => {
   }
 };
 
-  const isPasswordMatch = UserData.password === UserData.confirmPassword && UserData.password !== "";
-  const isNextDisabled = currentStep === 1 && !isPasswordMatch;
-
 
   const closeModal = () => {
     navigate("/");
@@ -256,7 +253,6 @@ const handleNext = async () => {
               type="text"
               name="firstName"
               placeholder="First Name"
-               className="step input"
               value={UserData.firstName || ""}
               ref={el => inputRefs.current[0] = el}
               onKeyDown={(e) => handleKeyDown(e, 0)}
@@ -273,7 +269,6 @@ const handleNext = async () => {
               type="text"
               name="lastName"
               placeholder="Last Name"
-               className="step input"
               value={UserData.lastName || ""}
               ref={el => inputRefs.current[1] = el}
               onKeyDown={(e) => handleKeyDown(e, 1)}
@@ -307,12 +302,11 @@ const handleNext = async () => {
               type="number"
               name="contactNumber"
               placeholder="Contact Number"
-               className="stepcontactinput"
               value={UserData.contactNumber || ""}
                ref={el => inputRefs.current[3] = el}
                       onKeyDown={(e) => handleKeyDown(e, 3)}
               onChange={handleChange}
-              // className="contactInput"
+              className="contactInput"
               autoComplete="tel"
               inputMode="numeric"
             />
@@ -367,7 +361,6 @@ const handleNext = async () => {
         <input
           type="email"
           name="email"
-          className="step1 input"
           placeholder="Email"
           value={UserData.email || ""}
            ref={el => inputRefs.current[5] = el}
@@ -403,7 +396,7 @@ const handleNext = async () => {
             <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="step1 input"
+                className="password-input"
                 placeholder="Enter Password"
                 value={UserData.password || ""}
                 ref={(el) => (inputRefs.current[6] = el)}
@@ -460,7 +453,7 @@ const handleNext = async () => {
       <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
-              className="step1 input"
+              className="password-input"
               placeholder="Confirm Password"
               value={UserData.confirmPassword || ""}
               ref={(el) => (inputRefs.current[7] = el)}
@@ -498,7 +491,7 @@ const handleNext = async () => {
     </div>
     <div>
            {/* ADD SUCCESS MESSAGE HERE */}
-            {isPasswordMatch && UserData.password && UserData.confirmPassword && (
+            {isPasswordMatch && (
               <p style={{ color: "green", marginTop: "0px", fontSize: "14px" }}>
                 ✓ Passwords match
               </p>
@@ -516,7 +509,6 @@ const handleNext = async () => {
         </label>
         <select
           name="profileForDataId"
-          className="step1 input"
           value={UserData.profileForDataId || ""}
            ref={el => inputRefs.current[8] = el}
                       onKeyDown={(e) => handleKeyDown(e, 8)}
@@ -613,14 +605,10 @@ const handleNext = async () => {
             id="submitBtn"
             className="next-btn"
             onClick={handleNext}
-            disabled={isNextDisabled}
-            style={{
-              opacity: isNextDisabled ? 0.5 : 1,
-              cursor: isNextDisabled ? "not-allowed" : "pointer",
-            }}
-          >
-            Next
-          </button>
+            disabled={!isPasswordMatch}   // <--- disable logic
+            style={{ opacity: !isPasswordMatch ? 0.5 : 1, cursor: !isPasswordMatch ? "not-allowed" : "pointer" }}>
+                  Next
+     </button>
       </div>
     </div>
   );

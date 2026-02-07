@@ -11,6 +11,7 @@ function LoginEmail({ onClose }) {
   const [userPass, setUserPass] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const Base_api=import.meta.env.VITE_BASE_URL;
   const inputRefs = useRef([]); 
@@ -29,6 +30,7 @@ function LoginEmail({ onClose }) {
   };
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const res = await fetch(`${Base_api}/api/Login`, {
@@ -50,7 +52,9 @@ function LoginEmail({ onClose }) {
     } catch (err) {
       console.error(err);
       alert("Login failed!");
-    } 
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (redirect) {
@@ -129,8 +133,8 @@ function LoginEmail({ onClose }) {
             </p>
 
             <div className="text-center">
-              <button id="submitBtn" type="submit" className="Login-btn">
-                                Log In
+              <button id="submitBtn" type="submit" className="Login-btn" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Log In"}
               </button>
             </div>
 

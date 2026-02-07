@@ -469,7 +469,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3); /* light border for glass effect */
   padding: 30px;
   border-radius: 12px;
-  width: 400px;
+  width: 500px;
   max-width: 95%;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* subtle shadow */
@@ -479,8 +479,8 @@
 /* close button */
 .close-btn {
   position: absolute;
-  top: 0px;    /* distance from top */
-  right: 0px;  /* distance from right */
+  top: 10px;    /* distance from top */
+  right: 10px;  /* distance from right */
   background: transparent;
   border: none;
   font-size: 20px;
@@ -836,7 +836,7 @@
 .modal-overlay .modal-header h2.title {
   margin: 0; 
 }
-.modal-overlay .modal-header {
+.modal-overlay .modal-header button.close-btn {
   position: relative;
   top: auto;
   right: auto;

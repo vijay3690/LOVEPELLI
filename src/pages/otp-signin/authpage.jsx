@@ -8,17 +8,13 @@ import "./signuppage.css";
 const AuthPage = () => {
   const navigate = useNavigate();
 
-    const closeModal = () => {
-    navigate("/");
-  };
-
   return (
     <>
       {/* Logo */}
       <div className="logo signup-logo">
         <Link to="/">
           <img
-            src="assets/images/logo/pic.png"
+            src="assets/images/logo/lovepelli_logo_big.png"
             alt="logo"
             className="signup-logo-img"
           />
@@ -27,7 +23,6 @@ const AuthPage = () => {
 
       <div className="signup-container">
         {/* Login Section */}
-         <button  className="close-btn1" onClick={closeModal}>✖</button>
         <div className="signup-box">
           <h2 className="signup-title">Welcome to LovePelli</h2>
               <Link to="/loginEmail" className="signup-button">

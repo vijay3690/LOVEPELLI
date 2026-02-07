@@ -218,7 +218,9 @@ function HeaderOne() {
                               <span className="profile-icon">📝</span>
                               Edit profile
                             </li>
-                            <li className="profile-list-item">
+                            <li className="profile-list-item"
+                               onClick={() => navigate("/partnerpreferences")}
+                              style={{ cursor: "pointer" }}>
                               <span className="profile-icon">⚙️</span>
                               Edit preferences
                             </li>

@@ -324,7 +324,9 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 16px;
   color: #232323;
-  margin: 20px auto;
+  margin: 20px 0px 0px 3000px;
+  margin-left: 800px;
+  display: sticky;
 }
 .profile-header {
   text-align: center;
@@ -430,8 +432,7 @@ body {
   top: 50%;
   right: 0;
   margin-top: 10px;
-  /* z-index: 1000; */
-  animation: fadeIn 0.2s ease-in-out;
+  /* animation: fadeIn 0.2s ease-in-out; */
 }
 
 @keyframes fadeIn {
@@ -597,4 +598,294 @@ body {
 
 .userprofile:hover {
   transform: scale(1.1);
+}
+
+
+/* ============================================
+   EDIT PROFILE - Simple & Smooth Styles
+   ============================================ */
+
+/* Info Card Styling */
+.info-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  transition: box-shadow 0.2s ease;
+  border: 1px solid #e9ecef;
+  max-width: 900px;
+  margin: 0 auto 16px auto;
+}
+
+.info-card:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Info Card Title */
+.info-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.info-card-title h6 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* Info Card Content */
+.info-card-content {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Form Labels */
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Form Control - Base Styling */
+.form-control {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #333;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Form Control - Focus State */
+.form-control:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.08);
+  outline: none;
+}
+
+/* Form Control - Hover State */
+.form-control:hover:not(:disabled) {
+  border-color: #bbb;
+}
+
+/* Form Control - Disabled State */
+.form-control:disabled {
+  background: #f5f5f5;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Row and Column Spacing */
+.row.g-2 {
+  gap: 16px;
+}
+
+/* Info List - View Mode */
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.info-list li {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  transition: border-color 0.2s ease;
+}
+
+.info-list li:hover {
+  border-color: #f13d6a;
+}
+
+.info-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.3px;
+  margin-left: 20px;
+}
+
+.info-details {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+   margin-left: 20px;
+}
+
+/* Alert Styling */
+.alert {
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  border: 1px solid;
+  transition: all 0.2s ease;
+}
+
+.alert-danger {
+  background: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+  border-color: #ffeaa7;
+}
+
+/* Button Styling */
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Button - Primary */
+.btn-primary {
+  background: #e43e6b;
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #e43e6b;
+  box-shadow: 0 2px 4px rgba(0, 86, 179, 0.2);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Button - Success */
+.btn-success {
+  background: #e43e6b;
+  color: #ffffff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #e43e6b;
+  box-shadow: 0 2px 4px rgba(25, 173, 130, 0.2);
+}
+
+.btn-success:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Button - Secondary */
+.btn-secondary {
+  background: #6c757d;
+  color: #ffffff;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #5a6268;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Button - Small */
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* Button - Disabled State */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Form Group Spacing */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-card {
+    padding: 16px;
+  }
+
+  .info-card-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .info-card-title div {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .info-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-control {
+    padding: 9px 10px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-card {
+    padding: 12px;
+  }
+
+  .info-card-title h6 {
+    font-size: 15px;
+  }
+
+  .form-label {
+    font-size: 12px;
+  }
+
+  .form-control {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
