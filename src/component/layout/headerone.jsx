@@ -151,7 +151,7 @@ function HeaderOne() {
                       aria-label="Notifications"
                     >
                       <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
-                        Notifications 🔔
+                         🔔
                       </span>
                     </button>
                     {close && (
@@ -178,7 +178,7 @@ function HeaderOne() {
                     >
                       <img 
                         className="userprofile" 
-                        src="assets/images/logo/userprofile.png" 
+                        src="assets/images/logo/user-profile.png" 
                         alt="user" 
                       />
                     </button>

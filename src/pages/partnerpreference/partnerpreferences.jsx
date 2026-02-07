@@ -4,9 +4,9 @@ import "../../pages/userprofile/userprofile.css";
 import { getUserFromToken } from "../../Utils/JwtHelper";
 import { useNavigate } from "react-router-dom";
 import Notifications from "../userprofile/notifications";
-import Sidebar from "./Sidebar";
-import PreferenceSection from "./PreferenceSection";
-import "./PartnerPreferences.css";
+import Sidebar from "./sidebar";
+import PreferenceSection from "./preferencesection";
+import "./partnerpreferences.css";
 
 
 function PartnerPreferences() {
