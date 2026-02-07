@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Notifications from "../userprofile/notifications";
 import Sidebar from "./sidebar";
 import PreferenceSection from "./preferencesection";
-import "./partnerPreferences.css";
+import "./partnerpreferences.css";
 
 
 function PartnerPreferences() {
