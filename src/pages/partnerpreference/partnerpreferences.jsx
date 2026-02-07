@@ -5,7 +5,7 @@ import { getUserFromToken } from "../../Utils/JwtHelper";
 import { useNavigate } from "react-router-dom";
 import Notifications from "../userprofile/notifications";
 import Sidebar from "./sidebar";
-import PreferenceSection from "./preferenceSection";
+import PreferenceSection from "./preferencesection";
 import "./partnerPreferences.css";
 
 

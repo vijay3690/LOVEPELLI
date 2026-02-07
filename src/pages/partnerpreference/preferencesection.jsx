@@ -1,5 +1,5 @@
 import React from "react";
-import PreferenceRow from "./PreferenceRow";
+import PreferenceRow from "./preferencerow";
 
 const PreferenceSection = ({ title, data }) => {
   const id = title
