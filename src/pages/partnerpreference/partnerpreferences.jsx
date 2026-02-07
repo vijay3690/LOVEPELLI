@@ -166,7 +166,7 @@ const [close, setClose] = useState(false);
                       aria-label="Notifications"
                     >
                       <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
-                        Notifications 🔔
+                        🔔
                       </span>
                     </button>
                     {close && (
