@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link,useNavigate, useParams  } from 'react-router-dom';
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import axios from "axios";
 import "../pages/userprofile/userprofile.css";
 import {MEMBERNAME,MEMBERACTIVITY,MEMBERDESC,MEMBERINFO, GROUPCONTENTLIST,FRIENDLIST,SITELINKLIST,ACTIVEGROUPLIST,ACTIVEFRIENDLIST} from "./pagesconsts";
@@ -192,7 +191,6 @@ const MemberDetails = () => {
         return (
             <Fragment>
               <HeaderOne />
-                <PageHeader title={'Member Single Page'} curPage={'Member Single'} />
                 <div className="group group--single padding-bottom">
                     <div className="group__top">
                         <div className="container">

@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Link,NavLink} from "react-router-dom";
-import { HEADER_INFOLIST, HEADER_SOCIALLIST } from "./layoutconsts";
+import { HEADER_SOCIALLIST } from "./layoutconsts";
 
 const header = document.querySelector('.header');
 
@@ -26,20 +26,10 @@ if (header) {
                     <div className="container">
                         <div className="header__top--area">
                             <div className="header__top--left">
-                                <ul>
-                                    {HEADER_INFOLIST.map((val, i) => (
-                                        <li key={i}>
-                                            <i className={val.iconName}></i> <span>{val.text}</span>
-                                        </li>
-                                    ))}
-                                </ul>
+                           
                             </div>
                             <div className="header__top--right">
-                                <ul>
-                                    {HEADER_SOCIALLIST.map((val, i) => (
-                                        <li key={i}><a href={val.link}><i className={val.iconName}></i></a></li>
-                                    ))}
-                                </ul>
+                             
                             </div>
                         </div>
                     </div>
@@ -47,7 +37,7 @@ if (header) {
                <div className="header__bottom">
                     <div className="container">
                         <nav className="navbar navbar-expand-lg">
-                            <Link className="navbar-brand" to="/"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
+                            <Link className="navbar-brand" to="/home"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
                             <button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                                 aria-label="Toggle navigation">

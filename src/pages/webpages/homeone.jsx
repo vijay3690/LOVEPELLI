@@ -1,18 +1,18 @@
 import {Component,Fragment} from "react";
 import WorkSection from "../../component/section/work";
 import Footer from "../../component/layout/footer";
-import BannerThree from "../../component/section/bannerthree";
 import WorkSectionTwo from "../../component/section/worktwo";
-import HeaderFour from "../../component/layout/headerfour";
 import AboutSection from "../../component/section/about";
 import AboutSectionTwo from "../../component/section/abouttwo";
+import HeaderOne from "../../component/layout/headerone";
+import BannerThree from "../../component/section/bannerthree";
 
-class HomePageFour extends Component{
+class HomePageOne extends Component{
     render(){
         return(
           <Fragment>
-                <HeaderFour/>
-                <BannerThree/>
+                <HeaderOne/>
+                  <BannerThree/>
                 <AboutSectionTwo />
                 <AboutSection />
                 <WorkSection/>
@@ -25,7 +25,7 @@ class HomePageFour extends Component{
     }
 }
 
-export default HomePageFour;
+    export default HomePageOne;
 
 
 

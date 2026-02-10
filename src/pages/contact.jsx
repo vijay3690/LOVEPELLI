@@ -1,8 +1,7 @@
 import { Component, Fragment } from "react";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import GoogleMap from "../component/section/googlemap";
-import HeaderFour from "../component/layout/headerfour";
+import HeaderOne from "../component/layout/headerone";
 import { CONTACTINFOLIST, CONTACTINFOSUBTITLE, CONTACTTITLE, CONTACTDESC, INFOLISTCONTENT } from "./pagesconsts";
 
 
@@ -23,8 +22,7 @@ class ContactUs extends Component {
     render() { 
         return (
             <Fragment>
-            <HeaderFour />
-                <PageHeader title={'CONTACT US'} curPage={'CONTACT'} />
+            <HeaderOne />
                 <div className="info-section padding-top padding-bottom">
                     <div className="container">
                         <div className="section__header style-2 text-center">

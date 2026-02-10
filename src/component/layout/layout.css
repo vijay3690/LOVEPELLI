@@ -15,7 +15,6 @@
   display: block;               /* keep aspect ratio */
   image-rendering: crisp-edges; /* try to keep sharp */
   filter: none;                 /* make sure no blur() is applied */
-  margin-top: 50px;
 }
 
 @media (max-width: 768px) {

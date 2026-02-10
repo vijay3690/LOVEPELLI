@@ -1,6 +1,6 @@
 // Add imports at top
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import HeaderOne from "../component/layout/headerone";
 // ... other imports

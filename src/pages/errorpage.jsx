@@ -22,7 +22,7 @@ class ErrorPage extends Component {
                                     <div className="text-content text-center">
                                         <h2>{ERRORPAGETITLE}</h2>
                                         <p>{ERRORPAGEDESC}</p>
-                                        <Link to="/homefour" className="default-btn reverse"><span>{ERRORPAGEBTNTEXT}</span></Link>
+                                        <Link to="/homeone" className="default-btn reverse"><span>{ERRORPAGEBTNTEXT}</span></Link>
                                     </div>
                                 </div>
                             </div>

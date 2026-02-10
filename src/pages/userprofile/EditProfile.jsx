@@ -1,8 +1,8 @@
 
 import { Fragment,useState, useEffect, use } from "react";
-import PageHeader from "../../component/layout/pageheader";
 import HeaderOne from "../../component/layout/headerone";
 import axios from "../../../node_modules/axios/index";
+import Footer from "../../component/layout/footer";
 
 
 
@@ -402,10 +402,6 @@ useEffect(() => {
     return (
       <Fragment>
         <HeaderOne />
-        <PageHeader
-          title={"Edit Profile"}
-          curPage={"Edit Profile"}
-        />
         
  <div className="info-card mb-4">
         <div className="info-card-title d-flex justify-content-between align-items-center">
@@ -1373,7 +1369,7 @@ useEffect(() => {
                       )}
                       </div>
                      </div>
-
+             <Footer />
         </Fragment>
     );
 

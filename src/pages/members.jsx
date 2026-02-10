@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import Pagination from "../component/section/pagination";
 import SelectAge from "../component/select/selectage";
 import SelectState from "../component/select/selectstate";
@@ -51,12 +50,6 @@ const MembersPage = () => {
         <ChatWindowContainer />
         <div className="members-page-container">
           <div className="members-header-row">
-            <div className="members-header-left">
-              <PageHeader
-                title={"LovePelli All Members"}
-                curPage={"All Members"}
-              />
-            </div>
             <div className="members-header-right">
               <ChatMembersList members={allUserProfiles} onSelectMember={() => {}} />
             </div>

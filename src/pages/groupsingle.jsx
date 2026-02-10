@@ -1,7 +1,6 @@
 import { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import SelectPost from "../component/select/selectpost";
 import ActiveGroup from "../component/sidebar/group";
 import ActiveMember from "../component/sidebar/member";
@@ -14,8 +13,6 @@ class GroupDetails extends Component {
     render() { 
         return (
             <Fragment >
-          
-                <PageHeader title={'Group Single Page'} curPage={'Group Details'} />
                 <div className="group group--single padding-bottom">
                     <div className="group__top">
                         <div className="container">

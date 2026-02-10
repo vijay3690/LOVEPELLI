@@ -13,12 +13,7 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.members-header-left {
-  flex: 0 0 80%;
-  width: 80%;
 
-  overflow-y: auto;
-}
 
 .members-header-right {
   flex: 0 0 20%;
@@ -41,10 +36,7 @@
     display: none;
   }
 
-  .members-header-left {
-    flex: 0 0 100%;
-    width: 100%;
-  }
+  
 }
 
 @media (max-width: 768px) {
@@ -52,10 +44,7 @@
     flex-direction: column;
   }
 
-  .members-header-left {
-    flex: 0 0 auto;
-    width: 100%;
-  }
+  
 
   .members-header-right {
     flex: 0 0 auto;

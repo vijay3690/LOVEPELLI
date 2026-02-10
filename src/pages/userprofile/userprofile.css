@@ -326,7 +326,26 @@ body {
   color: #232323;
   margin: 20px 0px 0px 3000px;
   margin-left: 800px;
-  display: sticky;
+  /* limit height and allow scrolling when content overflows */
+  max-height: 420px;
+  overflow-y: auto;
+  display: block;
+}
+/* scrollbar styling */
+.profile-dropdown-container::-webkit-scrollbar {
+  width: 10px;
+}
+.profile-dropdown-container::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+.profile-dropdown-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.12);
+  border-radius: 10px;
+}
+.profile-dropdown-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
 }
 .profile-header {
   text-align: center;

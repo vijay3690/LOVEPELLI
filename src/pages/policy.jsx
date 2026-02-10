@@ -1,9 +1,6 @@
 import { Component, Fragment } from "react";
-import PageHeader from "../component/layout/pageheader";
 
 
- const policyPageHeaderTitle = 'Privacy & Policy';
- const policyPageHeaderCurPage = 'Policy';
  const policySectionTitle = 'Privacy & Policy';
  const policySectionLastUpdated = 'June 1, 2022';
 
@@ -54,9 +51,7 @@ class Policy extends Component {
     render() { 
         return (
             <Fragment>
-            
-                <PageHeader title={policyPageHeaderTitle} curPage={policyPageHeaderCurPage} />
-                <section className="terms-section padding-bottom padding-top">
+               <section className="terms-section padding-bottom padding-top">
                     <div className="container">
                         <div className="terms-content">
                             <div className="terms-header">
