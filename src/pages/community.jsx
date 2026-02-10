@@ -1,13 +1,12 @@
 import { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import Pagination from "../component/section/pagination";
 import SelectAge from "../component/select/selectage";
 import SelectState from "../component/select/selectstate";
 import SelectGender from "../component/select/selectgender";
-import HeaderFour from "../component/layout/headerfour";
 import { STORYSECTIONCONTENTLIST } from "./pagesconsts"
+import HeaderOne from "../component/layout/headerone";
 
 
 class CommunityPage extends Component {
@@ -18,8 +17,7 @@ class CommunityPage extends Component {
     render() { 
         return (
             <Fragment>
-            <HeaderFour />
-                <PageHeader title={'Community Page'} curPage={'Community'} />
+            <HeaderOne/>
                 <div className="community story padding-top padding-bottom">
                     <div className="container">
                         <div className="section__wrapper">

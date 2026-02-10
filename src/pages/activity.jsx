@@ -1,20 +1,18 @@
 import { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import ActiveGroup from "../component/sidebar/group";
 import ActiveMember from "../component/sidebar/member";
 import ModalSearch from "../component/sidebar/modalsearch";
-import HeaderFour from "../component/layout/headerfour";
 import {ACTIVITYBTNTEXT,ACTIVITYPAGECONTENTLIST} from "./pagesconsts"; // Adjusted import to match the new const name
+import HeaderOne from "../component/layout/headerone";
 
 
 class ActivityPage extends Component {
     render() {
         return (
             <Fragment>
-                <HeaderFour />
-                <PageHeader title={"Activity Page"} curPage={"Activity"} />
+                <HeaderOne />
                 <div className="activity padding-top padding-bottom">
                     <div className="container">
                         <div className="row g-4">

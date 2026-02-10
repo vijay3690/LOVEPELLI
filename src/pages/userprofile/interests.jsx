@@ -2,41 +2,13 @@ import React from "react";
 import { Link,NavLink} from 'react-router-dom';
 import { profilesData } from "./userprofile"; // adjust path as needed
 import "./userprofile.css"; // make sure your css file matches classNames
+import HeaderOne from "../../component/layout/headerone";
 // import Footer from "../component/layout/footer";
 
 
 const Interests = () => (
-    <><div className="header__bottom">
-        <div className="container">
-            <nav className="navbar navbar-expand-lg">
-                <Link className="navbar-brand" to="/homefour"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
-                <button className="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span className="navbar-toggler--icon"></span>
-                </button>
-                <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                    <div className="navbar-nav mainmenu">
-                        <ul>
-                            <li className="menu-item-has-children"></li>
-                            <li><NavLink to="/member-single">Home</NavLink></li>
-                            <li className="menu-item-has-children"></li>
-                            <li><NavLink to="/members">Matches</NavLink></li>
-                            <li className="menu-item-has-children">
-                                <li><NavLink to="/interests">Interests</NavLink></li>
-                                <li><NavLink to="/members">Messages</NavLink></li>
-                                <li><NavLink to="/activity">Search</NavLink></li>
-                                <li><NavLink to="/notifications">Notification</NavLink></li>
-                            </li>
-                        </ul>
-                    </div>
-                    <ul className="button-group">
-                        <li><Link to="/logout" className="default-btn-login"><span>LOGOUT</span> </Link></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <>
+    <HeaderOne />
     <div className="matchmaking-container">
             <aside className="sidebar">
                 <div className="sidebar-section">

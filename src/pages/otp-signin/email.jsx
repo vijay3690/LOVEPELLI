@@ -28,7 +28,7 @@ function LoginEmail() {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       alert("Login successful!");
-      window.location.href = "/homefour";
+      window.location.href = "/homeone";
     } catch (err) {
       setError(err.message);
     }

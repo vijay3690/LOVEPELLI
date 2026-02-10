@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from 'react-router-dom';
-import { HEADER_INFOLIST, HEADER_SOCIALLIST } from "./layoutconsts";
 import Notifications from "../../pages/userprofile/notifications";
 import "../../pages/userprofile/userprofile.css";
 import { getUserFromToken } from "../../Utils/JwtHelper";
@@ -9,12 +8,14 @@ import { useNavigate } from "react-router-dom";
 function HeaderOne() {
   const [close, setClose] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const bellRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const userRef = useRef(null);
-  const userDropdownRef = useRef(null);
   const user = getUserFromToken();
   const navigate = useNavigate();
+
+    const bellRef = useRef(null);
+    const dropdownRef = useRef(null);
+    const userRef = useRef(null);
+    const userDropdownRef = useRef(null);
+
 
   // Scroll effect for header
   useEffect(() => {
@@ -77,24 +78,10 @@ function HeaderOne() {
         <div className="container">
           <div className="header__top--area">
             <div className="header__top--left">
-              <ul>
-                {HEADER_INFOLIST.map((val, i) => (
-                  <li key={i}>
-                    <i className={val.iconName}></i> <span>{val.text}</span>
-                  </li>
-                ))}
-              </ul>
+           
             </div>
             <div className="header__top--right">
-              <ul>
-                {HEADER_SOCIALLIST.map((val, i) => (
-                  <li key={i}>
-                    <a href={val.link}>
-                      <i className={val.iconName}></i>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+             
             </div>
           </div>
         </div>
@@ -103,7 +90,7 @@ function HeaderOne() {
       <div className="header__bottom">
         <div className="container">
           <nav className="navbar navbar-expand-lg">
-            <Link className="navbar-brand" to="/homefour">
+            <Link className="navbar-brand" to="/headerone">
               <img src="assets/images/logo/lovepelli_logo_big.png" alt="logo" />
             </Link>
             <button
@@ -121,7 +108,7 @@ function HeaderOne() {
               <div className="navbar-nav mainmenu">
                 <ul>
                   <li>
-                    <NavLink to="/member-single">Home</NavLink>
+                    <NavLink to="/homeone">Home</NavLink>
                   </li>
                   <li>
                     <NavLink to="/members">Matches</NavLink>
@@ -135,121 +122,134 @@ function HeaderOne() {
                   <li>
                     <NavLink to="/activity">Search</NavLink>
                   </li>
-                  <li style={{ position: "relative" }}>
-                    <button
-                      ref={bellRef}
-                      className="notification-bell"
-                      style={{
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        marginRight: "12px",
-                        position: "relative",
-                        outline: "none"
-                      }}
-                      onClick={() => setClose(v => !v)}
-                      aria-label="Notifications"
-                    >
-                      <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
-                         🔔
-                      </span>
-                    </button>
-                    {close && (
-                      <div ref={dropdownRef}>
-                        <Notifications close={() => setClose(false)} />
-                      </div>
-                    )}
-                  </li>
+                 
                 </ul>
+                <div>
+                  <li style={{ position: "relative" }}>
+                    <div
+                      className="notification-wrapper"
+                     onMouseEnter={() => { setShowUserDropdown(false); setClose(true); }}
+                      style={{ display: "inline-block", position: "relative" }}
+                    >
+                      <button
+                        ref={bellRef}
+                        className="notification-bell"
+                        onClick={() => setClose(v => !v)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          marginRight: "12px",
+                          position: "relative",
+                          outline: "none"
+                        }}
+                        aria-label="Notifications"
+                      >
+                        <span role="img" aria-label="bell" style={{ fontSize: 18, color: "#21254f" }}>
+                           🔔
+                        </span>
+                      </button>
+                      {close && (
+                        <div ref={dropdownRef} style={{ position: "absolute", right: 0, top: "100%", zIndex: 50 }}>
+                          <Notifications close={() => setClose(false)} />
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                </div>
               </div>
               <div style={{ position: "relative" }}>
                 <ul>
                   <li>
-                    <button
-                      ref={userRef}
-                      onClick={() => setShowUserDropdown(v => !v)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        padding: 0
-                      }}
-                      aria-label="User profile"
+                    <div
+                      className="user-wrapper"
+                   onMouseEnter={() => { setClose(false); setShowUserDropdown(true); }}
+                      style={{ display: "inline-block", position: "relative" }}
                     >
-                      <img 
-                        className="userprofile" 
-                        src="assets/images/logo/user-profile.png" 
-                        alt="user" 
-                      />
-                    </button>
-                    {showUserDropdown && (
-                      <div ref={userDropdownRef} className="user-dropdown-wrapper">
-                        <div className="profile-dropdown-container">
-                          <div className="profile-header">
-                                  {user?.name || "User"}
-                                </div>
-                          <div className="profile-sub">
-                            <span role="img" aria-label="telugu">🌐</span> LovePelli Matrimony
+                      <button
+                        ref={userRef}
+                        onClick={() => setShowUserDropdown(v => !v)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          padding: 0
+                        }}
+                        aria-label="User profile"
+                      >
+                        <img
+                          className="userprofile"
+                          src="assets/images/logo/user-profile.png"
+                          alt="user"
+                        />
+                      </button>
+                      {showUserDropdown && (
+                        <div ref={userDropdownRef} className="user-dropdown-wrapper" style={{ position: "absolute", right: 0, top: "100%", zIndex: 50 }}>
+                          <div className="profile-dropdown-container">
+                            <div className="profile-header">{user?.name || "User"}</div>
+                            <div className="profile-sub">
+                              <span role="img" aria-label="telugu">🌐</span> LovePelli Matrimony
+                            </div>
+                            <div className="profile-id">T9933236</div>
+                            <div className="profile-membership">Free member</div>
+
+                            <div className="upgrade-box">
+                              <span>
+                                Upgrade membership to call<br />
+                                or message with matches
+                              </span>
+                              <button className="upgrade-btn">Upgrade now</button>
+                            </div>
+
+                            <div className="profile-separator" />
+
+                            <div className="switch-account">
+                              <span className="profile-icon">🔄</span>
+                              Switch account
+                            </div>
+
+                            <ul className="profile-list">
+                              <li
+                                className="profile-list-item"
+                                onClick={() => navigate("/editprofile")}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <span className="profile-icon">📝</span>
+                                Edit profile
+                              </li>
+                              <li className="profile-list-item"
+                                onClick={() => navigate("/partnerpreferences")}
+                                style={{ cursor: "pointer" }}>
+                                <span className="profile-icon">⚙️</span>
+                                Edit preferences
+                              </li>
+                              <li className="profile-list-item">
+                                <span className="profile-icon">✅</span>
+                                Verify your profile
+                              </li>
+                            </ul>
+
+                            <div className="profile-list-item">
+                              <span className="profile-icon">💬</span>
+                              Support &amp; feedback
+                            </div>
+                            <ul className="profile-list">
+                              <li className="profile-list-item">
+                                <span className="profile-icon">⚙️</span>
+                                Settings
+                              </li>
+                            </ul>
+                            <ul className="button-group">
+                              <li>
+                                <Link to="/logout" className="default-btn login">
+                                  <span>LOGOUT</span>
+                                </Link>
+                              </li>
+                            </ul>
                           </div>
-                          <div className="profile-id">T9933236</div>
-                          <div className="profile-membership">Free member</div>
-
-                          <div className="upgrade-box">
-                            <span>
-                              Upgrade membership to call<br />
-                              or message with matches
-                            </span>
-                            <button className="upgrade-btn">Upgrade now</button>
-                          </div>
-
-                          <div className="profile-separator" />
-
-                          <div className="switch-account">
-                            <span className="profile-icon">🔄</span>
-                            Switch account
-                          </div>
-
-                          <ul className="profile-list">
-                           <li
-                              className="profile-list-item"
-                              onClick={() => navigate("/editprofile")}
-                              style={{ cursor: "pointer" }}
-                            >
-                              <span className="profile-icon">📝</span>
-                              Edit profile
-                            </li>
-                            <li className="profile-list-item"
-                               onClick={() => navigate("/partnerpreferences")}
-                              style={{ cursor: "pointer" }}>
-                              <span className="profile-icon">⚙️</span>
-                              Edit preferences
-                            </li>
-                            <li className="profile-list-item">
-                              <span className="profile-icon">✅</span>
-                              Verify your profile
-                            </li>
-                          </ul>
-
-                          <div className="profile-list-item">
-                            <span className="profile-icon">💬</span>
-                            Support &amp; feedback
-                          </div>
-                          <ul className="profile-list">
-                            <li className="profile-list-item">
-                              <span className="profile-icon">⚙️</span>
-                              Settings
-                            </li>
-                          </ul>
-                          <ul className="button-group">
-                            <li>
-                              <Link to="/logout" className="default-btn login">
-                                <span>LOGOUT</span>
-                              </Link>
-                            </li>
-                          </ul>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </li>
                 </ul>
               </div>

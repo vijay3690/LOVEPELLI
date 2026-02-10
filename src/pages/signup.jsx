@@ -26,11 +26,11 @@ class SignUp extends Component {
                         <div className="row">
                             <div className="col-lg-8 col-7">
                                 <div className="logo">
-                                    <Link to="/homefour"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
+                                    <Link to="/homeone"><img src="assets/images/logo/lovepelli_logo_big.png" alt="log" /></Link>
                                 </div>
                             </div>
                             <div className="col-lg-4 col-5">
-                                <Link to="/homefour" className="backto-home"><i className="fas fa-chevron-left"></i> Back to Home</Link>
+                                <Link to="/homeone" className="backto-home"><i className="fas fa-chevron-left"></i> Back to Home</Link>
                             </div>
                         </div>
                     </div>

@@ -2093,19 +2093,7 @@ iframe {
   animation: up-down 5s infinite ease-in-out;
 }
 
-.pageheader {
-  padding-block: 80px;
-}
-@media (min-width: 576px) {
-  .pageheader {
-    padding-block: 100px;
-  }
-}
-@media (min-width: 992px) {
-  .pageheader {
-    padding-block: 205px;
-  }
-}
+
 
 .footer__newsletter {
   padding-block: 60px;

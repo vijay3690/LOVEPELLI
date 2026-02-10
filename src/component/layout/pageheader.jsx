@@ -13,7 +13,7 @@ class PageHeader extends Component {
                         <h2>{title}</h2>
                         <nav aria-label="breadcrumb">
                             <ol className="breadcrumb justify-content-center mb-0">
-                                <li className="breadcrumb-item"><Link to="/homefour">Home</Link></li>
+                                <li className="breadcrumb-item"><Link to="/headerone">Home</Link></li>
                                 <li className="breadcrumb-item active" aria-current="page">{curPage}</li>
                             </ol>
                         </nav>

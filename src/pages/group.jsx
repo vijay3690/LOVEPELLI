@@ -1,13 +1,12 @@
 import { Component, Fragment } from "react";
 import Footer from "../component/layout/footer";
-import PageHeader from "../component/layout/pageheader";
 import Pagination from "../component/section/pagination";
 import SelectAge from "../component/select/selectage";
 import SelectState from "../component/select/selectstate";
 import SelectGender from "../component/select/selectgender";
 import { Link } from "react-router-dom";
 import { GROUPPAGECONTENTLIST, GROUPPAGECOUNT } from "./pagesconsts";
-import HeaderFour from "../component/layout/headerfour";
+import HeaderOne from "../component/layout/headerone";
 
 
 
@@ -19,8 +18,7 @@ class GroupPage extends Component {
     render() { 
         return (
             <Fragment>
-                <HeaderFour/>
-                <PageHeader title={'LovePelli All Groups'} curPage={'Groups'} />
+                <HeaderOne />
                 <div className="member story story--style2 padding-top padding-bottom overflow-hidden">
                     <div className="container">
                         <div className="section__wrapper">

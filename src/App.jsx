@@ -14,8 +14,8 @@ import MemberDetails from "./pages/member-single";
 import MembersPage from "./pages/members";
 import MembershipPage from "./pages/membership";
 import Policy from "./pages/policy";
-import HomePageFour from "./pages/homepages/homefour";
-import HomePage from "./pages/homepages/home";  //  this will be your first open public home page
+import HomePageOne from "./pages/webpages/homeone";
+import HomePage from "./pages/webpages/home";  //  this will be your first open public home page
 import Logout from "./pages/authentication/logout";
 import AuthPage from "./pages/otp-signin/authpage";
 import Register from "./pages/registration/register";
@@ -53,7 +53,7 @@ function App() {
            {/* <Route path="/member-single/:profileId" element={<MemberDetails />} /> */}
 
           {/* ---------- Protected Routes ---------- */}
-          <Route path="/homefour" element={<ProtectedRoute><HomePageFour /></ProtectedRoute>} />
+          <Route path="/homeone" element={<ProtectedRoute><HomePageOne /></ProtectedRoute>} />
           <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           <Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />

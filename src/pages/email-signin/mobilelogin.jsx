@@ -90,7 +90,7 @@ const handleKeyDown = (e, index) => {
 
       localStorage.setItem("token", data.token);
       setMessage("Login Successful!");
-      window.location.href = "/homefour";
+      window.location.href = "/homeone";
     } catch (err) {
       console.error("Verify OTP Error:", err);
       setError(err.message.includes("fetch") ? "Server unreachable." : err.message);
