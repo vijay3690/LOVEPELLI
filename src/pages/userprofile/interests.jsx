@@ -1,5 +1,4 @@
 import React from "react";
-import { Link,NavLink} from 'react-router-dom';
 import { profilesData } from "./userprofile"; // adjust path as needed
 import "./userprofile.css"; // make sure your css file matches classNames
 import HeaderOne from "../../component/layout/headerone";
