@@ -1396,13 +1396,13 @@ iframe {
 }
 @media (min-width: 992px) {
   .padding-top {
-    padding-top: 115px;
+    padding-top: 11px;
   }
 }
 
 @media (min-width: 992px) {
   .padding-lg-top {
-    padding-top: 115px;
+    padding-top: 11px;
   }
 }
 @media (min-width: 1200px) {
@@ -1415,7 +1415,7 @@ iframe {
 }
 @media (min-width: 992px) {
   .padding-bottom {
-    padding-bottom: 125px;
+    padding-bottom: 50px;
   }
 }
 

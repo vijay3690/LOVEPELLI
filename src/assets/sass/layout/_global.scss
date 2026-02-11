@@ -655,13 +655,13 @@ iframe {
     padding-top: 75px;
 
     @include breakpoint(lg) {
-        padding-top: 115px;
+        padding-top: 11px;
     }
 }
 
 @include breakpoint(lg) {
     .padding-lg-top {
-        padding-top: 115px;
+        padding-top: 11px;
     }
 }
 @include breakpoint(xl) {
@@ -674,7 +674,7 @@ iframe {
     padding-bottom: 80px;
 
     @include breakpoint(lg) {
-        padding-bottom: 125px;
+        padding-bottom: 50px;
     }
 }
 .bg-attachment {
