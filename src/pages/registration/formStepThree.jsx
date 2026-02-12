@@ -23,7 +23,7 @@ const livingOptions = ["Children living with me", "Children not living with me"]
   
  const showChildrenField = ["Widowed", "Divorced", "Awaiting divorce"].includes(maritalStatus);
  const showLivingOptions = Boolean(childrenCount) && childrenCount !== "None";
-
+const [isLoading, setIsLoading] = useState(false);
  const inputRefs = useRef([]);
  const navigate = useNavigate(); // hook for navigation
  const Base_api=import.meta.env.VITE_BASE_URL;
@@ -116,16 +116,21 @@ const handleSelect = (name, value) => {
     return Object.keys(newErrors).length === 0;
   };
  
-  const handleNext = () => {
-    if (validateForm()) {
-      //  Save all local states into UserData
+  const handleNext = async () => {
+    if (!validateForm()) return;
+    setIsLoading(true);
+    try {
       setUserData((prev) => ({
         ...prev,
         maritalStatus,
         childrenCount,
         childrenLiving,
       }));
+      // Simulate API call or wrap your API call here
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       nextStep();
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -146,6 +151,7 @@ const clearError = (field) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+        {isLoading && <div className="loading-overlay"></div>}
         <div className="modal-header">
           <h2 className="title">Personal Details</h2>
        <button className="close-btn" onClick={closeModal}>✖</button>
@@ -357,8 +363,9 @@ const clearError = (field) => {
           <button type="button" className="prev-btn" onClick={prevStep}>
             Previous
           </button>
-          <button id="submitBtn" type="button" className="next-btn" onClick={handleNext}>
-            Next
+          <button id="submitBtn" type="button" className="next-btn" onClick={handleNext} disabled={isLoading}>
+            {isLoading && <span className="spinner"></span>}
+            {isLoading ? "Loading..." : "Next"}
           </button>
         </div>
       </div>

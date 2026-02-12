@@ -32,6 +32,7 @@ function LoginEmail({ onClose }) {
     e.preventDefault();
     setIsLoading(true);
 
+
     try {
       const res = await fetch(`${Base_api}/api/Login`, {
         method: "POST",
@@ -69,6 +70,7 @@ function LoginEmail({ onClose }) {
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <div className="modal-content">
+        {isLoading && <div className="loading-overlay"></div>}
         <div className="modal-header">
           <h2 id="login-title" className="title">Welcome to LovePelli</h2>
         <button
@@ -133,8 +135,9 @@ function LoginEmail({ onClose }) {
             </p>
 
             <div className="text-center">
-              <button id="submitBtn" type="submit" className="Login-btn" disabled={isLoading}>
-                {isLoading ? "Loading..." : "Log In"}
+              <button id="submitBtn" type="submit" className="Login-btn" onClick={handleLogin} disabled={isLoading}>
+                {isLoading && <span className="spinner"></span>}
+                {isLoading ? "Logging In..." : "Log In"}
               </button>
             </div>
 

@@ -21,6 +21,7 @@ const FormStepTwo = ({
   const [dosham, setDosham] = useState([]);
   const [isSelectedCasteIdHaveSubCastes, setIsSelectedCasteIdHaveSubCastes] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const inputRefs = useRef([]);
   const Base_api=import.meta.env.VITE_BASE_URL;
@@ -81,10 +82,16 @@ const FormStepTwo = ({
   }
 };
 
-const handlePrev = () => {
-  // Optionally reset religionName if needed, or other fields
-  setReligionName(""); // or any logic you need
-  prevStep(); // call the passed prop to go back
+const handleNext = async () => {
+  setIsLoading(true);
+  try {
+    // Optionally reset religionName if needed, or other fields
+    setReligionName(""); // or any logic you need
+    // Simulate API call or wrap your API call here
+    nextStep(); // call the passed prop to go forward
+  } finally {
+    setIsLoading(false);
+  }
 };
 
 // clearError function to clear error of specific field
@@ -206,10 +213,8 @@ useEffect(() => {
     return Object.keys(newErrors).length === 0;
   };
  
-  const handleNext = () => {
-    if (validateForm()) {
-      nextStep();
-    }
+  const handlePrev  = () => {
+     prevStep(); // call the passed prop to go back
   };
  
   // Close modal function → navigate home
@@ -223,7 +228,7 @@ useEffect(() => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-                  
+                  {isLoading && <div className="loading-overlay"></div>}
                   <div className="modal-header">
                     <h2 className="title">Basic Details</h2>
         <button className="close-btn" onClick={closeModal}>✖</button>
@@ -456,14 +461,16 @@ useEffect(() => {
         </div>
         {/* Buttons */}
         <div className="button-group">
-         <button type="button" className="prev-btn" onClick={handlePrev}>
+         <button type="button" className="prev-btn" onClick={handlePrev} disabled={isLoading}>
             Previous
          </button>
-          <button id="submitBtn" type="button" className="next-btn" onClick={handleNext}>
-            Next
+          <button type="button" className="next-btn" onClick={handleNext} disabled={isLoading}>
+            {isLoading && <span className="spinner" style={{marginRight: 8, width: 18, height: 18, border: '2px solid #fff', borderTop: '2px solid #888', borderRadius: '50%', display: 'inline-block', animation: 'spin 1s linear infinite', verticalAlign: 'middle'}}></span>}
+            {isLoading ? "Loading..." : "Next"}
           </button>
         </div>
-      </div>
+     
+    </div>
     </div>
   );
 
