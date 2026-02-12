@@ -28,7 +28,7 @@ const FormStepFour = ({UserData, setUserData, prevStep}) => {
    const [showOtherEducation, setShowOtherEducation] = useState(false);
    const navigate = useNavigate();
    const inputRefs = useRef([]);
-   const [loading, setLoading] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
    const Base_api=import.meta.env.VITE_BASE_URL;
 
 
@@ -84,7 +84,7 @@ const safeFetch = async (url, setter, label, options = {}) => {
 };
 
   const handleSubmit = async (e) => {
-    setLoading(true); // Start loading
+    setIsLoading(true); // Start loading
     e.preventDefault(); // prevent default form submission
 
   try {
@@ -207,7 +207,7 @@ if(validateForm()) {
     console.error(err);
     alert("Error: " + err.message);
   } finally {
-    setLoading(false); // Stop loading  
+    setIsLoading(false); // Stop loading  
   }
 };
 
@@ -281,6 +281,7 @@ useEffect(() => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+                  {isLoading && <div className="loading-overlay"></div>}
         <div className="modal-header">
         <h2 className="form-title title">Professional Details</h2>
          <button  className="close-btn" onClick={closeModal}>✖</button>
@@ -605,8 +606,9 @@ useEffect(() => {
           <button className="btn secondary" onClick={prevStep}>
             Previous
           </button>
-          <button id="submitBtn" type="submit" className="btn primary" onClick={handleSubmit} disabled={loading}>
-            {loading? <i className="fa-solid fa-spinner fa-spin"></i> : "Submit"}
+          <button id="submitBtn" type="submit" className="btn primary" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading && <span className="spinner" style={{marginRight: 8, width: 18, height: 18, border: '2px solid #fff', borderTop: '2px solid #888', borderRadius: '50%', display: 'inline-block', animation: 'spin 1s linear infinite', verticalAlign: 'middle'}}></span>}
+            {isLoading ? "Loading..." : "Submit"}
           </button>
         </div>
       </div>

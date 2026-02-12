@@ -24,6 +24,7 @@ const FormStepOne = ({ UserData, setUserData, nextStep }) => {
   const [timer, setTimer] = useState(0);
   const [time, setTime] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const inputRefs = useRef([]);  
 
@@ -182,7 +183,7 @@ const validateBeforeNext = () => {
 };
 
 const handleNext = async () => {
-
+  setIsLoading(true);
   // Validate password/confirm password first
   if (!validateBeforeNext()) return;
 
@@ -224,6 +225,8 @@ const handleNext = async () => {
   } catch (err) {
     setErrors((prev) => ({ ...prev, api: "Server error. Please try again." }));
     setChecking(false);
+  } finally {
+    setIsLoading(false);
   }
 };
 
@@ -235,6 +238,7 @@ const handleNext = async () => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+        {isLoading && <div className="loading-overlay"></div>}
         <div className="modal-header">
                   <h2 className="title">Basic Details</h2>
 
@@ -607,7 +611,8 @@ const handleNext = async () => {
             onClick={handleNext}
             disabled={!isPasswordMatch}   // <--- disable logic
             style={{ opacity: !isPasswordMatch ? 0.5 : 1, cursor: !isPasswordMatch ? "not-allowed" : "pointer" }}>
-                  Next
+                  {isLoading && <span className="spinner"></span>}
+                {isLoading ? "Loading..." : "Next"}
      </button>
       </div>
     </div>
